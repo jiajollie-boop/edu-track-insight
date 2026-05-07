@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教育二级赛道洞察</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+:root {
+  /* 主色系统 - 柔雾粉系列 */
+  --color-primary: #F4A4B4;
+  --color-primary-light: #F8C3CD;
+  --color-primary-soft: #FDF2F4;
+  --color-primary-dark: #E8919C;
+  --color-primary-hover: #E0808D;
+  
+  /* 辅助色 - 柔和 pastel */
+  --color-mint: #A8E6CF;
+  --color-mint-light: #E8FAF2;
+  --color-mint-dark: #7AC9A8;
+  --color-sky: #B4D7F0;
+  --color-sky-light: #EDF6FC;
+  --color-sky-dark: #8AB8D9;
+  --color-lavender: #D4C5F9;
+  --color-lavender-light: #F5F2FD;
+  --color-lavender-dark: #B8A5E0;
+  --color-cream: #FFEAA7;
+  --color-cream-light: #FFF9E6;
+  --color-cream-dark: #E6D28A;
+  --color-coral: #FFB7B2;
+  --color-coral-light: #FFF0EF;
+  --color-coral-dark: #E69A95;
+  
+  /* 赛道识别色 */
+  --track-junior: #F4A4B4;
+  --track-junior-bg: #FDF2F4;
+  --track-junior-dark: #C97A8A;
+  --track-vocational: #A8E6CF;
+  --track-vocational-bg: #F0FDF7;
+  --track-vocational-dark: #7AC9A8;
+  --track-interest: #B4D7F0;
+  --track-interest-bg: #F0F7FD;
+  --track-interest-dark: #8AB8D9;
+  --track-degree: #D4C5F9;
+  --track-degree-bg: #F7F4FD;
+  --track-degree-dark: #B8A5E0;
+  --track-language: #FFEAA7;
+  --track-language-bg: #FFF9E6;
+  --track-language-dark: #E6D28A;
+  
+  /* 中性色 - 暖色调 */
+  --bg: #FDF8F5;
+  --bg-secondary: #F8F0EC;
+  --card: #FFFFFF;
+  --card-elevated: #FAF7F5;
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --text-tertiary: #999999;
+  --text-muted: #BBBBBB;
+  --text-placeholder: #D5D5D5;
+  --border: #E8E3DE;
+  --border-light: #F0EBE6;
+  --border-bold: #D8D4D0;
+  
+  /* 语义色 */
+  --success: #A8E6CF;
+  --success-light: #E8FAF2;
+  --success-dark: #7AC9A8;
+  --warning: #FFEAA7;
+  --warning-light: #FFF9E6;
+  --warning-dark: #E6D28A;
+  --error: #E8919C;
+  --error-light: #FDF2F4;
+  --error-dark: #C97A8A;
+  --info: #B4D7F0;
+  --info-light: #EDF6FC;
+  --info-dark: #8AB8D9;
+  
+  /* 侧边栏 - 柔和深色 */
+  --sidebar-bg: #2D2A26;
+  --sidebar-hover: rgba(244, 164, 180, 0.1);
+  --sidebar-active: rgba(244, 164, 180, 0.2);
+  
+  /* 阴影 - 暖色调 */
+  --shadow-sm: 0 2px 8px rgba(45, 42, 38, 0.04);
+  --shadow-md: 0 4px 16px rgba(45, 42, 38, 0.08);
+  --shadow-lg: 0 8px 32px rgba(244, 164, 180, 0.12);
+  --shadow-hover: 0 12px 40px rgba(45, 42, 38, 0.12);
+  --shadow-drawer: -8px 0 40px rgba(45, 42, 38, 0.15);
+  --shadow-glow: 0 0 20px rgba(244, 164, 180, 0.3);
+  
+  /* 圆角 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+  
+  /* 字体 */
+  --font-display: 'Outfit', 'PingFang SC', 'Noto Sans SC', sans-serif;
+  --font: 'Inter', 'PingFang SC', 'Noto Sans SC', sans-serif;
+  --font-mono: 'SF Mono', 'Menlo', 'Monaco', monospace;
+  
+  /* 动画 */
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+  
+  /* 保留兼容（旧代码中用 --red 等变量） */
+  --red: var(--color-primary);
+  --red-light: var(--color-primary-soft);
+  --red-soft: var(--color-primary-light);
+  --red-hover: var(--color-primary-hover);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.animate-fadeIn { animation: fadeIn var(--transition-normal) var(--ease-out) forwards; }
+.animate-fadeInUp { animation: fadeInUp var(--transition-normal) var(--ease-out) forwards; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  letter-spacing: -0.01em;
+}
+
+/* ========= 侧边栏 — Apple 深色毛玻璃风格 ========= */
+.sidebar {
+  position: fixed; left: 0; top: 0; width: 240px; height: 100vh;
+  background: var(--sidebar-bg);
+  display: flex; flex-direction: column; z-index: 200;
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.sidebar-logo .logo-text {
+  font-size: 15px; font-weight: 700; color: #F5F5F7;
+  display: flex; align-items: center; gap: 10px;
+  letter-spacing: -0.02em;
+}
+.sidebar-logo .logo-sub {
+  font-size: 11px; color: rgba(255,255,255,0.35);
+  margin-top: 6px; letter-spacing: 0;
+}
+.sidebar-logo .logo-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 8px rgba(244, 164, 180, 0.5);
+}
+.nav-section { padding: 12px 0; flex: 1; overflow-y: auto; }
+.nav-label {
+  font-size: 10px; color: rgba(255,255,255,0.28);
+  font-weight: 600; letter-spacing: 0.06em;
+  padding: 8px 20px 6px; text-transform: uppercase;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 16px; margin: 1px 8px;
+  color: rgba(255,255,255,0.55); font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s var(--ease);
+  border-radius: var(--radius-sm); user-select: none;
+  border-left: none;
+}
+.nav-item:hover {
+  color: rgba(255,255,255,0.85);
+  background: var(--sidebar-hover);
+}
+.nav-item.active {
+  color: #F5F5F7;
+  background: var(--sidebar-active);
+  font-weight: 600;
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 20px; border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+  box-shadow: 0 0 8px rgba(244, 164, 180, 0.5);
+}
+.nav-item { position: relative; }
+.nav-item .nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 11px; color: rgba(255,255,255,0.2);
+}
+
+/* ========= 顶部栏 — Apple 毛玻璃 ========= */
+.topbar {
+  position: fixed; top: 0; left: 240px; right: 0; height: 52px;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 0.5px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; z-index: 100;
+}
+.topbar-left { display: flex; align-items: center; gap: 10px; }
+.topbar-title {
+  font-size: 16px; font-weight: 700; color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+.topbar-badge {
+  font-size: 10px; font-weight: 600;
+  background: var(--red-light); color: var(--red);
+  padding: 3px 8px; border-radius: 6px;
+  letter-spacing: 0.02em;
+}
+.topbar-right {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 12px; color: var(--text-muted);
+}
+.btn-refresh {
+  padding: 6px 14px;
+  border: 1px solid var(--border-bold); border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.6); font-size: 12px;
+  cursor: pointer; color: var(--text-tertiary);
+  transition: all 0.2s var(--ease); font-family: var(--font);
+  backdrop-filter: blur(8px);
+}
+.btn-refresh:hover {
+  background: rgba(255,255,255,0.9);
+  border-color: var(--red);
+  color: var(--red);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ========= 主内容区 ========= */
+.main-content {
+  margin-left: 240px; padding: 68px 32px 48px;
+  min-height: 100vh;
+  max-width: calc(100vw - 240px);
+}
+.module-content { display: none; animation: fadeIn 0.3s var(--ease); }
+.module-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ========= 卡片 — 柔雾粉精致风格 ========= */
+.card {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 0.5px solid var(--border);
+  padding: 22px 24px; margin-bottom: 14px;
+  transition: all 0.3s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(244, 164, 180, 0.03) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+  pointer-events: none;
+}
+.card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+}
+.card:hover::before {
+  opacity: 1;
+}
+.card-title {
+  font-size: 15px; font-weight: 700; color: var(--text-primary);
+  margin-bottom: 18px; letter-spacing: -0.02em;
+}
+
+/* ========= 标签 ========= */
+.tag {
+  background: var(--bg); color: var(--text-tertiary);
+  font-size: 11px; font-weight: 500;
+  padding: 3px 10px; border-radius: 6px; white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+.date-text { color: var(--text-muted); font-size: 12px; flex-shrink: 0; }
+
+/* ========= Tab 组件 — 柔雾粉分段控制器风格 ========= */
+.tab-bar {
+  display: flex; border-bottom: 1px solid var(--border-bold);
+  margin-bottom: 22px; gap: 0;
+}
+.tab-btn {
+  padding: 12px 24px; border: none; background: transparent;
+  cursor: pointer; font-size: 14px; font-weight: 500;
+  color: var(--text-tertiary);
+  border-bottom: 3px solid transparent; margin-bottom: -2px;
+  transition: all 0.25s var(--ease-out); font-family: var(--font);
+  letter-spacing: -0.01em;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  position: relative;
+}
+.tab-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 50%;
+  width: 0; height: 3px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  transition: all 0.3s var(--spring);
+  transform: translateX(-50%);
+  border-radius: 3px 3px 0 0;
+}
+.tab-btn:hover { 
+  color: var(--text-secondary); 
+  background: rgba(244, 164, 180, 0.05);
+}
+.tab-btn.active {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+.tab-btn.active::after {
+  width: 80%;
+}
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.25s var(--ease); }
+/* ========= 模块3：赛道折叠卡 ========= */
+.track-card {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s var(--ease);
+}
+.track-card:hover { box-shadow: var(--shadow-md); }
+.track-card-header {
+  padding: 16px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: background 0.15s;
+  user-select: none;
+}
+.track-card-header:hover { background: #FAFAFA; }
+.track-card-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.track-card-name {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.track-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.track-card-metrics {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--text-tertiary);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.track-card-metrics .tm { display: flex; align-items: center; gap: 4px; }
+.track-card-metrics .tm b { color: var(--text-primary); font-weight: 600; }
+.track-card-metrics .up { color: #16A34A; font-weight: 600; }
+.track-card-metrics .down { color: #EF4444; font-weight: 600; }
+.track-card-metrics .neutral { color: #9CA3AF; }
+.track-card-mini-chart {
+  width: 80px;
+  height: 32px;
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  flex-shrink: 0;
+}
+.track-card-mini-chart .mb {
+  flex: 1;
+  background: var(--red);
+  border-radius: 1px 1px 0 0;
+  opacity: 0.5;
+  min-width: 2px;
+  transition: opacity 0.2s;
+}
+.track-card:hover .track-card-mini-chart .mb { opacity: 0.7; }
+.track-card-toggle {
+  font-size: 12px;
+  color: var(--red);
+  font-weight: 500;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.track-card-toggle .arrow {
+  transition: transform 0.3s var(--spring);
+  font-size: 10px;
+}
+.track-card.expanded .track-card-toggle .arrow { transform: rotate(180deg); }
+.track-card-detail {
+  display: none;
+  border-top: 1px solid var(--border);
+}
+.track-card.expanded .track-card-detail { display: block; }
+.track-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  padding: 20px;
+}
+.track-detail-grid .track-bm-full {
+  grid-column: 1 / -1;
+}
+.bm-table { width: 100%; font-size: 12px; border-collapse: collapse; }
+.bm-table th { text-align: center; font-weight: 500; color: #9CA3AF; padding: 8px 10px; font-size: 11px; letter-spacing: 0.3px; border-bottom: 1px solid var(--border); }
+.bm-table th:first-child { text-align: left; }
+.bm-table td { padding: 10px 10px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-primary); }
+.bm-table td:first-child { text-align: left; }
+.bm-table td .bm-label { display: inline-block; }
+.bm-tip { margin-top: 12px; padding: 10px 14px; background: rgba(244,164,180,0.06); border-radius: var(--radius-md); font-size: 12px; color: var(--text-secondary); line-height: 1.6; display: flex; align-items: flex-start; gap: 6px; }
+.bm-tip-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+@media (max-width: 1100px) { .track-detail-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 700px) { .track-detail-grid { grid-template-columns: 1fr; } }
+.track-detail-section {
+  background: #FAFAFA;
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+.track-detail-section h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.track-metric-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+.track-metric-row:last-child { border-bottom: none; }
+.track-metric-row .lbl { color: var(--text-tertiary); }
+.track-metric-row .val { font-weight: 600; color: var(--text-primary); }
+.track-client-table { width: 100%; font-size: 12px; border-collapse: collapse; }
+.track-client-table th {
+  text-align: left; font-weight: 500; color: #9CA3AF;
+  padding: 6px 8px; font-size: 11px; letter-spacing: 0.3px;
+}
+.track-client-table td { padding: 7px 8px; border-top: 1px solid var(--border); }
+.track-client-table .rank { font-weight: 700; color: var(--red); width: 24px; }
+.track-client-table .cname { font-weight: 600; }
+.track-client-table .spend { font-family: var(--font-mono); font-size: 12px; }
+.bm-label { font-size: 10px; padding: 2px 7px; border-radius: 6px; font-weight: 600; }
+.bm-head { background: #FEE2E2; color: #EF4444; }
+.bm-mid { background: #FEF3C7; color: #D97706; }
+.bm-tail { background: #DBEAFE; color: #2563EB; }
+.track-no-data {
+  color: #D1D5DB; font-size: 12px; font-style: italic;
+  text-align: center; padding: 20px;
+}
+.track-action-bar {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.track-action-btn {
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--border-bold);
+  background: var(--card);
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.track-action-btn:hover { border-color: var(--red); color: var(--red); }
+.track-chart-container { width: 100%; height: 180px; }
+
+/* ========= 模块3B：赛道投放对标 ========= */
+#m3-tab-benchmark .m3b-section-label {
+  font-size: 14px; font-weight: 700; color: var(--text-primary);
+  margin: 28px 0 12px; display: flex; align-items: center; gap: 8px;
+}
+#m3-tab-benchmark .m3b-section-label:first-child { margin-top: 0; }
+#m3-tab-benchmark .m3b-tag {
+  font-size: 11px; background: rgba(244, 164, 180, 0.12); color: var(--red);
+  padding: 3px 12px; border-radius: 16px; font-weight: 600;
+}
+/* Top tabs (趋势/查询) inside benchmark */
+.m3b-top-tabs { display: flex; gap: 0; background: var(--card); border-bottom: 1px solid var(--border); border-radius: var(--radius-lg) var(--radius-lg) 0 0; margin-bottom: 0; }
+.m3b-top-tab { flex: 1; text-align: center; padding: 12px 0; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-muted); border-bottom: 2.5px solid transparent; transition: all 0.2s; }
+.m3b-top-tab:hover { color: var(--red); }
+.m3b-top-tab.active { color: var(--red); border-bottom-color: var(--red); }
+.m3b-top-panel { display: none; }
+.m3b-top-panel.active { display: block; padding: 20px 0; }
+/* Spend bars */
+.m3b-spend-row { display: flex; align-items: center; gap: 10px; margin: 6px 0; font-size: 13px; }
+.m3b-spend-label { width: 36px; text-align: right; color: var(--text-primary); font-weight: 700; }
+.m3b-spend-bar-wrap { flex: 1; height: 20px; background: var(--bg); border-radius: 6px; overflow: hidden; }
+.m3b-spend-bar { height: 100%; border-radius: 6px; }
+.m3b-spend-val { width: 150px; text-align: right; color: var(--text-primary); font-weight: 700; font-size: 12px; }
+.m3b-spend-wow { width: 65px; text-align: right; }
+.m3b-wow { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+.m3b-wow.up { color: #16A34A; background: rgba(22,163,74,0.08); }
+.m3b-wow.down { color: #EF4444; background: rgba(239,68,68,0.08); }
+/* Funnel */
+.m3b-funnel-wrap { display: flex; gap: 14px; flex-wrap: wrap; }
+.m3b-funnel-box { flex: 1; min-width: 200px; background: var(--card); border-radius: var(--radius-lg); padding: 16px 18px; box-shadow: var(--shadow-sm); }
+.m3b-funnel-title { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; }
+.m3b-funnel-step { display: flex; align-items: center; gap: 6px; margin: 5px 0; font-size: 12px; }
+.m3b-funnel-step-label { width: 68px; text-align: right; color: var(--text-muted); white-space: nowrap; }
+.m3b-funnel-bar-wrap { flex: 1; height: 12px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.m3b-funnel-bar { height: 100%; border-radius: 4px; }
+.m3b-funnel-val { width: 75px; text-align: right; color: var(--text-primary); font-weight: 700; }
+/* Track wind rank */
+.m3b-track-rank { background: var(--card); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 16px 20px; display: flex; flex-direction: column; gap: 8px; }
+.m3b-track-rank-row { display: flex; align-items: center; gap: 10px; }
+.m3b-track-rank-name { width: 90px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--text-secondary); text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m3b-track-rank-bar-wrap { flex: 1; height: 22px; background: var(--bg); border-radius: 6px; position: relative; overflow: hidden; }
+.m3b-track-rank-bar { height: 100%; border-radius: 6px; background: linear-gradient(90deg, rgba(244, 164, 180, 0.2), rgba(244, 164, 180, 0.5)); }
+.m3b-track-rank-pct { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 700; color: var(--red); }
+.m3b-track-rank-wow { width: 65px; flex-shrink: 0; text-align: center; }
+/* Link tabs */
+.m3b-link-tabs { display: flex; gap: 0; margin: 24px 0 0; border-bottom: 1px solid var(--border); }
+.m3b-link-tab { padding: 10px 20px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-muted); border-bottom: 2.5px solid transparent; transition: all 0.2s; }
+.m3b-link-tab:hover { color: var(--red); }
+.m3b-link-tab.active { color: var(--red); border-bottom-color: var(--red); }
+.m3b-link-panel { display: none; }
+.m3b-link-panel.active { display: block; padding: 18px 0; }
+/* Benchmark cards */
+.m3b-bench-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 12px 0 20px; }
+.m3b-bench-card { background: var(--card); border-radius: var(--radius-lg); overflow: hidden; text-align: center; box-shadow: var(--shadow-sm); }
+.m3b-bench-card-stripe { height: 3px; }
+.m3b-bench-card-body { padding: 18px 14px 16px; }
+.m3b-bench-card-tier { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+.m3b-bench-card-vals { display: flex; flex-direction: column; gap: 7px; margin: 8px 0; }
+.m3b-bench-val-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0 4px; }
+.m3b-bench-val-label { font-size: 12px; color: var(--text-muted); }
+.m3b-bench-val-num { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+.m3b-bench-card-hint { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+/* Scene / Materials */
+.m3b-scene-label { font-size: 13px; font-weight: 700; color: var(--text-primary); margin: 18px 0 10px; }
+.m3b-scene-insight { background: rgba(244, 164, 180, 0.06); border: 1px solid rgba(244, 164, 180, 0.15); border-radius: var(--radius-md); padding: 14px 18px; margin: 0 0 20px; font-size: 12px; line-height: 1.7; color: var(--text-primary); }
+.m3b-scene-insight::before { content: "共性总结"; display: block; font-size: 11px; font-weight: 700; color: var(--red); margin-bottom: 4px; }
+.m3b-mat-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 18px; }
+.m3b-mat-card { background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; }
+.m3b-mat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.m3b-mat-cover { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--bg); }
+.m3b-mat-info { padding: 10px 12px; }
+.m3b-mat-title { font-size: 12px; color: var(--text-primary); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 34px; }
+.m3b-mat-meta { display: flex; flex-direction: column; gap: 2px; margin-top: 5px; font-size: 10px; color: var(--text-muted); }
+.m3b-mat-brand { font-size: 10px; color: var(--text-muted); margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Hot topics */
+.m3b-hot-topics-wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 12px 0 20px; }
+.m3b-hot-topic-box { background: var(--card); border-radius: var(--radius-lg); padding: 16px 18px; box-shadow: var(--shadow-sm); }
+.m3b-hot-topic-title { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; }
+.m3b-hot-tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.m3b-hot-tag { display: inline-block; padding: 5px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; }
+.m3b-hot-tag.hot { color: var(--red); background: rgba(244, 164, 180, 0.15); }
+.m3b-hot-tag.rising { color: #16A34A; background: rgba(22,163,74,0.08); }
+.m3b-hot-tag.seasonal { color: #EA580C; background: rgba(234,88,12,0.08); }
+/* Category wind */
+.m3b-wind-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 12px 0 20px; }
+.m3b-wind-card { background: var(--card); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+.m3b-wind-card-header { margin: 12px 14px 0; padding: 10px 14px; border-radius: 8px; color: #fff; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+.m3b-wind-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+.m3b-wind-metric { text-align: center; }
+.m3b-wind-metric-label { font-size: 10px; color: var(--text-muted); }
+.m3b-wind-metric-val { font-size: 14px; font-weight: 800; color: var(--text-primary); margin-top: 2px; }
+.m3b-wind-card-body { padding: 10px 14px 14px; }
+.m3b-wind-point { font-size: 12px; color: var(--text-secondary); line-height: 1.7; margin: 3px 0; display: flex; align-items: flex-start; gap: 5px; }
+.m3b-wind-arrow { font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+.m3b-wind-arrow.up { color: #16A34A; }
+.m3b-wind-arrow.down { color: #EF4444; }
+.m3b-wind-arrow.flat { color: var(--text-muted); }
+.m3b-wind-focus { font-size: 12px; font-weight: 700; margin-top: 8px; padding: 8px 12px; background: rgba(244, 164, 180, 0.08); border-radius: 8px; color: var(--red); line-height: 1.5; }
+/* Formula cards */
+.m3b-formula-card-list { margin: 12px 0 20px; background: var(--card); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); overflow: hidden; }
+.m3b-formula-card { display: flex; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--border); gap: 14px; }
+.m3b-formula-card:last-child { border-bottom: none; }
+.m3b-formula-num { width: 28px; height: 28px; border-radius: 50%; background: var(--red); color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.m3b-formula-tags { display: flex; align-items: center; gap: 5px; flex-shrink: 0; flex-wrap: wrap; }
+.m3b-formula-tag { display: inline-block; padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; background: var(--bg); border: 1px solid var(--border); color: var(--text-secondary); }
+.m3b-formula-tag.accent { background: rgba(244, 164, 180, 0.1); border-color: rgba(244, 164, 180, 0.2); color: var(--red); }
+.m3b-formula-plus { color: var(--text-muted); font-size: 14px; font-weight: 700; flex-shrink: 0; }
+.m3b-formula-examples { flex: 1; text-align: right; font-size: 12px; color: var(--text-muted); line-height: 1.6; min-width: 140px; }
+/* Track query */
+.m3b-track-btn-grid { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 16px; }
+.m3b-track-btn { padding: 6px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; font-size: 12px; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-family: inherit; }
+.m3b-track-btn:hover { background: var(--red); color: #fff; border-color: var(--red); transform: translateY(-1px); box-shadow: 0 2px 8px rgba(244, 164, 180, 0.3); }
+.m3b-overview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 10px 0 18px; }
+.m3b-overview-card { background: var(--card); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 16px 18px; text-align: center; }
+.m3b-overview-card .ov-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.m3b-overview-card .ov-value { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+.m3b-overview-card .ov-sub { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+.m3b-search-box { display: flex; gap: 8px; margin: 10px 0; }
+.m3b-search-input { flex: 1; padding: 10px 16px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-primary); font-size: 13px; outline: none; }
+.m3b-search-input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(244, 164, 180, 0.15); }
+.m3b-search-input::placeholder { color: var(--text-muted); }
+.m3b-search-hint { font-size: 11px; color: var(--text-muted); margin: 4px 0 12px; }
+.m3b-suggest-wrap { position: relative; }
+.m3b-suggest-list { position: absolute; top: 100%; left: 0; right: 0; max-height: 180px; overflow-y: auto; background: var(--card); border: 1px solid var(--border); border-radius: 0 0 var(--radius) var(--radius); z-index: 10; display: none; box-shadow: var(--shadow-md); }
+.m3b-suggest-list.show { display: block; }
+.m3b-suggest-item { padding: 8px 14px; cursor: pointer; font-size: 12px; color: var(--text-primary); }
+.m3b-suggest-item:hover { background: var(--bg); color: var(--red); }
+.m3b-no-data { text-align: center; color: var(--text-muted); padding: 36px 0; font-size: 13px; }
+@media(max-width:700px) {
+  .m3b-mat-grid { grid-template-columns: repeat(2, 1fr); }
+  .m3b-funnel-wrap { flex-direction: column; }
+  .m3b-bench-grid { grid-template-columns: 1fr; }
+  .m3b-hot-topics-wrap { grid-template-columns: 1fr; }
+  .m3b-wind-grid { grid-template-columns: 1fr; }
+  .m3b-overview-grid { grid-template-columns: 1fr; }
+}
+@media(max-width:900px) {
+  .m3b-mat-grid { grid-template-columns: repeat(3, 1fr); }
+  .m3b-bench-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Standalone overrides ── */
+.module-content { display: block !important; animation: none !important; }
+body {
+  padding: 24px 32px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.standalone-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.standalone-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.standalone-header .meta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+<div class="standalone-header">
+  <h1>教育二级赛道洞察</h1>
+  <div class="meta">数据来源: RedBI</div>
+</div>
+<div id="module-3" class="module-content active">
+    <div class="tab-bar" style="margin-bottom:16px">
+      <button class="tab-btn active" onclick="switchM3Tab('insight')">灵犀内容洞察</button>
+      <button class="tab-btn" onclick="switchM3Tab('benchmark')">赛道投放对标</button>
+    </div>
+
+    <div id="m3-tab-insight" class="m3-tab-panel" style="display:block">
+      <div class="tab-bar m3-track-nav" style="margin-bottom:12px;flex-wrap:wrap;gap:6px">
+        <button class="tab-btn active" onclick="scrollToTrack('junior')">少儿教育</button>
+        <button class="tab-btn" onclick="scrollToTrack('vocational')">职业教育</button>
+        <button class="tab-btn" onclick="scrollToTrack('interest')">兴趣培训</button>
+        <button class="tab-btn" onclick="scrollToTrack('degree')">学历教育</button>
+        <button class="tab-btn" onclick="scrollToTrack('language')">语言及留学</button>
+      </div>
+      <div id="m3-data-source" style="font-size:11px;color:#9CA3AF;margin-bottom:12px;text-align:right"></div>
+      <div id="m3-track-cards"></div>
+    </div>
+
+    <div id="m3-tab-benchmark" class="m3-tab-panel" style="display:none">
+      <div class="tab-bar" style="margin-bottom:12px">
+        <button class="tab-btn active" onclick="m3bSwitchCat('interest')">兴趣培训</button>
+        <button class="tab-btn" onclick="m3bSwitchCat('edu')">学历教育</button>
+      </div>
+      <div style="font-size:11px;color:#9CA3AF;margin-bottom:12px;text-align:right">数据周期：2026-04-07 ~ 2026-04-20（14天）| 来源：广告消耗底表（脱敏）</div>
+      <div id="m3b-container"></div>
+    </div>
+</div>
+
+<script>
+let m3Data = null;
+let chartsInited = true;
+
+const INLINE_DATA = {
+  'track-trends': {
+        "_note": "数据拉取时间 2026-04-23T02:49:43.558Z",
+        "_sources": "RedBI datasets 1979 / 10632 / 37783",
+        "_freshDatasets": [
+            "1979",
+            "10632",
+            "37783"
+        ],
+        "_staleDatasets": [],
+        "period": "2026-04-10 ~ 2026-04-23",
+        "searchDates": [
+            "4/8",
+            "4/9",
+            "4/10",
+            "4/11",
+            "4/12",
+            "4/13",
+            "4/14",
+            "4/15",
+            "4/16",
+            "4/17",
+            "4/18",
+            "4/19",
+            "4/20",
+            "4/21"
+        ],
+        "dates": [
+            "4/10",
+            "4/11",
+            "4/12",
+            "4/13",
+            "4/14",
+            "4/15",
+            "4/16",
+            "4/17",
+            "4/18",
+            "4/19",
+            "4/20",
+            "4/21",
+            "4/22",
+            "4/23"
+        ],
+        "market": [
+            {
+                "key": "junior",
+                "name": "少儿教育",
+                "search": {
+                    "volumes": [
+                        15167775,
+                        14785753,
+                        12898848,
+                        12376618,
+                        13195754,
+                        14693850,
+                        14521271,
+                        14158931,
+                        13852845,
+                        12363673,
+                        12121810,
+                        13295365,
+                        14357316,
+                        14941141
+                    ],
+                    "wow": "-2.6%",
+                    "topWords": [
+                        "待接入"
+                    ],
+                    "cpm1": 49.98,
+                    "pvr": 24.39,
+                    "acp": 1.27,
+                    "advCount": 65235603
+                },
+                "content": {
+                    "noteCount": [
+                        5806,
+                        2371,
+                        1356,
+                        4396,
+                        4669,
+                        4917,
+                        4615,
+                        5536,
+                        2057,
+                        1199,
+                        3884,
+                        4397,
+                        4311,
+                        0
+                    ],
+                    "wow": "-24.0%",
+                    "videoRatio": 0,
+                    "avgInteraction": 0,
+                    "avgActiveNotes": 47070
+                },
+                "advertiser": {
+                    "topSpenders": [
+                        {
+                            "name": "掌门1对1",
+                            "spend7d": 8904427,
+                            "noteCount": 8509,
+                            "ctr": "3.10%",
+                            "leadCost": 387
+                        },
+                        {
+                            "name": "高途-素养",
+                            "spend7d": 3765174,
+                            "noteCount": 1090,
+                            "ctr": "4.04%",
+                            "leadCost": 364
+                        },
+                        {
+                            "name": "Mathplore",
+                            "spend7d": 3568788,
+                            "noteCount": 965,
+                            "ctr": "2.46%",
+                            "leadCost": 540
+                        },
+                        {
+                            "name": "猿辅导-斑马-ai课",
+                            "spend7d": 3335402,
+                            "noteCount": 1927,
+                            "ctr": "2.73%",
+                            "leadCost": 330
+                        },
+                        {
+                            "name": "庄重读书",
+                            "spend7d": 3059443,
+                            "noteCount": 2888,
+                            "ctr": "4.58%",
+                            "leadCost": 258
+                        }
+                    ],
+                    "fastGrowers": []
+                }
+            },
+            {
+                "key": "vocational",
+                "name": "职业教育",
+                "search": {
+                    "volumes": [
+                        11104881,
+                        10849830,
+                        11798768,
+                        9736062,
+                        8451534,
+                        10023324,
+                        9582241,
+                        9846855,
+                        9142886,
+                        10960432,
+                        8754708,
+                        8069717,
+                        9385044,
+                        9150075
+                    ],
+                    "wow": "-8.7%",
+                    "topWords": [
+                        "待接入"
+                    ],
+                    "cpm1": 107.92,
+                    "pvr": 34.57,
+                    "acp": 1.44,
+                    "advCount": 52734160
+                },
+                "content": {
+                    "noteCount": [
+                        2851,
+                        1385,
+                        763,
+                        2226,
+                        2176,
+                        2373,
+                        2283,
+                        2196,
+                        799,
+                        688,
+                        2129,
+                        2262,
+                        2182,
+                        0
+                    ],
+                    "wow": "-27.0%",
+                    "videoRatio": 0,
+                    "avgInteraction": 0,
+                    "avgActiveNotes": 23691
+                },
+                "advertiser": {
+                    "topSpenders": [
+                        {
+                            "name": "上岸村教育",
+                            "spend7d": 1670427,
+                            "noteCount": 1891,
+                            "ctr": "4.90%",
+                            "leadCost": 147
+                        },
+                        {
+                            "name": "粉笔-考公（南）",
+                            "spend7d": 1556739,
+                            "noteCount": 4357,
+                            "ctr": "10.35%",
+                            "leadCost": 62
+                        },
+                        {
+                            "name": "新华欧米奇",
+                            "spend7d": 1527320,
+                            "noteCount": 4264,
+                            "ctr": "3.64%",
+                            "leadCost": 246
+                        },
+                        {
+                            "name": "展鹏考公",
+                            "spend7d": 1290393,
+                            "noteCount": 1887,
+                            "ctr": "4.34%",
+                            "leadCost": 294
+                        },
+                        {
+                            "name": "高顿-CFA",
+                            "spend7d": 1204482,
+                            "noteCount": 1506,
+                            "ctr": "3.91%",
+                            "leadCost": 685
+                        }
+                    ],
+                    "fastGrowers": []
+                }
+            },
+            {
+                "key": "interest",
+                "name": "兴趣培训",
+                "search": {
+                    "volumes": [
+                        8227750,
+                        8342147,
+                        8658177,
+                        9283336,
+                        9021975,
+                        8359287,
+                        8372061,
+                        8281187,
+                        8127399,
+                        7925202,
+                        8812599,
+                        8852137,
+                        8158235,
+                        8166384
+                    ],
+                    "wow": "-3.2%",
+                    "topWords": [
+                        "待接入"
+                    ],
+                    "cpm1": 41.55,
+                    "pvr": 26.06,
+                    "acp": 0.96,
+                    "advCount": 35679106
+                },
+                "content": {
+                    "noteCount": [
+                        1222,
+                        705,
+                        240,
+                        862,
+                        1046,
+                        1023,
+                        968,
+                        1403,
+                        397,
+                        242,
+                        1017,
+                        1147,
+                        1139,
+                        0
+                    ],
+                    "wow": "-11.9%",
+                    "videoRatio": 0,
+                    "avgInteraction": 0,
+                    "avgActiveNotes": 13984
+                },
+                "advertiser": {
+                    "topSpenders": [
+                        {
+                            "name": "喜马拉雅-喜播配音",
+                            "spend7d": 1443789,
+                            "noteCount": 429,
+                            "ctr": "3.21%",
+                            "leadCost": 29
+                        },
+                        {
+                            "name": "兴趣岛-变美",
+                            "spend7d": 1150970,
+                            "noteCount": 962,
+                            "ctr": "8.14%",
+                            "leadCost": 81
+                        },
+                        {
+                            "name": "单色舞蹈培训",
+                            "spend7d": 973099,
+                            "noteCount": 2132,
+                            "ctr": "4.55%",
+                            "leadCost": 91
+                        },
+                        {
+                            "name": "红松",
+                            "spend7d": 949148,
+                            "noteCount": 2261,
+                            "ctr": "7.48%",
+                            "leadCost": 174
+                        },
+                        {
+                            "name": "兴趣培训1—兴趣培训",
+                            "spend7d": 865689,
+                            "noteCount": 1237,
+                            "ctr": "4.90%",
+                            "leadCost": 212
+                        }
+                    ],
+                    "fastGrowers": []
+                }
+            },
+            {
+                "key": "degree",
+                "name": "学历教育",
+                "search": {
+                    "volumes": [
+                        10068591,
+                        8943069,
+                        7588451,
+                        6298898,
+                        5529148,
+                        6106679,
+                        5986932,
+                        6243529,
+                        5372157,
+                        5239119,
+                        5305636,
+                        4375697,
+                        4604324,
+                        5003070
+                    ],
+                    "wow": "-28.5%",
+                    "topWords": [
+                        "待接入"
+                    ],
+                    "cpm1": 108.25,
+                    "pvr": 28.6,
+                    "acp": 1.87,
+                    "advCount": 30021134
+                },
+                "content": {
+                    "noteCount": [
+                        1476,
+                        649,
+                        504,
+                        1428,
+                        1321,
+                        1297,
+                        1107,
+                        1243,
+                        594,
+                        395,
+                        1098,
+                        1056,
+                        1278,
+                        0
+                    ],
+                    "wow": "-27.2%",
+                    "videoRatio": 0,
+                    "avgInteraction": 0,
+                    "avgActiveNotes": 13180
+                },
+                "advertiser": {
+                    "topSpenders": [
+                        {
+                            "name": "新东方-大学",
+                            "spend7d": 3664564,
+                            "noteCount": 3196,
+                            "ctr": "2.71%",
+                            "leadCost": 480
+                        },
+                        {
+                            "name": "高顿-在职研究生",
+                            "spend7d": 3485284,
+                            "noteCount": 2650,
+                            "ctr": "2.82%",
+                            "leadCost": 360
+                        },
+                        {
+                            "name": "新东方-在线大学",
+                            "spend7d": 2498732,
+                            "noteCount": 1869,
+                            "ctr": "7.56%",
+                            "leadCost": 263
+                        },
+                        {
+                            "name": "南瓜子",
+                            "spend7d": 1526988,
+                            "noteCount": 565,
+                            "ctr": "3.35%",
+                            "leadCost": 207
+                        },
+                        {
+                            "name": "高途-成人-考研市场",
+                            "spend7d": 1194851,
+                            "noteCount": 1368,
+                            "ctr": "5.26%",
+                            "leadCost": 185
+                        }
+                    ],
+                    "fastGrowers": []
+                }
+            },
+            {
+                "key": "language",
+                "name": "语言及留学",
+                "search": {
+                    "volumes": [
+                        2950283,
+                        2929187,
+                        2763020,
+                        3068085,
+                        3077443,
+                        2917262,
+                        2908088,
+                        2811427,
+                        2792940,
+                        2666690,
+                        2881355,
+                        2782018,
+                        2741679,
+                        2756174
+                    ],
+                    "wow": "-5.7%",
+                    "topWords": [
+                        "待接入"
+                    ],
+                    "cpm1": 233.56,
+                    "pvr": 34.32,
+                    "acp": 3.01,
+                    "advCount": 17781829
+                },
+                "content": {
+                    "noteCount": [
+                        4119,
+                        1699,
+                        875,
+                        3336,
+                        3620,
+                        3789,
+                        3275,
+                        3192,
+                        1198,
+                        806,
+                        3000,
+                        3234,
+                        3319,
+                        0
+                    ],
+                    "wow": "-28.8%",
+                    "videoRatio": 0,
+                    "avgInteraction": 0,
+                    "avgActiveNotes": 35175
+                },
+                "advertiser": {
+                    "topSpenders": [
+                        {
+                            "name": "英孚-成人英语",
+                            "spend7d": 5752144,
+                            "noteCount": 918,
+                            "ctr": "1.90%",
+                            "leadCost": 698
+                        },
+                        {
+                            "name": "SIA艺术留学",
+                            "spend7d": 5058987,
+                            "noteCount": 1111,
+                            "ctr": "2.96%",
+                            "leadCost": 1503
+                        },
+                        {
+                            "name": "新东方-斯芬克",
+                            "spend7d": 4575114,
+                            "noteCount": 2718,
+                            "ctr": "3.59%",
+                            "leadCost": 1615
+                        },
+                        {
+                            "name": "新东方-文旅",
+                            "spend7d": 3502575,
+                            "noteCount": 2418,
+                            "ctr": "3.83%",
+                            "leadCost": 175
+                        },
+                        {
+                            "name": "新航道",
+                            "spend7d": 2281923,
+                            "noteCount": 4032,
+                            "ctr": "3.50%",
+                            "leadCost": 494
+                        }
+                    ],
+                    "fastGrowers": []
+                }
+            }
+        ],
+        "focus": [
+            {
+                "key": "elderly_beauty",
+                "name": "中老年变美",
+                "search": {
+                    "_note": "灵犀无此细分类目",
+                    "volumes": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "wow": "--",
+                    "topWords": [
+                        "灵犀暂无此细分类目"
+                    ]
+                },
+                "content": {
+                    "_note": "灵犀无此细分类目",
+                    "noteCount": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "wow": "--",
+                    "videoRatio": 0,
+                    "avgInteraction": 0
+                },
+                "advertiser": {
+                    "_note": "灵犀无此细分类目",
+                    "topSpenders": [],
+                    "fastGrowers": []
+                }
+            },
+            {
+                "key": "elderly_health",
+                "name": "中老年养生",
+                "search": {
+                    "_note": "灵犀无此细分类目",
+                    "volumes": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "wow": "--",
+                    "topWords": [
+                        "灵犀暂无此细分类目"
+                    ]
+                },
+                "content": {
+                    "_note": "灵犀无此细分类目",
+                    "noteCount": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "wow": "--",
+                    "videoRatio": 0,
+                    "avgInteraction": 0
+                },
+                "advertiser": {
+                    "_note": "灵犀无此细分类目",
+                    "topSpenders": [],
+                    "fastGrowers": []
+                }
+            },
+            {
+                "key": "vocal",
+                "name": "声乐培训",
+                "search": {
+                    "_note": "灵犀无此细分类目",
+                    "volumes": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "wow": "--",
+                    "topWords": [
+                        "灵犀暂无此细分类目"
+                    ]
+                },
+                "content": {
+                    "_note": "灵犀无此细分类目",
+                    "noteCount": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "wow": "--",
+                    "videoRatio": 0,
+                    "avgInteraction": 0
+                },
+                "advertiser": {
+                    "_note": "灵犀无此细分类目",
+                    "topSpenders": [],
+                    "fastGrowers": []
+                }
+            },
+            {
+                "key": "edu_books",
+                "name": "教辅图书",
+                "search": {
+                    "_note": "灵犀无此细分类目",
+                    "volumes": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "wow": "--",
+                    "topWords": [
+                        "灵犀暂无此细分类目"
+                    ]
+                },
+                "content": {
+                    "_note": "灵犀无此细分类目",
+                    "noteCount": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "wow": "--",
+                    "videoRatio": 0,
+                    "avgInteraction": 0
+                },
+                "advertiser": {
+                    "_note": "灵犀无此细分类目",
+                    "topSpenders": [],
+                    "fastGrowers": []
+                }
+            }
+        ],
+        "hotNotes": {},
+        "contentInsight": {},
+        "benchmark": {
+            "junior": [
+                {
+                    "tier": "头部 (TOP3)",
+                    "avgDailySpend": 773257,
+                    "avgDailyNotes": 503,
+                    "avgCtr": "3.20%",
+                    "avgLeadCost": 430,
+                    "noteARPA": 1537
+                },
+                {
+                    "tier": "腰部 (4~10名)",
+                    "avgDailySpend": 354746,
+                    "avgDailyNotes": 351,
+                    "avgCtr": "3.25%",
+                    "avgLeadCost": 337,
+                    "noteARPA": 1011
+                },
+                {
+                    "tier": "尾部 (11名+)",
+                    "avgDailySpend": 41619,
+                    "avgDailyNotes": 46,
+                    "avgCtr": "5.39%",
+                    "avgLeadCost": 376,
+                    "noteARPA": 909
+                }
+            ],
+            "vocational": [
+                {
+                    "tier": "头部 (TOP3)",
+                    "avgDailySpend": 226404,
+                    "avgDailyNotes": 501,
+                    "avgCtr": "6.30%",
+                    "avgLeadCost": 152,
+                    "noteARPA": 452
+                },
+                {
+                    "tier": "腰部 (4~10名)",
+                    "avgDailySpend": 152843,
+                    "avgDailyNotes": 259,
+                    "avgCtr": "5.87%",
+                    "avgLeadCost": 266,
+                    "noteARPA": 590
+                },
+                {
+                    "tier": "尾部 (11名+)",
+                    "avgDailySpend": 14915,
+                    "avgDailyNotes": 24,
+                    "avgCtr": "7.00%",
+                    "avgLeadCost": 227,
+                    "noteARPA": 614
+                }
+            ],
+            "interest": [
+                {
+                    "tier": "头部 (TOP3)",
+                    "avgDailySpend": 169898,
+                    "avgDailyNotes": 168,
+                    "avgCtr": "5.30%",
+                    "avgLeadCost": 67,
+                    "noteARPA": 1013
+                },
+                {
+                    "tier": "腰部 (4~10名)",
+                    "avgDailySpend": 98150,
+                    "avgDailyNotes": 309,
+                    "avgCtr": "9.20%",
+                    "avgLeadCost": 125,
+                    "noteARPA": 317
+                },
+                {
+                    "tier": "尾部 (11名+)",
+                    "avgDailySpend": 9665,
+                    "avgDailyNotes": 24,
+                    "avgCtr": "6.22%",
+                    "avgLeadCost": 259,
+                    "noteARPA": 406
+                }
+            ],
+            "degree": [
+                {
+                    "tier": "头部 (TOP3)",
+                    "avgDailySpend": 459456,
+                    "avgDailyNotes": 367,
+                    "avgCtr": "4.36%",
+                    "avgLeadCost": 368,
+                    "noteARPA": 1251
+                },
+                {
+                    "tier": "腰部 (4~10名)",
+                    "avgDailySpend": 120870,
+                    "avgDailyNotes": 90,
+                    "avgCtr": "4.58%",
+                    "avgLeadCost": 259,
+                    "noteARPA": 1347
+                },
+                {
+                    "tier": "尾部 (11名+)",
+                    "avgDailySpend": 8816,
+                    "avgDailyNotes": 16,
+                    "avgCtr": "6.19%",
+                    "avgLeadCost": 416,
+                    "noteARPA": 554
+                }
+            ],
+            "language": [
+                {
+                    "tier": "头部 (TOP3)",
+                    "avgDailySpend": 732678,
+                    "avgDailyNotes": 226,
+                    "avgCtr": "2.82%",
+                    "avgLeadCost": 1272,
+                    "noteARPA": 3241
+                },
+                {
+                    "tier": "腰部 (4~10名)",
+                    "avgDailySpend": 295276,
+                    "avgDailyNotes": 414,
+                    "avgCtr": "4.22%",
+                    "avgLeadCost": 408,
+                    "noteARPA": 712
+                },
+                {
+                    "tier": "尾部 (11名+)",
+                    "avgDailySpend": 25375,
+                    "avgDailyNotes": 45,
+                    "avgCtr": "5.38%",
+                    "avgLeadCost": 489,
+                    "noteARPA": 562
+                }
+            ]
+        }
+    },
+  'm3b-benchmark': {"categoryData":{"interest":{"total_spend":"¥900-950万","link_breakdown":[{"name":"私信","spend":"¥350-400万","pct":43.3,"wow":-3.2},{"name":"表单","spend":"¥200-250万","pct":24.9,"wow":-10.7},{"name":"商销","spend":"¥200-250万","pct":23.0,"wow":-13.3},{"name":"直播","spend":"¥70-80万","pct":7.8,"wow":-4.2}],"funnels":{"私信":[{"label":"曝光→点击","rate":"6-7%"},{"label":"点击→开口","rate":"2-3%"},{"label":"开口→留资","rate":"58-60%"}],"表单":[{"label":"曝光→点击","rate":"10-12%"},{"label":"点击→提交","rate":"0.4-0.7%"}],"商销":[{"label":"曝光→点击","rate":"5-6%"},{"label":"点击→订单","rate":"0.7-1.0%"}]},"track_wind":[{"name":"中老年兴趣","spend":"¥150-200万","wow":-0.2,"pct":21.736154462332465,"pct_label":"20-25%"},{"name":"其他兴趣培训","spend":"¥150-200万","wow":-10.6,"pct":16.458929986819577,"pct_label":"15-18%"},{"name":"家庭教育","spend":"¥100-150万","wow":-1.5,"pct":15.050569984847591,"pct_label":"15-18%"},{"name":"口才情商","spend":"¥100-150万","wow":-2.6,"pct":12.627435674843493,"pct_label":"12-15%"},{"name":"心理测试","spend":"¥90-100万","wow":-26.8,"pct":10.259998167730233,"pct_label":"9-12%"},{"name":"形体舞蹈培训","spend":"¥60-70万","wow":-11.1,"pct":7.614163298244106,"pct_label":"6-8%"},{"name":"减肥健康","spend":"¥40-50万","wow":-17.5,"pct":4.915886282422644,"pct_label":"4-6%"},{"name":"音乐乐器","spend":"¥30-40万","wow":0.1,"pct":4.095979688173731,"pct_label":"4-6%"},{"name":"暂无三级赛道","spend":"¥20-30万","wow":-8.3,"pct":2.7332228909651057,"pct_label":"2-4%"},{"name":"其他","spend":"¥10-20万","wow":13.2,"pct":1.569046810881721,"pct_label":"0-2%"},{"name":"兴趣培训","spend":"¥8-9万","wow":-8.7,"pct":0.9456658224493615,"pct_label":"0-2%"},{"name":"财商培训","spend":"¥6-7万","wow":-30.3,"pct":0.6800435621812644,"pct_label":"0-2%"},{"name":"艺术设计","spend":"¥5-6万","wow":-21.1,"pct":0.5679534533238697,"pct_label":"0-2%"},{"name":"养生健康类","spend":"¥4-5万","wow":-6.7,"pct":0.4947701289698355,"pct_label":"0-2%"},{"name":"兼职创业","spend":"¥1-2万","wow":18.9,"pct":0.13112278389260235,"pct_label":"0-2%"},{"name":"声乐舞蹈","spend":"¥1-2万","wow":-25.3,"pct":0.11866635549769158,"pct_label":"0-2%"},{"name":"新媒体运营类","spend":"¥0-50","wow":0,"pct":0.000390646424668904,"pct_label":"0-2%"}]},"edu":{"total_spend":"¥1300-1400万","link_breakdown":[{"name":"私信","spend":"¥1300-1400万","pct":95.9,"wow":-12.8},{"name":"表单","spend":"¥20-30万","pct":1.8,"wow":2.6},{"name":"商销","spend":"¥7-8万","pct":0.6,"wow":6.2},{"name":"直播","spend":"¥1-2万","pct":0.1,"wow":-2.8}],"funnels":{"私信":[{"label":"曝光→点击","rate":"4-5%"},{"label":"点击→开口","rate":"2-3%"},{"label":"开口→留资","rate":"58-60%"}],"表单":[{"label":"曝光→点击","rate":"4-5%"},{"label":"点击→提交","rate":"1-2%"}],"商销":[{"label":"曝光→点击","rate":"9-10%"},{"label":"点击→订单","rate":"0.4-0.7%"}]},"track_wind":[{"name":"考研辅导","spend":"¥650-700万","wow":-21.5,"pct":50.12525987161056,"pct_label":"50-55%"},{"name":"在职研究生","spend":"¥250-300万","wow":-9.8,"pct":20.266590689900845,"pct_label":"20-25%"},{"name":"成人自考/专升本/高招","spend":"¥150-200万","wow":3.1,"pct":14.299107084147675,"pct_label":"12-15%"},{"name":"升学规划","spend":"¥100-150万","wow":3.3,"pct":8.952214309625932,"pct_label":"8-10%"},{"name":"高考/高考复读","spend":"¥40-50万","wow":10.1,"pct":3.4094572451828946,"pct_label":"2-4%"},{"name":"暂无三级赛道","spend":"¥20-30万","wow":-19.8,"pct":1.862290253949616,"pct_label":"0-2%"},{"name":"MBA/EMBA","spend":"¥10-20万","wow":16.1,"pct":1.0663616104796085,"pct_label":"0-2%"},{"name":"学历教育","spend":"¥2,000-4,000","wow":-50.9,"pct":0.0187189351028823,"pct_label":"0-2%"}]}},"benchmarks":{"interest":{"私信":{"n":"175-200","ctr":["8-9%","6-7%","4-5%"],"cpm":["¥70-80","¥100-120","¥140-160"],"开口成本":["¥50-60","¥70-80","¥100-120"],"留资成本":["¥80-90","¥100-120","¥200-220"]},"表单":{"n":"60-70","ctr":["10-12%","8-9%","6-7%"],"cpm":["¥30-40","¥70-80","¥100-120"],"表单成本":["¥90-100","¥180-200","¥220-240"]},"商销":{"n":"25-30","ctr":["7-8%","5-6%","4-5%"],"cpm":["¥50-60","¥90-100","¥120-140"],"cvr":["0.8-1.1%","0.6-0.9%","0.5-0.8%"],"orders":["450-500","150-200","10-20"]},"直播":{"n":"10-15","ctr":["4-5%","3-4%","2-3%"],"cpm":["¥40-50","¥60-70","¥80-90"]}},"edu":{"私信":{"n":"500-550","ctr":["6-7%","4-5%","2-3%"],"cpm":["¥100-120","¥160-180","¥220-240"],"开口成本":["¥100-120","¥180-200","¥260-280"],"留资成本":["¥180-200","¥320-340","¥460-480"]},"表单":{"n":"15-20","ctr":["4-5%","3-4%","3-4%"],"cpm":["¥80-90","¥120-140","¥180-200"],"表单成本":["¥340-360","¥420-440","¥880-900"]},"商销":{"n":"4-6","ctr":["10-12%","9-10%","9-10%"],"cpm":["¥20-30","¥100-120","¥100-120"],"cvr":["0.6-0.9%","0.6-0.9%","0.3-0.6%"],"orders":["90-100","40-50","40-50"]}}},"linkMats":{"interest":{"私信":{"all":[{"title":"学员就是给力！","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k831tivpfvg7e005o48kpp09e3r78frnag?imageView2/2/w/540/format/jpg/q/75","brand":"长征学车帮教育-兴趣培训","spend":"¥4,000-6,000","ctr":"14-16%","cpm":"¥60-70","noteId":"69b1754a0000000015039fd2"},{"title":"男女都要🔥不露脸用声音读故事简直绝了","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31sdcqdg1lc405q3u4pu6r6nb646qeag?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥4,000-6,000","ctr":"14-16%","cpm":"¥80-90","noteId":"698af69f000000002801dc4f"},{"title":"后悔没早点儿发现❗深圳团建来这里全程开心","cover":"http://sns-img-qn.xhscdn.com/1040g008317v0ppsu44105o1vikkg84iam1oaio8?imageView2/2/w/540/format/jpg/q/75","brand":"乐水策划-兴趣培训","spend":"¥6,000-8,000","ctr":"10-12%","cpm":"¥280-300","noteId":"66ece1d2000000001e01857c"},{"title":"50岁+必学的手机摄影技巧，拍出来真的绝美","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031upg5lm0j4005o4bppk08ero0ctj9fg?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-兴趣-兴趣培训","spend":"¥1-2万","ctr":"10-12%","cpm":"¥200-220","noteId":"69d8e4fd0000000020039672"},{"title":"身形发福别瞎练！每天100下，全身一起瘦！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031t3a1gqb5e005pgkl20iu7i8iiq73so?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-变美-兴趣培训","spend":"¥4,000-6,000","ctr":"10-12%","cpm":"¥100-120","noteId":"69a166f60000000015032367"},{"title":"50岁+必学的手机摄影技巧，拍出来真的绝美","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031upg5lm0j4005o4bppk08ero0ctj9fg?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-兴趣-兴趣培训","spend":"¥8,000-10,000","ctr":"10-12%","cpm":"¥180-200","noteId":"69d8e4fd0000000020039672"}],"feed":[{"title":"50岁+必学的手机摄影技巧，拍出来真的绝美","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031upg5lm0j4005o4bppk08ero0ctj9fg?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-兴趣-兴趣培训","spend":"¥1-2万","ctr":"10-12%","cpm":"¥200-220","noteId":"69d8e4fd0000000020039672"},{"title":"学员就是给力！","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k831tivpfvg7e005o48kpp09e3r78frnag?imageView2/2/w/540/format/jpg/q/75","brand":"长征学车帮教育-兴趣培训","spend":"¥4,000-6,000","ctr":"14-16%","cpm":"¥60-70","noteId":"69b1754a0000000015039fd2"},{"title":"50岁+必学的手机摄影技巧，拍出来真的绝美","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031upg5lm0j4005o4bppk08ero0ctj9fg?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-兴趣-兴趣培训","spend":"¥8,000-10,000","ctr":"10-12%","cpm":"¥180-200","noteId":"69d8e4fd0000000020039672"},{"title":"身形发福别瞎练！每天100下，全身一起瘦！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031t3a1gqb5e005pgkl20iu7i8iiq73so?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-变美-兴趣培训","spend":"¥4,000-6,000","ctr":"10-12%","cpm":"¥100-120","noteId":"69a166f60000000015032367"},{"title":"学会每天做这个四个动作，面部紧致有奇效！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31k1la1jo2g105pjjtenhonulteelrdo?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-变美-兴趣培训","spend":"¥6,000-8,000","ctr":"9-10%","cpm":"¥120-140","noteId":"6878cdd4000000002201e712"},{"title":"45+重塑自我！专属瑜伽，解锁魅力新篇章","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031dht0t3lh2005oqrtvn65ssh3p83i58?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-变美-兴趣培训","spend":"¥4,000-6,000","ctr":"9-10%","cpm":"¥120-140","noteId":"6773e64f00000000140207ce"}],"search":[{"title":"男女都要🔥不露脸用声音读故事简直绝了","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31sdcqdg1lc405q3u4pu6r6nb646qeag?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥4,000-6,000","ctr":"14-16%","cpm":"¥80-90","noteId":"698af69f000000002801dc4f"},{"title":"身形发福别瞎练！每天100下，全身一起瘦！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031t3a1gqb5e005pgkl20iu7i8iiq73so?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-变美-兴趣培训","spend":"¥2,000-4,000","ctr":"12-14%","cpm":"¥100-120","noteId":"69a166f60000000015032367"},{"title":"后悔没早点儿发现❗深圳团建来这里全程开心","cover":"http://sns-img-qn.xhscdn.com/1040g008317v0ppsu44105o1vikkg84iam1oaio8?imageView2/2/w/540/format/jpg/q/75","brand":"乐水策划-兴趣培训","spend":"¥6,000-8,000","ctr":"10-12%","cpm":"¥280-300","noteId":"66ece1d2000000001e01857c"},{"title":"建议尽早开始！50岁练普拉提好处太多","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31di8bnjs0e7g5pcrbp18h4fmc92cnvg?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-变美-兴趣培训","spend":"¥2,000-4,000","ctr":"10-12%","cpm":"¥140-160","noteId":"67a46d310000000029019294"},{"title":"📍上海学车地图！2026考驾照看这里～","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k831srbt4cl58005ogs75roclgvrino6m0?imageView2/2/w/540/format/jpg/q/75","brand":"上海光明驾校-兴趣培训","spend":"¥2,000-4,000","ctr":"12-14%","cpm":"¥460-480","noteId":"69994be3000000000a029fd2"},{"title":"上海夜校它来咯！！！","cover":"http://sns-img-qn.xhscdn.com/1040g00831th56pq15s5g5pjpjuc2ueggf3nv8p8?imageView2/2/w/540/format/jpg/q/75","brand":"留学-语培-语言及留学","spend":"¥2,000-4,000","ctr":"12-14%","cpm":"¥100-120","noteId":"68b6adfd000000001c00d45e"}]},"表单":{"all":[{"title":"身体总莫名不舒服？可能是情绪在求救","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tip50as6m005pep9njh3jt77tlh8i0?imageView2/2/w/540/format/jpg/q/75","brand":"智测-兴趣培训","spend":"¥4,000-6,000","ctr":"18-20%","cpm":"¥9-14","noteId":"69b140620000000005032c8e"},{"title":"MBTI人格测试2026新版官网链接🔗","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31p54et4pia305oto2en9t5m2vq20s10?imageView2/2/w/540/format/jpg/q/75","brand":"趣测-兴趣培训","spend":"¥1-2万","ctr":"16-18%","cpm":"¥120-140","noteId":"6880b2af000000001c03157c"},{"title":"情绪低落多久了？做 SCL-90测测是否正常？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031putou1mn4005pgcmhdlrmi9o9ph33g?imageView2/2/w/540/format/jpg/q/75","brand":"智测-兴趣培训","spend":"¥4,000-6,000","ctr":"16-18%","cpm":"¥10-20","noteId":"693a9e03000000001e0239d0"},{"title":"怎么知道自己有抑郁症/焦虑症？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031mqd3t414u005ncgh8m08dopvfp0a10?imageView2/2/w/540/format/jpg/q/75","brand":"智测-兴趣培训","spend":"¥8,000-10,000","ctr":"14-16%","cpm":"¥40-50","noteId":"68d3be09000000001003c2b2"},{"title":"怀疑自己有抑郁焦虑？不敢去线下检查？😭","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031mqbogh74u005ncgh8m08dop030n1mo?imageView2/2/w/540/format/jpg/q/75","brand":"智测-兴趣培训","spend":"¥4,000-6,000","ctr":"14-16%","cpm":"¥30-40","noteId":"68d3a77f00000000120337dd"},{"title":"：👉2026新版MBTI人格测试入口","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31mtbvp48mmk05o76nlbg904nj1n8oj8?imageView2/2/w/540/format/jpg/q/75","brand":"趣测-兴趣培训","spend":"¥2,000-4,000","ctr":"18-20%","cpm":"¥40-50","noteId":"689dabec000000001c005c20"}],"feed":[{"title":"身体总莫名不舒服？可能是情绪在求救","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tip50as6m005pep9njh3jt77tlh8i0?imageView2/2/w/540/format/jpg/q/75","brand":"智测-兴趣培训","spend":"¥4,000-6,000","ctr":"18-20%","cpm":"¥9-14","noteId":"69b140620000000005032c8e"},{"title":"情绪低落多久了？做 SCL-90测测是否正常？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031putou1mn4005pgcmhdlrmi9o9ph33g?imageView2/2/w/540/format/jpg/q/75","brand":"智测-兴趣培训","spend":"¥4,000-6,000","ctr":"16-18%","cpm":"¥10-20","noteId":"693a9e03000000001e0239d0"},{"title":"🤕总觉得“天要塌了”？测测你的焦虑值？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031pja9t2qk0005pgcmhdlrmi9kc8p4i0?imageView2/2/w/540/format/jpg/q/75","brand":"智测-兴趣培训","spend":"¥2,000-4,000","ctr":"16-18%","cpm":"¥10-20","noteId":"692eb9f8000000001b032885"},{"title":"扎心😭原来我不是独一无二，只是很普通","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031t9o3nor5e005o76nlbg904nc56o260?imageView2/2/w/540/format/jpg/q/75","brand":"趣测-兴趣培训","spend":"¥2,000-4,000","ctr":"16-18%","cpm":"¥10-20","noteId":"69a800df000000001b01cc06"},{"title":"有些婚可以离，有些婚千万不要离","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031s2v13os42005n59voa4k6ndpocc5j8?imageView2/2/w/540/format/jpg/q/75","brand":"高人汇-学历教育","spend":"¥0-2,000","ctr":"16-18%","cpm":"¥50-60","noteId":"6980480e000000002801f107"},{"title":"会不会离婚，从一开始就知道","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031u27iju2ha0g5p6u006g8gds9gs5u58?imageView2/2/w/540/format/jpg/q/75","brand":"星愿簿—兴趣培训","spend":"¥4,000-6,000","ctr":"10-12%","cpm":"¥80-90","noteId":"69c111510000000022028f67"}],"search":[{"title":"MBTI人格测试2026新版官网链接🔗","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31p54et4pia305oto2en9t5m2vq20s10?imageView2/2/w/540/format/jpg/q/75","brand":"趣测-兴趣培训","spend":"¥1-2万","ctr":"16-18%","cpm":"¥120-140","noteId":"6880b2af000000001c03157c"},{"title":"怎么知道自己有抑郁症/焦虑症？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031mqd3t414u005ncgh8m08dopvfp0a10?imageView2/2/w/540/format/jpg/q/75","brand":"智测-兴趣培训","spend":"¥8,000-10,000","ctr":"14-16%","cpm":"¥40-50","noteId":"68d3be09000000001003c2b2"},{"title":"怀疑自己有抑郁焦虑？不敢去线下检查？😭","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031mqbogh74u005ncgh8m08dop030n1mo?imageView2/2/w/540/format/jpg/q/75","brand":"智测-兴趣培训","spend":"¥4,000-6,000","ctr":"14-16%","cpm":"¥30-40","noteId":"68d3a77f00000000120337dd"},{"title":"：👉2026新版MBTI人格测试入口","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31mtbvp48mmk05o76nlbg904nj1n8oj8?imageView2/2/w/540/format/jpg/q/75","brand":"趣测-兴趣培训","spend":"¥2,000-4,000","ctr":"18-20%","cpm":"¥40-50","noteId":"689dabec000000001c005c20"},{"title":"痛苦到什么程度需要去线下看呢？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031phkp2h0i80000000000003rj2914f0?imageView2/2/w/540/format/jpg/q/75","brand":"智测-兴趣培训","spend":"¥6,000-8,000","ctr":"12-14%","cpm":"¥40-50","noteId":"692e41c0000000000d038410"},{"title":"跟王蕊练经络瑜伽：50肩不沉，60腿脚灵👏","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031sfris6slc005pqvqijl6chfm1gqdko?imageView2/2/w/540/format/jpg/q/75","brand":"简知-瑜伽-素质教育","spend":"¥6,000-8,000","ctr":"12-14%","cpm":"¥140-160","noteId":"698d7beb000000000a029ce7"}]},"商销":{"all":[{"title":"慢驴效应 看完你就懂教育了","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31ub13bfkis105q3b5t26sfmfek3qavo?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥1-2万","ctr":"12-14%","cpm":"¥140-160","noteId":"69ca1374000000001a036f8b"},{"title":"👍学会这样和孩子说话，关系会越来越好","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031uuk54lphu005p8e7cklnclgkkpcatg?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥2-3万","ctr":"9-10%","cpm":"¥100-120","noteId":"69de2462000000002202b850"},{"title":"👍分离教育做的好，孩子成功率高","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31ubd8imi1s105p8e7cklnclgs15nb70?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥4,000-6,000","ctr":"12-14%","cpm":"¥100-120","noteId":"69ca770f000000001f006319"},{"title":"😆妈妈这样做 孩子主动听话！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31u7dcv4n1m005p8e7cklnclgrjbde5g?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥1-2万","ctr":"9-10%","cpm":"¥140-160","noteId":"69c65f9d000000001a034193"},{"title":"原本乖巧懂事的大宝变得厌学😞原因在家长","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31v2aalhi3u105pjlikchojf4o7u4qh8?imageView2/2/w/540/format/jpg/q/75","brand":"观心-青少年教育-兴趣培训","spend":"¥2,000-4,000","ctr":"16-18%","cpm":"¥70-80","noteId":"69e1ec41000000002102cb5f"},{"title":"内驱力+习惯养成计划表，拯救废掉的孩子！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031ubh9jivj41g00000000003rpi4q8r8?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥2,000-4,000","ctr":"12-14%","cpm":"¥80-90","noteId":"69cb4e9f00000000210120fa"}],"feed":[{"title":"慢驴效应 看完你就懂教育了","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31ub13bfkis105q3b5t26sfmfek3qavo?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥1-2万","ctr":"12-14%","cpm":"¥140-160","noteId":"69ca1374000000001a036f8b"},{"title":"👍学会这样和孩子说话，关系会越来越好","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031uuk54lphu005p8e7cklnclgkkpcatg?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥2-3万","ctr":"9-10%","cpm":"¥100-120","noteId":"69de2462000000002202b850"},{"title":"👍分离教育做的好，孩子成功率高","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31ubd8imi1s105p8e7cklnclgs15nb70?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥4,000-6,000","ctr":"12-14%","cpm":"¥100-120","noteId":"69ca770f000000001f006319"},{"title":"😆妈妈这样做 孩子主动听话！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31u7dcv4n1m005p8e7cklnclgrjbde5g?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥1-2万","ctr":"9-10%","cpm":"¥140-160","noteId":"69c65f9d000000001a034193"},{"title":"原本乖巧懂事的大宝变得厌学😞原因在家长","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31v2aalhi3u105pjlikchojf4o7u4qh8?imageView2/2/w/540/format/jpg/q/75","brand":"观心-青少年教育-兴趣培训","spend":"¥2,000-4,000","ctr":"16-18%","cpm":"¥70-80","noteId":"69e1ec41000000002102cb5f"},{"title":"😆妈妈这样做 孩子主动听话！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31u7dcv4n1m005p8e7cklnclgrjbde5g?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥4,000-6,000","ctr":"9-10%","cpm":"¥120-140","noteId":"69c65f9d000000001a034193"}],"search":[{"title":"内驱力+习惯养成计划表，拯救废掉的孩子！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031ubh9jivj41g00000000003rpi4q8r8?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥2,000-4,000","ctr":"12-14%","cpm":"¥80-90","noteId":"69cb4e9f00000000210120fa"},{"title":"孩子玩手机日夜颠倒，家长一定要及时管！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031prum7o33u005o29kmq08k8tm08qio0?imageView2/2/w/540/format/jpg/q/75","brand":"观心-青少年教育-兴趣培训","spend":"¥2,000-4,000","ctr":"9-10%","cpm":"¥160-180","noteId":"6895acfb000000002302207c"},{"title":"手机问题上，不要和孩子协商！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031u4vo9iviu005p4s3jepeib8t1q25j8?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥2,000-4,000","ctr":"10-12%","cpm":"¥100-120","noteId":"69c3e384000000001b022eaf"},{"title":"初中被废掉的孩子父母都做了什么，关注课程","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031ns3e9fol2005o29kmq08k8tg6ohj50?imageView2/2/w/540/format/jpg/q/75","brand":"观心-青少年教育-兴趣培训","spend":"¥2,000-4,000","ctr":"9-10%","cpm":"¥140-160","noteId":"68f62ee4000000000700e5f5"},{"title":"克服怯场丨讲话紧张尴尬手抖的朋友请进","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k0316sn272tgq00495s3rubdkqp0tnv79g?imageView2/2/w/540/format/jpg/q/75","brand":"超辩-兴趣培训","spend":"¥2,000-4,000","ctr":"8-9%","cpm":"¥70-80","noteId":"66c9c522000000001d01ae2a"},{"title":"提升表达力的秘诀，看完你就逻辑不混乱了","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31pnc6rse3q10495s3rubdkqpnmuhsjo?imageView2/2/w/540/format/jpg/q/75","brand":"超辩-兴趣培训","spend":"¥2,000-4,000","ctr":"9-10%","cpm":"¥120-140","noteId":"6932e14e000000001e0202b9"}]},"直播":{"all":[{"title":"为什么过度的“爱”，容易养出一个熊孩子？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31iti8skm0o105or8hfa7qrs5b2jfth8?imageView2/2/w/540/format/jpg/q/75","brand":"看见文化-兴趣培训","spend":"¥8,000-10,000","ctr":"8-9%","cpm":"¥120-140","noteId":"6853d87000000000120213da"},{"title":"找对老师、找对音色，来喜播学习录书🍚","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tu8qpqpgs005pqp8n57dhrhth4kir8?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥6,000-8,000","ctr":"5-6%","cpm":"¥140-160","noteId":"69bd02d7000000001a02d3e7"},{"title":"下班时间别荒废🔥用声音给自己多一份底气","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031topg1m4mi005q3u3otjdmfov27enkg?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥1-2万","ctr":"4-5%","cpm":"¥90-100","noteId":"69b7668a0000000023027936"},{"title":"下班时间别荒废🔥用声音给自己多一份底气","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031topg1m4mi005q3u3otjdmfov27enkg?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥4,000-6,000","ctr":"7-8%","cpm":"¥90-100","noteId":"69b7668a0000000023027936"},{"title":"45岁生二胎 却毁了老大的童年？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31l46bpvd36105or8hfa7qrs53se89e8?imageView2/2/w/540/format/jpg/q/75","brand":"看见文化-兴趣培训","spend":"¥2,000-4,000","ctr":"10-12%","cpm":"¥120-140","noteId":"689c2a40000000001d0277ca"},{"title":"自从在喜播学配音后，快要实现自由了","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31s5ic5hb5a105pqp8n57dhrh115tcr0?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥6,000-8,000","ctr":"5-6%","cpm":"¥60-70","noteId":"6982f302000000000b00a26b"}],"feed":[{"title":"为什么过度的“爱”，容易养出一个熊孩子？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31iti8skm0o105or8hfa7qrs5b2jfth8?imageView2/2/w/540/format/jpg/q/75","brand":"看见文化-兴趣培训","spend":"¥8,000-10,000","ctr":"8-9%","cpm":"¥120-140","noteId":"6853d87000000000120213da"},{"title":"下班时间别荒废🔥用声音给自己多一份底气","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031topg1m4mi005q3u3otjdmfov27enkg?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥1-2万","ctr":"4-5%","cpm":"¥90-100","noteId":"69b7668a0000000023027936"},{"title":"45岁生二胎 却毁了老大的童年？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31l46bpvd36105or8hfa7qrs53se89e8?imageView2/2/w/540/format/jpg/q/75","brand":"看见文化-兴趣培训","spend":"¥2,000-4,000","ctr":"10-12%","cpm":"¥120-140","noteId":"689c2a40000000001d0277ca"},{"title":"自从在喜播学配音后，快要实现自由了","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31s5ic5hb5a105pqp8n57dhrh115tcr0?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥6,000-8,000","ctr":"5-6%","cpm":"¥60-70","noteId":"6982f302000000000b00a26b"},{"title":"孩子总爱发脾气？“讲道理”是最没用的！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031ki3fe7h48005or8hfa7qrs5smvcero?imageView2/2/w/540/format/jpg/q/75","brand":"看见文化-兴趣培训","spend":"¥2,000-4,000","ctr":"5-6%","cpm":"¥100-120","noteId":"6889a3c9000000000403e58f"},{"title":"孩子很容易发脾气？“说教”往往最没用！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031senhmpn5c005or8hfa7qrs5003qgr0?imageView2/2/w/540/format/jpg/q/75","brand":"看见文化-兴趣培训","spend":"¥0-2,000","ctr":"7-8%","cpm":"¥100-120","noteId":"698c553b000000002801e56b"}],"search":[{"title":"下班时间别荒废🔥用声音给自己多一份底气","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031topg1m4mi005q3u3otjdmfov27enkg?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥4,000-6,000","ctr":"7-8%","cpm":"¥90-100","noteId":"69b7668a0000000023027936"},{"title":"找对老师、找对音色，来喜播学习录书🍚","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tu8qpqpgs005pqp8n57dhrhth4kir8?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥6,000-8,000","ctr":"5-6%","cpm":"¥140-160","noteId":"69bd02d7000000001a02d3e7"},{"title":"每天2h空闲，来学习录书小技能好适合~","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31tub4n7bh8105pq5d9k7dmvliursfv8?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥2,000-4,000","ctr":"5-6%","cpm":"¥140-160","noteId":"69bd166e000000002200f8fa"},{"title":"孩子总爱发脾气？“讲道理”是最没用的！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031ki3fe7h48005or8hfa7qrs5smvcero?imageView2/2/w/540/format/jpg/q/75","brand":"看见文化-兴趣培训","spend":"¥600-800","ctr":"9-10%","cpm":"¥120-140","noteId":"6889a3c9000000000403e58f"},{"title":"挑战宅家2h自给自足！来学习喜播配音课吧","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31tk1s7s5mk105pq5d9k7dmvlv2itlk0?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥6,000-8,000","ctr":"3-4%","cpm":"¥180-200","noteId":"69b28c800000000022020db1"},{"title":"宅家2h也充实自己！来喜播学习录书吧","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031u732shm34005pq5d9k7dmvld1q1oq0?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥600-800","ctr":"6-7%","cpm":"¥120-140","noteId":"69c60b2700000000230071ff"}]}},"edu":{"私信":{"all":[{"title":"🔥带薪985，非全考研选新东方在职研","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031eu4jebg6q005pcc3ro8i630u4sqft0?imageView2/2/w/540/format/jpg/q/75","brand":"新东方-在线大学-学历教育","spend":"¥1-2万","ctr":"12-14%","cpm":"¥560-580","noteId":"67d15b29000000002803cd71"},{"title":"如果给你个双证硕士，3W+你会接受吗？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31mfsoihbkq105olv02jmsuncest2qe0?imageView2/2/w/540/format/jpg/q/75","brand":"学历1-学历教育1","spend":"¥8,000-10,000","ctr":"12-14%","cpm":"¥260-280","noteId":"68c8ea0a000000001300b493"},{"title":"27考研，自学还是报班❓别傻乎乎就去考研","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031nqif5edl2005oclo2p41usm89jmn50?imageView2/2/w/540/format/jpg/q/75","brand":"新东方-在线大学-学历教育","spend":"¥2-3万","ctr":"8-9%","cpm":"¥420-440","noteId":"669f6fd8000000002701b5dc"},{"title":"突然发现我的备考思路好清晰","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031tg18f0156104a5bomstdiaujidm03o?imageView2/2/w/540/format/jpg/q/75","brand":"研途教育-学历教育","spend":"¥8,000-10,000","ctr":"10-12%","cpm":"¥80-90","noteId":"69ae6846000000002202e9a1"},{"title":"广东小自考一览表✅1.5年毕业拿证❗","cover":"http://sns-img-qn.xhscdn.com/1040g008319rnctummo3g5n5tjl0lpk8e5lis5q8?imageView2/2/w/540/format/jpg/q/75","brand":"大牛教育-学历教育","spend":"¥8,000-10,000","ctr":"12-14%","cpm":"¥660-680","noteId":"672b0b8f000000001b0116f3"},{"title":"这个一年申请制硕士来啦‼️不出国就能拿下","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031mousbjg6g005om5bsn3hgkj72gr1u0?imageView2/2/w/540/format/jpg/q/75","brand":"高顿-在职研究生-职业教育","spend":"¥1-2万","ctr":"9-10%","cpm":"¥700-720","noteId":"68d232670000000013017609"}],"feed":[{"title":"只要考一个证，一只脚就踏进了名校！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031uff9nu034005phapjmhok70basnlng?imageView2/2/w/540/format/jpg/q/75","brand":"李根老师名校规划咨询-学历教育","spend":"¥1-2万","ctr":"6-7%","cpm":"¥280-300","noteId":"69cea03d0000000023025b2a"},{"title":"考研择校，这5类学校看见就跑！","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31tubpn9m78705nddekf0836jd3oit80?imageView2/2/w/540/format/jpg/q/75","brand":"研途教育-学历教育","spend":"¥4,000-6,000","ctr":"12-14%","cpm":"¥100-120","noteId":"69bd1d59000000001a02aa5e"},{"title":"初中考个证，基本就踏进了名校！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031upikfj0jm005phapjmhok70gveuq80?imageView2/2/w/540/format/jpg/q/75","brand":"李根老师名校规划咨询-学历教育","spend":"¥8,000-10,000","ctr":"6-7%","cpm":"¥240-260","noteId":"69d8f90100000000220288f9"},{"title":"大专的信息差😭让我感受到致命的存在！！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31uvrk8ajjm105oc9rrgk13r2b1jo2n0?imageView2/2/w/540/format/jpg/q/75","brand":"尚岸研究生-学历教育","spend":"¥4,000-6,000","ctr":"10-12%","cpm":"¥50-60","noteId":"684ce3e700000000220278bd"},{"title":"捡漏医硕从夯到拉🔥医护读研真不用辞职！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31uc4nti21s104a6c4js40gh2h4u3fpo?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣培训1-兴趣培训","spend":"¥1-2万","ctr":"5-6%","cpm":"¥40-50","noteId":"69cb3c0f0000000021038a62"},{"title":"27考研到底要不要报班！过来人给推荐下","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tjnmnf16o005pik0hn0u4jupvpf8eg?imageView2/2/w/540/format/jpg/q/75","brand":"网易有道-考研-素质教育","spend":"¥8,000-10,000","ctr":"5-6%","cpm":"¥160-180","noteId":"696f3670000000002202d2cc"}],"search":[{"title":"🔥带薪985，非全考研选新东方在职研","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031eu4jebg6q005pcc3ro8i630u4sqft0?imageView2/2/w/540/format/jpg/q/75","brand":"新东方-在线大学-学历教育","spend":"¥1-2万","ctr":"12-14%","cpm":"¥560-580","noteId":"67d15b29000000002803cd71"},{"title":"如果给你个双证硕士，3W+你会接受吗？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31mfsoihbkq105olv02jmsuncest2qe0?imageView2/2/w/540/format/jpg/q/75","brand":"学历1-学历教育1","spend":"¥8,000-10,000","ctr":"12-14%","cpm":"¥260-280","noteId":"68c8ea0a000000001300b493"},{"title":"广东省非全日制研究生院校大揭秘！🎓","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031dsqsoh0g8005pcc3ro8i6307cd58ng?imageView2/2/w/540/format/jpg/q/75","brand":"新东方-在线大学-学历教育","spend":"¥4,000-6,000","ctr":"18-20%","cpm":"¥440-460","noteId":"67af40f5000000002803761f"},{"title":"突然发现我的备考思路好清晰","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031tg18f0156104a5bomstdiaujidm03o?imageView2/2/w/540/format/jpg/q/75","brand":"研途教育-学历教育","spend":"¥8,000-10,000","ctr":"10-12%","cpm":"¥80-90","noteId":"69ae6846000000002202e9a1"},{"title":"广东小自考一览表✅1.5年毕业拿证❗","cover":"http://sns-img-qn.xhscdn.com/1040g008319rnctummo3g5n5tjl0lpk8e5lis5q8?imageView2/2/w/540/format/jpg/q/75","brand":"大牛教育-学历教育","spend":"¥8,000-10,000","ctr":"12-14%","cpm":"¥660-680","noteId":"672b0b8f000000001b0116f3"},{"title":"福建师范大学自考本科，毕业快，学信网可查","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031v0nhe97ju005o6d9u908hep1ks3760?imageView2/2/w/540/format/jpg/q/75","brand":"哈德-学历教育","spend":"¥6,000-8,000","ctr":"14-16%","cpm":"¥760-780","noteId":"67e21ceb000000001d0204d9"}]},"表单":{"all":[{"title":"nan","cover":"nan","brand":"哈德-学历教育","spend":"¥2-3万","ctr":"8-9%","cpm":"¥180-200","noteId":"nan"},{"title":"复旦-港大IMBA项目 在职MBA全球第一","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031pqqr80ujq005onklct7qh0lpbo4bl0?imageView2/2/w/540/format/jpg/q/75","brand":"复旦大学-学历教育","spend":"¥4,000-6,000","ctr":"8-9%","cpm":"¥660-680","noteId":"69366b91000000001b031a8d"},{"title":"北大UCL MBA就读体验具像化","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31umq7m14isg05oq26s065h7436cogu8?imageView2/2/w/540/format/jpg/q/75","brand":"学校-学历教育","spend":"¥8,000-10,000","ctr":"3-4%","cpm":"¥70-80","noteId":"69d77062000000002200c685"},{"title":"为什么选择天一❓让我告诉你以下N个理由❗","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31t4e06nel8k05oavkhjnv3rlklse9h8?imageView2/2/w/540/format/jpg/q/75","brand":"库课-学历教育","spend":"¥2,000-4,000","ctr":"5-6%","cpm":"¥320-340","noteId":"67c166470000000029033abd"},{"title":"🎈上海惠灵顿幼儿部开放日｜4月邀您探校","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tr99d5lmo005pnbi1vnedu7sc4ohlo?imageView2/2/w/540/format/jpg/q/75","brand":"惠灵顿学校-学历教育","spend":"¥4,000-6,000","ctr":"3-4%","cpm":"¥500-520","noteId":"69830bd8000000000903a9f7"},{"title":"来领课了📣27全国专升本课程大礼包","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31uuh2h3bj4205ns5b74g95vohss71e8?imageView2/2/w/540/format/jpg/q/75","brand":"库课-学历教育","spend":"¥2,000-4,000","ctr":"4-5%","cpm":"¥100-120","noteId":"69de0b6e000000002301d306"}],"feed":[{"title":"北大UCL MBA就读体验具像化","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31umq7m14isg05oq26s065h7436cogu8?imageView2/2/w/540/format/jpg/q/75","brand":"学校-学历教育","spend":"¥8,000-10,000","ctr":"3-4%","cpm":"¥70-80","noteId":"69d77062000000002200c685"},{"title":"来领课了📣27全国专升本课程大礼包","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31uuh2h3bj4205ns5b74g95vohss71e8?imageView2/2/w/540/format/jpg/q/75","brand":"库课-学历教育","spend":"¥2,000-4,000","ctr":"2-3%","cpm":"¥50-60","noteId":"69de0b6e000000002301d306"},{"title":"30岁+的职场分水岭，你选对赛道了吗？🤔","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31umq7m14ise05oq26s065h74emqqfa0?imageView2/2/w/540/format/jpg/q/75","brand":"学校-学历教育","spend":"¥0-2,000","ctr":"4-5%","cpm":"¥100-120","noteId":"69d624d4000000001d01ea41"},{"title":"北大× UCL，不出国不卷联考读名校","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31umq7m14isgg5oq26s065h74eir4qqo?imageView2/2/w/540/format/jpg/q/75","brand":"学校-学历教育","spend":"¥2,000-4,000","ctr":"2-3%","cpm":"¥80-90","noteId":"69cbc1040000000023024182"},{"title":"复旦在职金融MBA招生启动会重磅来袭🔥","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31umfnt8ej4505oslgtupi02tamege0o?imageView2/2/w/540/format/jpg/q/75","brand":"复旦大学-学历教育","spend":"¥4,000-6,000","ctr":"2-3%","cpm":"¥50-60","noteId":"69d5f55f000000001f006100"},{"title":"科创时代如何让事业二次爆发？交大给你答案","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031uf1h3efj6005pdttc23krtckf794t8?imageView2/2/w/540/format/jpg/q/75","brand":"交大-学历教育","spend":"¥0-2,000","ctr":"3-4%","cpm":"¥160-180","noteId":"69ce317d000000001a0275a7"}],"search":[{"title":"nan","cover":"nan","brand":"哈德-学历教育","spend":"¥2-3万","ctr":"8-9%","cpm":"¥180-200","noteId":"nan"},{"title":"复旦-港大IMBA项目 在职MBA全球第一","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031pqqr80ujq005onklct7qh0lpbo4bl0?imageView2/2/w/540/format/jpg/q/75","brand":"复旦大学-学历教育","spend":"¥4,000-6,000","ctr":"8-9%","cpm":"¥660-680","noteId":"69366b91000000001b031a8d"},{"title":"为什么选择天一❓让我告诉你以下N个理由❗","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31t4e06nel8k05oavkhjnv3rlklse9h8?imageView2/2/w/540/format/jpg/q/75","brand":"库课-学历教育","spend":"¥2,000-4,000","ctr":"5-6%","cpm":"¥320-340","noteId":"67c166470000000029033abd"},{"title":"🎈上海惠灵顿幼儿部开放日｜4月邀您探校","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tr99d5lmo005pnbi1vnedu7sc4ohlo?imageView2/2/w/540/format/jpg/q/75","brand":"惠灵顿学校-学历教育","spend":"¥4,000-6,000","ctr":"3-4%","cpm":"¥500-520","noteId":"69830bd8000000000903a9f7"},{"title":"nan","cover":"nan","brand":"志远教育-学历教育","spend":"¥0-2,000","ctr":"7-8%","cpm":"¥120-140","noteId":"nan"},{"title":"来领课了📣27全国专升本课程大礼包","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31uuh2h3bj4205ns5b74g95vohss71e8?imageView2/2/w/540/format/jpg/q/75","brand":"库课-学历教育","spend":"¥2,000-4,000","ctr":"4-5%","cpm":"¥100-120","noteId":"69de0b6e000000002301d306"}]},"商销":{"all":[{"title":"听说你也开始27考研数学的准备工作了？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031ng7j7nml2105nj8jsn09e5in4ge1ao?imageView2/2/w/540/format/jpg/q/75","brand":"一笑而过吧-学历教育","spend":"¥600-800","ctr":"18-20%","cpm":"¥20-30","noteId":"68ea081e000000000300dc40"},{"title":"聊一个考研现在的“怪象”。","cover":"http://sns-img-qn.xhscdn.com/1040g00831th4otdv6e00497ohsq76mp32e9hml0?imageView2/2/w/540/format/jpg/q/75","brand":"一笑而过吧-学历教育","spend":"¥0-2,000","ctr":"10-12%","cpm":"¥160-180","noteId":"69af92ad0000000026031052"},{"title":"27考研政治如何准备？腿姐给你规划","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k831ub18u6dhm805nhnipq08a3bmetq0i0?imageView2/2/w/540/format/jpg/q/75","brand":"一笑而过吧-学历教育","spend":"¥800-1000","ctr":"10-12%","cpm":"¥120-140","noteId":"69ca275f0000000023012313"},{"title":"考研数学最简单125+方法，普通人版","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031im182gihg6g5o0cu2s0blr4p7eri70?imageView2/2/w/540/format/jpg/q/75","brand":"郭师题型模板考研教育-学历教育","spend":"¥200-400","ctr":"14-16%","cpm":"¥10-20","noteId":"684c20d60000000020028629"},{"title":"干货推荐！！Coursera必拿8大证书♞","cover":"http://sns-img-qn.xhscdn.com/1040g2sg312aq4m8r5i605of9ik2k0nf0hdoaol8?imageView2/2/w/540/format/jpg/q/75","brand":"Study Station-知识付费","spend":"¥400-600","ctr":"8-9%","cpm":"¥80-90","noteId":"644690f1000000002702b642"},{"title":"董宇辉说：当孩子不努力学习时，给他看慢驴","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31jn6h8q4jq3g5nm8prvgbv871runjlo?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣培训1-兴趣培训","spend":"¥200-400","ctr":"10-12%","cpm":"¥20-30","noteId":"686e175600000000130101e4"}],"feed":[{"title":"听说你也开始27考研数学的准备工作了？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031ng7j7nml2105nj8jsn09e5in4ge1ao?imageView2/2/w/540/format/jpg/q/75","brand":"一笑而过吧-学历教育","spend":"¥600-800","ctr":"18-20%","cpm":"¥20-30","noteId":"68ea081e000000000300dc40"},{"title":"干货推荐！！Coursera必拿8大证书♞","cover":"http://sns-img-qn.xhscdn.com/1040g2sg312aq4m8r5i605of9ik2k0nf0hdoaol8?imageView2/2/w/540/format/jpg/q/75","brand":"Study Station-知识付费","spend":"¥400-600","ctr":"8-9%","cpm":"¥80-90","noteId":"644690f1000000002702b642"},{"title":"考研数学最简单125+方法，普通人版","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031im182gihg6g5o0cu2s0blr4p7eri70?imageView2/2/w/540/format/jpg/q/75","brand":"郭师题型模板考研教育-学历教育","spend":"¥200-400","ctr":"14-16%","cpm":"¥10-20","noteId":"684c20d60000000020028629"},{"title":"董宇辉说：当孩子不努力学习时，给他看慢驴","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31jn6h8q4jq3g5nm8prvgbv871runjlo?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣培训1-兴趣培训","spend":"¥200-400","ctr":"10-12%","cpm":"¥20-30","noteId":"686e175600000000130101e4"},{"title":"关于考研数学/396数学资料发货的重要通知~","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031sbv87jv58005nj8jsn09e5iv3k86og?imageView2/2/w/540/format/jpg/q/75","brand":"一笑而过吧-学历教育","spend":"¥200-400","ctr":"8-9%","cpm":"¥50-60","noteId":"698982310000000015039fa4"},{"title":"刷到=考研数学稳了！高效提分天花板","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31siosgpdla105p9kvp1grtd1vqpacs0?imageView2/2/w/540/format/jpg/q/75","brand":"一笑而过吧-学历教育","spend":"¥0-200","ctr":"14-16%","cpm":"¥30-40","noteId":"6990782d0000000016009983"}],"search":[{"title":"聊一个考研现在的“怪象”。","cover":"http://sns-img-qn.xhscdn.com/1040g00831th4otdv6e00497ohsq76mp32e9hml0?imageView2/2/w/540/format/jpg/q/75","brand":"一笑而过吧-学历教育","spend":"¥0-2,000","ctr":"10-12%","cpm":"¥160-180","noteId":"69af92ad0000000026031052"},{"title":"27考研政治如何准备？腿姐给你规划","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k831ub18u6dhm805nhnipq08a3bmetq0i0?imageView2/2/w/540/format/jpg/q/75","brand":"一笑而过吧-学历教育","spend":"¥800-1000","ctr":"10-12%","cpm":"¥120-140","noteId":"69ca275f0000000023012313"},{"title":"你们都会考上研究生，我说的❤️","cover":"http://sns-img-qn.xhscdn.com/1040g00831uherkd22i004a6ove0n7a9gfvt6348?imageView2/2/w/540/format/jpg/q/75","brand":"一笑而过吧-学历教育","spend":"¥200-400","ctr":"5-6%","cpm":"¥20-30","noteId":"69d0a9e5000000001a0237cb"}]},"直播":{"all":[{"title":"我的语文是怎么开窍的？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031gudfe2mja005o17c7dg82dfbsqq29g?imageView2/2/w/540/format/jpg/q/75","brand":"即时优学-学历教育","spend":"¥2,000-4,000","ctr":"5-6%","cpm":"¥100-120","noteId":"68132d15000000000903b77d"},{"title":"2年制硕士在职读，免联考！","cover":"http://sns-img-qn.xhscdn.com/1040g00831qdvkpi7ga505oj0ucik11snbffa49g?imageView2/2/w/540/format/jpg/q/75","brand":"西安硕博管理-学历教育","spend":"¥200-400","ctr":"3-4%","cpm":"¥50-60","noteId":"69282141000000001f006ff4"}],"feed":[{"title":"我的语文是怎么开窍的？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031gudfe2mja005o17c7dg82dfbsqq29g?imageView2/2/w/540/format/jpg/q/75","brand":"即时优学-学历教育","spend":"¥2,000-4,000","ctr":"5-6%","cpm":"¥100-120","noteId":"68132d15000000000903b77d"},{"title":"2年制硕士在职读，免联考！","cover":"http://sns-img-qn.xhscdn.com/1040g00831qdvkpi7ga505oj0ucik11snbffa49g?imageView2/2/w/540/format/jpg/q/75","brand":"西安硕博管理-学历教育","spend":"¥200-400","ctr":"3-4%","cpm":"¥50-60","noteId":"69282141000000001f006ff4"}],"search":[]}}},"trackData":{"interest":{"中老年兴趣":{"spend":"¥150-200万","n":"60-70","lp":{"表单":51.8,"私信":46.0,"其他":1.8,"商销":0.4},"links":["表单","私信"],"benchmarks":{"表单":{"n":"30-35","ctr":["9-10%","8-9%","7-8%"],"cpm":["¥70-80","¥90-100","¥120-140"],"表单成本":["¥180-200","¥220-240","¥320-340"]},"私信":{"n":"35-40","ctr":["9-10%","8-9%","7-8%"],"cpm":["¥90-100","¥120-140","¥140-160"],"开口成本":["¥50-60","¥60-70","¥70-80"],"留资成本":["¥70-80","¥80-90","¥100-120"]}},"funnels":{"表单":[{"label":"曝光→点击","rate":"7-8%"},{"label":"点击→提交","rate":"0.7-1.0%"}],"私信":[{"label":"曝光→点击","rate":"8-9%"},{"label":"点击→开口","rate":"2-3%"},{"label":"开口→留资","rate":"74-76%"}]},"mats":[{"title":"50岁身材发福，背厚肚子大，5天就能改善！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031t4cof4dme005pbqp0to5n142t0pflg?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-变美-兴趣培训","spend":"¥6,000-8,000","ctr":"12-14%","noteId":"69a2855f000000001b01e45a"},{"title":"50岁怎么学钢琴，会了和弦后轻而易举❗","cover":"http://sns-img-qn.xhscdn.com/110/0/01e72c89bd1ae7d30010000000019305fa13cf_0.jpg?imageView2/2/w/540/format/jpg/q/75","brand":"红松-兴趣培训","spend":"¥4,000-6,000","ctr":"12-14%","noteId":"672c89d20000000019016f52"},{"title":"50岁+必学的手机摄影技巧，拍出来真的绝美","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031upg5lm0j4005o4bppk08ero0ctj9fg?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-兴趣-兴趣培训","spend":"¥1-2万","ctr":"10-12%","noteId":"69d8e4fd0000000020039672"},{"title":"身形发福别瞎练！每天100下，全身一起瘦！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031t3a1gqb5e005pgkl20iu7i8iiq73so?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-变美-兴趣培训","spend":"¥4,000-6,000","ctr":"10-12%","noteId":"69a166f60000000015032367"},{"title":"身形发福别瞎练！每天100下，全身一起瘦！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031t3a1gqb5e005pgkl20iu7i8iiq73so?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-变美-兴趣培训","spend":"¥2,000-4,000","ctr":"12-14%","noteId":"69a166f60000000015032367"},{"title":"名师跟练一遍，胜过瞎练千回——在峰太极","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031o4r4hfsl2005pfoub02po7e04ghf68?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣岛-养生-兴趣培训","spend":"¥1-2万","ctr":"10-12%","noteId":"68ff22d10000000004022934"}],"top_titles":["半个月开口说英语，中老年想出国别错过！","50岁+必学的手机摄影技巧，拍出来真的绝美","50岁身体动不动出问题，这套经络瑜伽来帮你","🌺逆龄秘籍！这瑜伽课让我重获少女状态","想出国旅游？0元英语急救课学完就能用🔥","被身体不适困扰的她，却靠瑜伽找回了状态…","名师跟练一遍，胜过瞎练千回——在峰太极","半夜醒3次？55+速看！古法养身让你睡整觉❗"]},"兴趣培训":{"spend":"¥8-9万","n":"7-9","lp":{"私信":87.5,"商销":10.3,"其他":2.2},"links":["私信","商销"],"benchmarks":{"私信":{"n":"5-7","ctr":["7-8%","5-6%","4-5%"],"cpm":["¥80-90","¥90-100","¥90-100"],"开口成本":["¥90-100","¥120-140","¥140-160"],"留资成本":["¥260-280","¥300-320","¥340-360"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"5-6%"},{"label":"点击→开口","rate":"1-2%"},{"label":"开口→留资","rate":"40-42%"}],"商销":[{"label":"曝光→点击","rate":"14-16%"},{"label":"点击→订单","rate":"2-3%"}]},"mats":[{"title":"打破幻想，回归本质，一场没有虚言的家长会","cover":"http://sns-img-qn.xhscdn.com/1040g00831p4tk4ca2c005pbt8ck6a5te5ukr938?imageView2/2/w/540/format/jpg/q/75","brand":"少年与梦-兴趣培训","spend":"¥800-1000","ctr":"20-22%","noteId":"691ffafb000000001e00e06c"},{"title":"天灵灵地灵灵小红书你最灵，让想考d照的看见","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31usvq0tg2g205oqkt5n63l49mp26kh8?imageView2/2/w/540/format/jpg/q/75","brand":"CZ长征易学车-兴趣培训","spend":"¥0-2,000","ctr":"10-12%","noteId":"69dc778f0000000021038b29"},{"title":"喜欢驾校女教练的来！","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k831u4bmkpl2o205oqkt5n63l49k453gvg?imageView2/2/w/540/format/jpg/q/75","brand":"CZ长征易学车-兴趣培训","spend":"¥4,000-6,000","ctr":"4-5%","noteId":"69c35dfe0000000022000f63"},{"title":"环境/环保行业+ESG🔥抓稳26年的新风口赛","cover":"http://sns-img-qn.xhscdn.com/1040g00831qcrvbdegm5g5p2tl6951mrb0iila5g?imageView2/2/w/540/format/jpg/q/75","brand":"上海品职教育-兴趣培训","spend":"¥0-2,000","ctr":"10-12%","noteId":"65e151ce0000000004003c7a"},{"title":"环境人，别卷了，冲一冲人工智能+ESG新赛道","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031rakr870he6g5p2tl6951mrbij44kk0?imageView2/2/w/540/format/jpg/q/75","brand":"上海品职教育-兴趣培训","spend":"¥0-2,000","ctr":"4-5%","noteId":"69676312000000000c03687e"},{"title":"成都适合女生快速拿证的宝藏驾校！！！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tarkio95e005oqkt5n63l49vu7vkm8?imageView2/2/w/540/format/jpg/q/75","brand":"CZ长征易学车-兴趣培训","spend":"¥0-2,000","ctr":"1-2%","noteId":"66ed1aa60000000026032d06"}],"top_titles":["喜欢驾校女教练的来！","成都适合女生快速拿证的宝藏驾校！！！","天灵灵地灵灵小红书你最灵，让想考d照的看见","环境人，别卷了，冲一冲人工智能+ESG新赛道","环境/环保行业+ESG🔥抓稳26年的新风口赛","女生学车🚗千万不能错过的驾校🎖","打破幻想，回归本质，一场没有虚言的家长会","给四川初高中生🎉推荐超棒的技能职校"]},"其他":{"spend":"¥10-20万","n":"15-20","lp":{"私信":83.5,"表单":13.3,"商销":2.6,"其他":0.6},"links":["私信","表单"],"benchmarks":{"私信":{"n":"10-15","ctr":["6-7%","4-5%","2-3%"],"cpm":["¥50-60","¥70-80","¥80-90"],"开口成本":["¥30-40","¥80-90","¥100-120"],"留资成本":["¥120-140","¥160-180","¥260-280"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"5-6%"},{"label":"点击→开口","rate":"2-3%"},{"label":"开口→留资","rate":"36-38%"}],"表单":[{"label":"曝光→点击","rate":"6-7%"},{"label":"点击→提交","rate":"1-2%"}]},"mats":[{"title":"宝子们！在深圳想深耕宝石领域💎","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31rq3g5ts244g5ntsr6i08v7aq5lfsi0?imageView2/2/w/540/format/jpg/q/75","brand":"吉尔德宝石-兴趣培训","spend":"¥0-2,000","ctr":"3-4%","noteId":"6977383f000000002103dcf5"},{"title":"彩色宝石，其实没有你想的那么“主观”","cover":"http://sns-img-qn.xhscdn.com/1040g00831v16i16l2i005ntsr6i08v7abfs4hcg?imageView2/2/w/540/format/jpg/q/75","brand":"吉尔德宝石-兴趣培训","spend":"¥800-1000","ctr":"16-18%","noteId":"69e0c8d1000000001b02068d"},{"title":"别浪费钢琴才华🎹来superprof自由赚米❗","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031rpkpc9k260045ivf43lepoa3srv5u8?imageView2/2/w/540/format/jpg/q/75","brand":"趣学呗-职业教育","spend":"¥800-1000","ctr":"5-6%","noteId":"6976beba0000000022039b97"},{"title":"这个暑期不摆烂🔥军事夏令营火热招募💯","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31upj2hti1u705ootgqe8so7lbeu9c70?imageView2/2/w/540/format/jpg/q/75","brand":"黄埔特训夏令营-兴趣培训","spend":"¥4,000-6,000","ctr":"1-2%","noteId":"69d8fd98000000002200c8ec"},{"title":"📢这个夏天丨给孩子一次勇敢蜕变的机会","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031uemh13g1u005ohlnhj41mesk6i11cg?imageView2/2/w/540/format/jpg/q/75","brand":"鹿途教育夏令营-兴趣培训","spend":"¥6,000-8,000","ctr":"1-2%","noteId":"69b7c47d0000000023017a7d"},{"title":"从爱好者到行家💚|GUILD翡翠鉴定评估课程","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31k955m6c34j05ntsr6i08v7ar7o7cpg?imageView2/2/w/540/format/jpg/q/75","brand":"吉尔德宝石-兴趣培训","spend":"¥0-2,000","ctr":"4-5%","noteId":"686b9086000000002203325c"}],"top_titles":["📢这个夏天丨给孩子一次勇敢蜕变的机会","这个暑期不摆烂🔥军事夏令营火热招募💯","合肥黄埔军事夏令营🔥挑战暑期蜕变计划","宝子们！在深圳想深耕宝石领域💎","你会离婚吗？其实是可以知道的","港澳家長速看💪讓孩子度過蛻變之旅","7-15 岁速冲！这个夏令营让娃主动变自律✅","从爱好者到行家💚|GUILD翡翠鉴定评估课程"]},"其他兴趣培训":{"spend":"¥150-200万","n":"70-80","lp":{"私信":51.2,"直播":35.2,"表单":6.5,"商销":5.8,"其他":1.4},"links":["私信","直播"],"benchmarks":{"私信":{"n":"50-60","ctr":["9-10%","6-7%","4-5%"],"cpm":["¥60-70","¥100-120","¥180-200"],"开口成本":["¥40-50","¥70-80","¥100-120"],"留资成本":["¥70-80","¥100-120","¥180-200"]},"直播":{"n":"3-5","ctr":["4-5%","3-4%","2-3%"],"cpm":["¥50-60","¥60-70","¥70-80"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"7-8%"},{"label":"点击→开口","rate":"2-3%"},{"label":"开口→留资","rate":"58-60%"}],"直播":[{"label":"曝光→点击","rate":"2-3%"}]},"mats":[{"title":"后悔没早点儿发现❗深圳团建来这里全程开心","cover":"http://sns-img-qn.xhscdn.com/1040g008317v0ppsu44105o1vikkg84iam1oaio8?imageView2/2/w/540/format/jpg/q/75","brand":"乐水策划-兴趣培训","spend":"¥6,000-8,000","ctr":"10-12%","noteId":"66ece1d2000000001e01857c"},{"title":"男女都要🔥不露脸用声音读故事简直绝了","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31sdcqdg1lc405q3u4pu6r6nb646qeag?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥4,000-6,000","ctr":"14-16%","noteId":"698af69f000000002801dc4f"},{"title":"零基础学化妆推荐，来这里性价比超高💄","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k831qe58gvl7o705n4l5m1lkkmmqpd4ls0?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣培训1-兴趣培训","spend":"¥2,000-4,000","ctr":"10-12%","noteId":"694a35dd000000001b02328c"},{"title":"需要女生线上读故事，奶茶自由不是梦~","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031rltqerpi21g5q3u4pu6r6nbmmgfjl8?imageView2/2/w/540/format/jpg/q/75","brand":"喜马拉雅-喜播配音-职业教育","spend":"¥4,000-6,000","ctr":"9-10%","noteId":"6972ee6b000000001a0271c2"},{"title":"上海夜校它来咯！！！","cover":"http://sns-img-qn.xhscdn.com/1040g00831th56pq15s5g5pjpjuc2ueggf3nv8p8?imageView2/2/w/540/format/jpg/q/75","brand":"留学-语培-语言及留学","spend":"¥2,000-4,000","ctr":"12-14%","noteId":"68b6adfd000000001c00d45e"},{"title":"零基础学化妆多少钱？真的不怕学不会！！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031nnvj92a4s1g5p9m3c0h16lv0b15v98?imageView2/2/w/540/format/jpg/q/75","brand":"东田造型-兴趣培训","spend":"¥2,000-4,000","ctr":"9-10%","noteId":"68f2064a0000000007008784"}],"top_titles":["大女人就是要get各种技能哇🍚","下班时间别荒废🔥用声音给自己多一份底气","每天2h空闲，来学录书小技能吧~","找对老师、找对音色，来喜播学习录书🍚","挑战宅家2h自给自足！来学习喜播配音课吧","天天996已辞职🤵做AI视频挑战自给自足~","宅家2h也充实自己！来喜播学习录书吧","奔向幸福日子❗空闲来玩录书💰啊！"]},"养生健康类":{"spend":"¥4-5万","n":"1-2","lp":{"私信":100.0},"links":["私信"],"benchmarks":{},"funnels":{"私信":[{"label":"曝光→点击","rate":"5-6%"},{"label":"点击→开口","rate":"2-3%"},{"label":"开口→留资","rate":"68-70%"}]},"mats":[{"title":"运动康复师证书报考指南","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31mvboj1hkq105pk3ekh0uasd90ln5jo?imageView2/2/w/540/format/jpg/q/75","brand":"福特钠斯运康培训基地-职业教育","spend":"¥2,000-4,000","ctr":"9-10%","noteId":"68d8ccfc000000000e0320da"},{"title":"产后康复师证书怎么考","cover":"http://sns-img-qn.xhscdn.com/1040g00831s46oohulk6g5pk3ekh0uasdt5qcmb0?imageView2/2/w/540/format/jpg/q/75","brand":"福特钠斯运康培训基地-职业教育","spend":"¥0-2,000","ctr":"8-9%","noteId":"68ea1503000000000303a441"},{"title":"产后康复师证书怎么考","cover":"http://sns-img-qn.xhscdn.com/1040g00831s46oohulk6g5pk3ekh0uasdt5qcmb0?imageView2/2/w/540/format/jpg/q/75","brand":"福特钠斯运康培训基地-职业教育","spend":"¥0-2,000","ctr":"8-9%","noteId":"68ea1503000000000303a441"},{"title":"【运动康复师】收入&就业前景💪","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31ngc3cvi50105pk3ekh0uasdo58lgfo?imageView2/2/w/540/format/jpg/q/75","brand":"福特钠斯运康培训基地-职业教育","spend":"¥800-1000","ctr":"10-12%","noteId":"68da4d530000000013015366"},{"title":"适配健身教练学的 | APCS体态矫正国际认证","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031mq9roi9l2005pk3ekh0uasdsddb8do?imageView2/2/w/540/format/jpg/q/75","brand":"福特钠斯运康培训基地-职业教育","spend":"¥0-2,000","ctr":"7-8%","noteId":"68d3928b000000001202dede"},{"title":"AOPT国际认证课程-运动康复必修课","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31563pf8f14d05pk3ekh0uasddnah7h0?imageView2/2/w/540/format/jpg/q/75","brand":"福特钠斯运康培训基地-职业教育","spend":"¥0-2,000","ctr":"2-3%","noteId":"6691e065000000000302756c"}],"top_titles":["运动康复师证书报考指南","产后康复师证书怎么考","AOPT国际认证课程-运动康复必修课","产后康复师证书怎么考","适配健身教练学的 | APCS体态矫正国际认证","从事运动康复学习系统课程很重要！","【运动康复师】收入&就业前景💪","康复师必修课程—AOPT国际运动康复认证课程"]},"兼职创业":{"spend":"¥1-2万","n":"1-2","lp":{"私信":100.0},"links":["私信"],"benchmarks":{},"funnels":{"私信":[{"label":"曝光→点击","rate":"10-12%"},{"label":"点击→开口","rate":"1-2%"},{"label":"开口→留资","rate":"84-86%"}]},"mats":[{"title":"利用空闲时间写小说‼️稿费💰拿到手软","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031s2vm7p93u0g5pa8p750hr50drq2ctg?imageView2/2/w/540/format/jpg/q/75","brand":"知学堂教育-兴趣培训","spend":"¥0-2,000","ctr":"12-14%","noteId":"6980502c000000000903be4a"},{"title":"利用空闲时间写小说‼️稿费💰拿到手软","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031s2vm7p93u0g5pa8p750hr50drq2ctg?imageView2/2/w/540/format/jpg/q/75","brand":"知学堂教育-兴趣培训","spend":"¥0-2,000","ctr":"8-9%","noteId":"6980502c000000000903be4a"},{"title":"就这样，从零写出能签约的故事💰","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031oioep974u005pa8p750hr50f4ot8m0?imageView2/2/w/540/format/jpg/q/75","brand":"知学堂教育-兴趣培训","spend":"¥800-1000","ctr":"12-14%","noteId":"690d63440000000004001fdd"}],"top_titles":["利用空闲时间写小说‼️稿费💰拿到手软","利用空闲时间写小说‼️稿费💰拿到手软","就这样，从零写出能签约的故事💰"]},"减肥健康":{"spend":"¥40-50万","n":"10-15","lp":{"私信":79.1,"直播":14.9,"商销":5.9,"表单":0.2},"links":["私信","直播"],"benchmarks":{"私信":{"n":"6-8","ctr":["7-8%","5-6%","5-6%"],"cpm":["¥80-90","¥90-100","¥100-120"],"开口成本":["¥90-100","¥90-100","¥100-120"],"留资成本":["¥140-160","¥140-160","¥200-220"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"6-7%"},{"label":"点击→开口","rate":"1-2%"},{"label":"开口→留资","rate":"58-60%"}],"直播":[{"label":"曝光→点击","rate":"4-5%"}]},"mats":[{"title":"大基数28天轻松瘦！1对1体重管理太香了","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031q3qj4kcg2005orto4lnrnjdva0e7j8?imageView2/2/w/540/format/jpg/q/75","brand":"万粒更逸-兴趣培训","spend":"¥2,000-4,000","ctr":"7-8%","noteId":"693fa0b0000000001f00bc95"},{"title":"敢不敢用30天瘦下来✅一对一减脂瘦20斤","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31kh0qigmig105of6d4i41ku553q5a5o?imageView2/2/w/540/format/jpg/q/75","brand":"乐享瘦-兴趣培训","spend":"¥0-2,000","ctr":"12-14%","noteId":"\t686230060000000013011467\t"},{"title":"营养师1v1指导，体验过性价比最高的减肥法","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31rjjfth4241045elmadlu697rikl5h0?imageView2/2/w/540/format/jpg/q/75","brand":"乐享瘦-兴趣培训","spend":"¥0-2,000","ctr":"12-14%","noteId":"69708e5c000000001a02f7ba"},{"title":"减脂总失败？1v1定制帮你逆袭","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31ub7e57lhm5g5ppqts0215oi7821i2g?imageView2/2/w/540/format/jpg/q/75","brand":"万粒更逸-兴趣培训","spend":"¥2,000-4,000","ctr":"6-7%","noteId":"69ca4784000000001a02400d"},{"title":"跟潘毅教授对面对学习的机会来啦！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031ug7lemg2s1g5p68l5nip22rvhm6a2g?imageView2/2/w/540/format/jpg/q/75","brand":"正安聚友会-兴趣培训","spend":"¥4,000-6,000","ctr":"6-7%","noteId":"69cf7401000000001d01dcb1"},{"title":"28天调理胰岛素，营养师带我实现了易瘦体质","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031rv8qfre3m0045elmadlu697oju8qno?imageView2/2/w/540/format/jpg/q/75","brand":"乐享瘦-兴趣培训","spend":"¥1-2万","ctr":"5-6%","noteId":"697c7fe1000000002103fce9"}],"top_titles":["28天调理胰岛素，营养师带我实现了易瘦体质","年度复盘✍️72变今年收益28.37%，很欣慰～","有10万块，如何理财？","我来做你的理财搭子⛽让我们一起攒500万","跟潘毅教授对面对学习的机会来啦！","你关心的问题💡伴投服务可以按年买吗？","减脂总失败？1v1定制帮你逆袭","28天挑战减重15斤，国家营养师1v1带你瘦"]},"口才情商":{"spend":"¥100-150万","n":"15-20","lp":{"商销":63.7,"私信":25.4,"直播":9.7,"其他":1.1,"表单":0.1},"links":["商销","私信"],"benchmarks":{"商销":{"n":"6-8","ctr":["5-6%","4-5%","4-5%"],"cpm":["¥40-50","¥80-90","¥120-140"],"cvr":["0.8-1.1%","0.7-1.0%","0.6-0.9%"]},"私信":{"n":"7-9","ctr":["5-6%","4-5%","3-4%"],"cpm":["¥140-160","¥160-180","¥200-220"],"开口成本":["¥100-120","¥140-160","¥160-180"],"留资成本":["¥220-240","¥240-260","¥260-280"]}},"funnels":{"商销":[{"label":"曝光→点击","rate":"4-5%"},{"label":"点击→订单","rate":"0.7-1.0%"}],"私信":[{"label":"曝光→点击","rate":"4-5%"},{"label":"点击→开口","rate":"3-4%"},{"label":"开口→留资","rate":"56-58%"}]},"mats":[{"title":"为什么过度的“爱”，容易养出一个熊孩子？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31iti8skm0o105or8hfa7qrs5b2jfth8?imageView2/2/w/540/format/jpg/q/75","brand":"看见文化-兴趣培训","spend":"¥8,000-10,000","ctr":"8-9%","noteId":"6853d87000000000120213da"},{"title":"说服的最高境界： 让对方自己说服自己","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tcg74ubl600495s3rubdkqprjcqrj8?imageView2/2/w/540/format/jpg/q/75","brand":"超辩-兴趣培训","spend":"¥2,000-4,000","ctr":"10-12%","noteId":"69aad314000000000e00c0e8"},{"title":"克服怯场丨讲话紧张尴尬手抖的朋友请进","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k0316sn272tgq00495s3rubdkqp0tnv79g?imageView2/2/w/540/format/jpg/q/75","brand":"超辩-兴趣培训","spend":"¥2,000-4,000","ctr":"8-9%","noteId":"66c9c522000000001d01ae2a"},{"title":"工作能力强的人，都很会开会发言...","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31qfn0sb00m105o9cosg093b1hgdja9o?imageView2/2/w/540/format/jpg/q/75","brand":"超辩-兴趣培训","spend":"¥2,000-4,000","ctr":"10-12%","noteId":"694bcd23000000001f00e67c"},{"title":"当妈妈开始爱自己，孩子80%问题都会消失！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031odt70m4kq005p8gs1e5n0kcmei4f2o?imageView2/2/w/540/format/jpg/q/75","brand":"看见文化-兴趣培训","spend":"¥2,000-4,000","ctr":"9-10%","noteId":"69086a9f0000000007016174"},{"title":"坚持练口才丨普通人逆袭进阶必备","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31lfsg07k52605p9f8emal6vv8ams5vo?imageView2/2/w/540/format/jpg/q/75","brand":"新励成-职业教育","spend":"¥2,000-4,000","ctr":"10-12%","noteId":"689437ae0000000025028c87"}],"top_titles":["你有理有据，为何别人听不进去？","孩子爱哭闹、脾气大，父母只需守住这一点！","孩子爱哭闹、脾气大，父母只需守住这一点！","为什么过度的“爱”，容易养出一个熊孩子？","普通女生逆袭：好口才，带来的人生转变✨","🌟内向不是缺陷！敢开口后我的人生开挂了","会接话、有气场的女生，到底有多厉害💯","一家靠谱的线下成人口才培训❗❗❗❗"]},"声乐舞蹈":{"spend":"¥1-2万","n":"1-2","lp":{"私信":100.0},"links":["私信"],"benchmarks":{},"funnels":{"私信":[{"label":"曝光→点击","rate":"10-12%"},{"label":"点击→开口","rate":"5-6%"},{"label":"开口→留资","rate":"42-44%"}]},"mats":[{"title":"45+练瑜伽，舒服安全能坚持才是硬道理💛","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031u63us062s105ph8pd572u9l6p4a6j8?imageView2/2/w/540/format/jpg/q/75","brand":"简知-瑜伽-素质教育","spend":"¥2,000-4,000","ctr":"10-12%","noteId":"69c50c120000000023022c43"},{"title":"45+练瑜伽，舒服安全能坚持才是硬道理💛","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031u63us062s105ph8pd572u9l6p4a6j8?imageView2/2/w/540/format/jpg/q/75","brand":"简知-瑜伽-素质教育","spend":"¥800-1000","ctr":"14-16%","noteId":"69c50c120000000023022c43"}],"top_titles":["45+练瑜伽，舒服安全能坚持才是硬道理💛","45+练瑜伽，舒服安全能坚持才是硬道理💛"]},"家庭教育":{"spend":"¥100-150万","n":"20-25","lp":{"商销":89.9,"私信":7.5,"表单":1.9,"直播":0.5,"其他":0.1},"links":["商销"],"benchmarks":{"商销":{"n":"10-15","ctr":["7-8%","5-6%","4-5%"],"cpm":["¥90-100","¥100-120","¥120-140"],"cvr":["0.8-1.1%","0.7-1.0%","0.5-0.8%"]}},"funnels":{"商销":[{"label":"曝光→点击","rate":"6-7%"},{"label":"点击→订单","rate":"0.6-0.9%"}]},"mats":[{"title":"慢驴效应 看完你就懂教育了","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31ub13bfkis105q3b5t26sfmfek3qavo?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥1-2万","ctr":"12-14%","noteId":"69ca1374000000001a036f8b"},{"title":"👍学会这样和孩子说话，关系会越来越好","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031uuk54lphu005p8e7cklnclgkkpcatg?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥2-3万","ctr":"9-10%","noteId":"69de2462000000002202b850"},{"title":"😆妈妈这样做 孩子主动听话！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31u7dcv4n1m005p8e7cklnclgrjbde5g?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥1-2万","ctr":"9-10%","noteId":"69c65f9d000000001a034193"},{"title":"👍分离教育做的好，孩子成功率高","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31ubd8imi1s105p8e7cklnclgs15nb70?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥4,000-6,000","ctr":"12-14%","noteId":"69ca770f000000001f006319"},{"title":"👪️妈妈对孩子的话，一定要反着说","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31uinhuhehu105p4s3jepeib8rbsc518?imageView2/2/w/540/format/jpg/q/75","brand":"黄导家庭教育-兴趣培训","spend":"¥8,000-10,000","ctr":"8-9%","noteId":"69d1f679000000001f002adc"},{"title":"原本乖巧懂事的大宝变得厌学😞原因在家长","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31v2aalhi3u105pjlikchojf4o7u4qh8?imageView2/2/w/540/format/jpg/q/75","brand":"观心-青少年教育-兴趣培训","spend":"¥2,000-4,000","ctr":"16-18%","noteId":"69e1ec41000000002102cb5f"}],"top_titles":["👍学会这样和孩子说话，关系会越来越好","孩子遇到问题就退缩，未来注定会躺平","😆妈妈这样做 孩子主动听话！","为什么有些女人岁数不小了依然很单纯","只有妈妈，能帮躺平孩子走出来","慢驴效应 看完你就懂教育了","反向宠爱才是拿捏孩子的绝技","孩子习惯性回避，不是态度问题"]},"形体舞蹈培训":{"spend":"¥60-70万","n":"15-20","lp":{"私信":86.4,"表单":13.4,"其他":0.2},"links":["私信","表单"],"benchmarks":{"私信":{"n":"10-15","ctr":["6-7%","5-6%","3-4%"],"cpm":["¥60-70","¥70-80","¥100-120"],"开口成本":["¥40-50","¥50-60","¥60-70"],"留资成本":["¥90-100","¥90-100","¥100-120"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"4-5%"},{"label":"点击→开口","rate":"3-4%"},{"label":"开口→留资","rate":"56-58%"}],"表单":[{"label":"曝光→点击","rate":"7-8%"},{"label":"点击→提交","rate":"0.4-0.7%"}]},"mats":[{"title":"跟王蕊练经络瑜伽：50肩不沉，60腿脚灵👏","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031sfris6slc005pqvqijl6chfm1gqdko?imageView2/2/w/540/format/jpg/q/75","brand":"简知-瑜伽-素质教育","spend":"¥6,000-8,000","ctr":"12-14%","noteId":"698d7beb000000000a029ce7"},{"title":"50岁练瑜伽10天：腰不痛颈肩爽气质绝","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31ip9i4lr0m105p3spcpjoig5hf7qmt0?imageView2/2/w/540/format/jpg/q/75","brand":"简知-瑜伽-素质教育","spend":"¥2,000-4,000","ctr":"10-12%","noteId":"684f778600000000120061b9"},{"title":"40+就练筋膜瑜伽，告别圆肩驼背、面部松垮","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31u6biqqq1s105pi370riu2n6olbku3g?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣培训1-兴趣培训","spend":"¥1-2万","ctr":"6-7%","noteId":"69c54c27000000001d01a68e"},{"title":"学生党学舞特惠丨30次畅跳卡 不限舞种次数","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31kojlh0q3q1g4avapu62nknhdqti098?imageView2/2/w/540/format/jpg/q/75","brand":"单色舞蹈培训-兴趣培训","spend":"¥2,000-4,000","ctr":"8-9%","noteId":"658fe1cd000000000f010e63"},{"title":"50岁体态优美真的惊艳到我了，原来是学了…","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031o9t144750005pi370riu2n6svg20o0?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣培训1-兴趣培训","spend":"¥2,000-4,000","ctr":"7-8%","noteId":"69044f45000000000700f4f7"},{"title":"退休妈妈看过来👀6天瑜伽让你容光焕发","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31sfsrmnula105pqvqijl6chfe1e8m78?imageView2/2/w/540/format/jpg/q/75","brand":"简知-瑜伽-素质教育","spend":"¥2,000-4,000","ctr":"8-9%","noteId":"698d8660000000000b00afdd"}],"top_titles":["40+就练筋膜瑜伽，告别圆肩驼背、面部松垮","45天瘦成辣妹➡️舞蹈减肥集中营 专治大基数","40+不想身材发福，面部老化，就练这套瑜伽","跟王蕊练经络瑜伽：50肩不沉，60腿脚灵👏","流行舞畅跳年卡丨不限时间次数 辣妹必备！","坐标郑州，下班想找点事儿做的姐妹看过来！","古典舞教练班 ✨45天爆改舞蹈教练","在北京 低预算跳舞❗40次新人卡太香啦"]},"心理测试":{"spend":"¥90-100万","n":"25-30","lp":{"表单":99.7,"其他":0.3,"私信":0.0},"links":["表单"],"benchmarks":{"表单":{"n":"20-25","ctr":["14-16%","12-14%","8-9%"],"cpm":["¥20-30","¥30-40","¥40-50"],"表单成本":["¥50-60","¥90-100","¥140-160"]}},"funnels":{"表单":[{"label":"曝光→点击","rate":"12-14%"},{"label":"点击→提交","rate":"0.3-0.6%"}]},"mats":[{"title":"身体总莫名不舒服？可能是情绪在求救","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tip50as6m005pep9njh3jt77tlh8i0?imageView2/2/w/540/format/jpg/q/75","brand":"智测-兴趣培训","spend":"¥4,000-6,000","ctr":"18-20%","noteId":"69b140620000000005032c8e"},{"title":"不测不知道😎原来自己这么罕见！","cover":"http://sns-img-qn.xhscdn.com/1040g00831mci78hgmg605o76nlbg904n8ui2cd0?imageView2/2/w/540/format/jpg/q/75","brand":"趣测-兴趣培训","spend":"¥0-2,000","ctr":"22-24%","noteId":"68a83a7c000000001d02e15e"},{"title":"：👉2026新版MBTI人格测试入口","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31mtbvp48mmk05o76nlbg904nj1n8oj8?imageView2/2/w/540/format/jpg/q/75","brand":"趣测-兴趣培训","spend":"¥2,000-4,000","ctr":"18-20%","noteId":"689dabec000000001c005c20"},{"title":"MBTI人格测试2026新版官网链接🔗","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31p54et4pia305oto2en9t5m2vq20s10?imageView2/2/w/540/format/jpg/q/75","brand":"趣测-兴趣培训","spend":"¥1-2万","ctr":"16-18%","noteId":"6880b2af000000001c03157c"},{"title":"情绪低落多久了？做 SCL-90测测是否正常？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031putou1mn4005pgcmhdlrmi9o9ph33g?imageView2/2/w/540/format/jpg/q/75","brand":"智测-兴趣培训","spend":"¥4,000-6,000","ctr":"16-18%","noteId":"693a9e03000000001e0239d0"},{"title":"扎心😭原来我不是独一无二，只是很普通","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031t9o3nor5e005o76nlbg904nc56o260?imageView2/2/w/540/format/jpg/q/75","brand":"趣测-兴趣培训","spend":"¥2,000-4,000","ctr":"16-18%","noteId":"69a800df000000001b01cc06"}],"top_titles":["感觉自己有抑郁/焦虑？不敢去线下看😭","要不要离婚，做个测试看看吧","MBTI人格测试2026新版官网链接🔗","怎么知道自己有抑郁症/焦虑症？","怀疑自己有抑郁焦虑？不敢去线下检查？😭","科学自查情绪｜抑郁程度自测","怎样才能知道自己的智商在不在正常水平🧐","离婚不是唯一出路！"]},"新媒体运营类":{"spend":"¥0-50","n":"1-2","lp":{"私信":100.0},"links":["私信"],"benchmarks":{},"funnels":{"私信":[{"label":"曝光→点击","rate":"4-5%"}]},"mats":[],"top_titles":[]},"暂无三级赛道":{"spend":"¥20-30万","n":"60-70","lp":{"私信":99.1,"其他":0.7,"表单":0.2,"商销":0.0},"links":["私信"],"benchmarks":{"私信":{"n":"50-60","ctr":["10-12%","6-7%","4-5%"],"cpm":["¥70-80","¥100-120","¥120-140"],"开口成本":["¥40-50","¥60-70","¥120-140"],"留资成本":["¥60-70","¥140-160","¥260-280"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"8-9%"},{"label":"点击→开口","rate":"2-3%"},{"label":"开口→留资","rate":"48-50%"}]},"mats":[{"title":"学员就是给力！","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k831tivpfvg7e005o48kpp09e3r78frnag?imageView2/2/w/540/format/jpg/q/75","brand":"长征学车帮教育-兴趣培训","spend":"¥4,000-6,000","ctr":"14-16%","noteId":"69b1754a0000000015039fd2"},{"title":"26重庆省考进面名单已出！最高158.5进面","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031v0lgv47hu005obi5bqgkv9jvvnmei0?imageView2/2/w/540/format/jpg/q/75","brand":"华图-兴趣培训","spend":"¥0-2,000","ctr":"24-26%","noteId":"69e03bb3000000002103892d"},{"title":"📍上海学车地图！2026考驾照看这里～","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k831srbt4cl58005ogs75roclgvrino6m0?imageView2/2/w/540/format/jpg/q/75","brand":"上海光明驾校-兴趣培训","spend":"¥2,000-4,000","ctr":"12-14%","noteId":"69994be3000000000a029fd2"},{"title":"速查！26年重庆省考进面名单已公布！","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031v0ladas2q105obi5bqgkv9jvjtv3k8?imageView2/2/w/540/format/jpg/q/75","brand":"华图-兴趣培训","spend":"¥800-1000","ctr":"20-22%","noteId":"69e03a0d000000001a0206a9"},{"title":"26年设计班来了❗️课程再升级！你想学的都有","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031rq2j4oq2a605net10f08u5k6nrfnrg?imageView2/2/w/540/format/jpg/q/75","brand":"艺数绘-兴趣培训","spend":"¥0-2,000","ctr":"7-8%","noteId":"6977302300000000220086d0"},{"title":"26年设计班来了❗️课程再升级！你想学的都有","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031rq2j4oq2a605net10f08u5k6nrfnrg?imageView2/2/w/540/format/jpg/q/75","brand":"艺数绘-兴趣培训","spend":"¥800-1000","ctr":"9-10%","noteId":"6977302300000000220086d0"}],"top_titles":["学员就是给力！","12天面包烘焙短期班🔥0基础变烘焙大师","📍上海学车地图！2026考驾照看这里～","春日🎁｜Y+请你免费练瑜伽❗️","26重庆省考进面名单已出！最高158.5进面","「27艺术设计考研」四川地区1v1择校咨询","上海烘焙培训开课啦🔥0️⃣基础多少钱❓","26年设计班来了❗️课程再升级！你想学的都有"]},"艺术设计":{"spend":"¥5-6万","n":"1-3","lp":{"私信":99.4,"表单":0.6},"links":["私信"],"benchmarks":{},"funnels":{"私信":[{"label":"曝光→点击","rate":"8-9%"},{"label":"点击→开口","rate":"1-2%"},{"label":"开口→留资","rate":"40-42%"}]},"mats":[{"title":"你能不能走舞蹈艺考？别猜了，测评下就知道","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31uld9ebe3m0g5nr2utk0bgnk4opbfjo?imageView2/2/w/540/format/jpg/q/75","brand":"舞研-艺考-素质教育","spend":"¥0-2,000","ctr":"14-16%","noteId":"69d4b503000000001a0339f2"},{"title":"五一集训营｜别让假期拉开艺考差距！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31unmf9g53m505nr2utk0bgnk8alq628?imageView2/2/w/540/format/jpg/q/75","brand":"舞研-艺考-素质教育","spend":"¥0-2,000","ctr":"7-8%","noteId":"69d70c5c0000000023017e01"},{"title":"舞蹈生注意⚠️五一集训名额告急❗","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31up7i6s81u505nr2utk0bgnk7mk50l0?imageView2/2/w/540/format/jpg/q/75","brand":"舞研-艺考-素质教育","spend":"¥0-2,000","ctr":"7-8%","noteId":"69d89e9200000000210106ac"},{"title":"舞研艺考长期集训营🔥快来抢占先机！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031u5ktf4ahu005nr2utk0bgnku9slleo?imageView2/2/w/540/format/jpg/q/75","brand":"舞研-艺考-素质教育","spend":"¥2,000-4,000","ctr":"5-6%","noteId":"69c492e0000000001f001265"},{"title":"请大数据把我推给所有想上岸的舞蹈生🔥","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31lbumod052105nr2utk0bgnklg206j0?imageView2/2/w/540/format/jpg/q/75","brand":"舞研-艺考-素质教育","spend":"¥0-2,000","ctr":"7-8%","noteId":"67f8dc3d000000001e009f8c"},{"title":"你适合走舞蹈艺考吗？先测再练！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31ulclc22jm105nr2utk0bgnkafd22l0?imageView2/2/w/540/format/jpg/q/75","brand":"舞研-艺考-素质教育","spend":"¥600-800","ctr":"10-12%","noteId":"69c39e690000000021038f2d"}],"top_titles":["舞研艺考长期集训营🔥快来抢占先机！","五一集训营｜别让假期拉开艺考差距！","舞蹈生注意⚠️五一集训名额告急❗","你能不能走舞蹈艺考？别猜了，测评下就知道","请大数据把我推给所有想上岸的舞蹈生🔥","舞蹈生速抢🔥免费试课🌸名额快没了！","舞研艺考长期集训营🔥快来抢占先机！","你适合走舞蹈艺考吗？先测再练！"]},"财商培训":{"spend":"¥6-7万","n":"3-5","lp":{"表单":77.4,"私信":22.3,"其他":0.3},"links":["表单","私信"],"benchmarks":{"私信":{"n":"2-4","ctr":["8-9%","7-8%","7-8%"],"cpm":["¥60-70","¥70-80","¥120-140"],"开口成本":["¥20-30","¥20-30","¥40-50"],"留资成本":["¥40-50","¥40-50","¥60-70"]}},"funnels":{"表单":[{"label":"曝光→点击","rate":"5-6%"},{"label":"点击→提交","rate":"0.6-0.9%"}],"私信":[{"label":"曝光→点击","rate":"7-8%"},{"label":"点击→开口","rate":"4-5%"},{"label":"开口→留资","rate":"60-62%"}]},"mats":[{"title":"存钱方法开窍！普通人攒💰开挂","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tbh58c06e0000000000003r2ehnjko?imageView2/2/w/540/format/jpg/q/75","brand":"量子之歌-启牛-兴趣培训","spend":"¥0-2,000","ctr":"8-9%","noteId":"69aa83c7000000002801eee8"},{"title":"没收入也能理财🎊千元理财就选国债逆回购","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31ri7qgc028105o935qag8ulb86n1bsg?imageView2/2/w/540/format/jpg/q/75","brand":"量子之歌-启牛-兴趣培训","spend":"¥800-1000","ctr":"8-9%","noteId":"696f27b9000000000a0294b3"},{"title":"行情火爆，选择同业存单基金领先同龄小白","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031bct13op6m005o935qag8ulbh1qkul8?imageView2/2/w/540/format/jpg/q/75","brand":"量子之歌-启牛-兴趣培训","spend":"¥0-2,000","ctr":"6-7%","noteId":"675d66cd0000000004029ccc"},{"title":"省吃俭用不用理财管用，打工人都去学！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k0314n3rjmmls005o935qag8ulbgdckas8?imageView2/2/w/540/format/jpg/q/75","brand":"量子之歌-启牛-兴趣培训","spend":"¥2,000-4,000","ctr":"5-6%","noteId":"66827c51000000001e013354"},{"title":"来啦！新手理财入门学习资料【无偿】分享~","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031k2p6t762a0g5p1lc7mkmp1jqtr9bd0?imageView2/2/w/540/format/jpg/q/75","brand":"深圳市静待-职业教育","spend":"¥600-800","ctr":"7-8%","noteId":"6879f410000000002400ded7"},{"title":"省吃俭用30年，不如学会这一招💰","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31p52ttbm28105o935qag8ulbuu4h450?imageView2/2/w/540/format/jpg/q/75","brand":"量子之歌-启牛-兴趣培训","spend":"¥800-1000","ctr":"3-4%","noteId":"69202681000000001d03eafd"}],"top_titles":["省吃俭用不用理财管用，打工人都去学！","行情火爆，选择同业存单基金领先同龄小白","存钱方法开窍！普通人攒💰开挂","省吃俭用30年，不如学会这一招💰","没收入也能理财🎊千元理财就选国债逆回购","来啦！新手理财入门学习资料【无偿】分享~","想搞钱看这里！1k国债逆回购9天能挣多少","1000块投国债逆回购！9天能挣多少？💰"]},"音乐乐器":{"spend":"¥30-40万","n":"15-20","lp":{"私信":92.5,"表单":7.5},"links":["私信"],"benchmarks":{"私信":{"n":"15-20","ctr":["5-6%","3-4%","3-4%"],"cpm":["¥60-70","¥80-90","¥90-100"],"开口成本":["¥30-40","¥60-70","¥80-90"],"留资成本":["¥100-120","¥180-200","¥260-280"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"3-4%"},{"label":"点击→开口","rate":"3-4%"},{"label":"开口→留资","rate":"42-44%"}]},"mats":[{"title":"🎵 跑了5家音乐机构，最后选了童话音乐","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k831uiqshod2q2g5ninfn2g84un03hf8o8?imageView2/2/w/540/format/jpg/q/75","brand":"童话音乐-兴趣培训","spend":"¥2,000-4,000","ctr":"7-8%","noteId":"69d2145e000000001a0372aa"},{"title":"跟我学唱歌3个月，给声音来一次改命！🤩","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031g4ofjs51e005pg3e0f2psma43cmorg?imageView2/2/w/540/format/jpg/q/75","brand":"创之音教育-职业教育","spend":"¥2,000-4,000","ctr":"6-7%","noteId":"67f8e8fa000000001b025b18"},{"title":"琴童家长说｜每节钢琴陪练竟然还不到30元？","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31a53efa9mu4g5pocinv7ee5ot3foohg?imageView2/2/w/540/format/jpg/q/75","brand":"云瑾-兴趣培训","spend":"¥2,000-4,000","ctr":"5-6%","noteId":"6734a7ae0000000019015d13"},{"title":"好无聊😞，唱歌收徒弟","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31qgu28ehgadg5nr4lin0bv1f7r7ovso?imageView2/2/w/540/format/jpg/q/75","brand":"Bole流行-兴趣教育","spend":"¥2,000-4,000","ctr":"4-5%","noteId":"690962de0000000004006991"},{"title":"有人想学唱歌吗？我巨便宜！学不会一直教","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031uqjoji12i605ptb32aj93va40j3ec8?imageView2/2/w/540/format/jpg/q/75","brand":"伯乐爱唱歌-兴趣教育","spend":"¥2,000-4,000","ctr":"2-3%","noteId":"69da086600000000220027bc"},{"title":"花3k多报了个架子鼓永久课程，太值了❗ ","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31bloeposgcdg48vtlgps60gib6huuig?imageView2/2/w/540/format/jpg/q/75","brand":"童话音乐-兴趣培训","spend":"¥0-2,000","ctr":"10-12%","noteId":"\t676678930000000014026780\t"}],"top_titles":["人生开爽！4周会唱歌的快乐谁懂？","🚀 召集200名音乐潜力股！","跟我学唱歌3个月，给声音来一次改命！🤩","有人想学唱歌吗？我巨便宜！学不会一直教","🎵 跑了5家音乐机构，最后选了童话音乐","请狠狠学唱歌！北京一对一教唱只需19.9","花3k多报了个架子鼓永久课程，太值了❗ ","琴童家长说｜小提琴陪练每节课竟不到35元？"]}},"edu":{"MBA/EMBA":{"spend":"¥10-20万","n":"15-20","lp":{"私信":71.3,"表单":27.9,"其他":0.8},"links":["私信","表单"],"benchmarks":{"私信":{"n":"15-20","ctr":["7-8%","5-6%","4-5%"],"cpm":["¥100-120","¥140-160","¥180-200"],"开口成本":["¥160-180","¥220-240","¥300-320"],"留资成本":["¥280-300","¥400-420","¥600-620"]},"表单":{"n":"3-5","ctr":["3-4%","3-4%","3-4%"],"cpm":["¥90-100","¥100-120","¥100-120"],"表单成本":["¥380-400","¥540-560","¥920-940"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"5-6%"},{"label":"点击→开口","rate":"1-2%"},{"label":"开口→留资","rate":"52-54%"}],"表单":[{"label":"曝光→点击","rate":"3-4%"},{"label":"点击→提交","rate":"0.6-0.9%"}]},"mats":[{"title":"北大UCL MBA就读体验具像化","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31umq7m14isg05oq26s065h7436cogu8?imageView2/2/w/540/format/jpg/q/75","brand":"学校-学历教育","spend":"¥8,000-10,000","ctr":"3-4%","noteId":"69d77062000000002200c685"},{"title":"高级经济师评审1.9W拿下通过！心得体会","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31qe95khq7ge05nvk1srg88hcj48n078?imageView2/2/w/540/format/jpg/q/75","brand":"中大英才-学历教育","spend":"¥2,000-4,000","ctr":"4-5%","noteId":"685924dc000000001c033b6f"},{"title":"2026考研🔥上海地区985/211院校MBA汇总","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031u5kbfjdhu005n7jhifhdbo1eejlr7g?imageView2/2/w/540/format/jpg/q/75","brand":"众凯教育-学历教育","spend":"¥0-2,000","ctr":"12-14%","noteId":"689ed152000000001c013800"},{"title":"30岁+的职场分水岭，你选对赛道了吗？🤔","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31umq7m14ise05oq26s065h74emqqfa0?imageView2/2/w/540/format/jpg/q/75","brand":"学校-学历教育","spend":"¥0-2,000","ctr":"4-5%","noteId":"69d624d4000000001d01ea41"},{"title":"📍世界级 MBA，不在远方，就在上海！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031uc9c034j4705oh04i2416lpt914c3g?imageView2/2/w/540/format/jpg/q/75","brand":"UBC Sauder商学院-学历教育","spend":"¥6,000-8,000","ctr":"2-3%","noteId":"69c0e5a5000000001d01814b"},{"title":"2027择校🔥上海在职考研MPA公共管理硕士","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031qe9uka17000416mtncuoieej2riqlg?imageView2/2/w/540/format/jpg/q/75","brand":"众凯教育-学历教育","spend":"¥0-2,000","ctr":"10-12%","noteId":"694a3cb8000000001e025a67"}],"top_titles":["北大UCL MBA就读体验具像化","📍世界级 MBA，不在远方，就在上海！","高级经济师评审1.9W拿下通过！心得体会","北大× UCL，不出国不卷联考读名校","继承者、高管都在读的MBA❗这3类人别错过","30岁+的职场分水岭，你选对赛道了吗？🤔","2026考研🔥上海地区985/211院校MBA汇总","科创时代如何让事业二次爆发？交大给你答案"]},"升学规划":{"spend":"¥100-150万","n":"100-125","lp":{"私信":94.9,"表单":2.6,"其他":1.8,"商销":0.8},"links":["私信"],"benchmarks":{"私信":{"n":"80-90","ctr":["7-8%","4-5%","3-4%"],"cpm":["¥100-120","¥140-160","¥200-220"],"开口成本":["¥100-120","¥160-180","¥260-280"],"留资成本":["¥160-180","¥300-320","¥440-460"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"5-6%"},{"label":"点击→开口","rate":"2-3%"},{"label":"开口→留资","rate":"58-60%"}]},"mats":[{"title":"只要考一个证，一只脚就踏进了名校！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031uff9nu034005phapjmhok70basnlng?imageView2/2/w/540/format/jpg/q/75","brand":"李根老师名校规划咨询-学历教育","spend":"¥1-2万","ctr":"6-7%","noteId":"69cea03d0000000023025b2a"},{"title":"要用理科思维，处理申论题目（七）","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31kvlsf5rjqh05o7bk2k0bs0492ucha0?imageView2/2/w/540/format/jpg/q/75","brand":"饮冰说申论-学历教育","spend":"¥4,000-6,000","ctr":"8-9%","noteId":"66b9a040000000001e01d738"},{"title":"初中考个证，基本就踏进了名校！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031upikfj0jm005phapjmhok70gveuq80?imageView2/2/w/540/format/jpg/q/75","brand":"李根老师名校规划咨询-学历教育","spend":"¥8,000-10,000","ctr":"6-7%","noteId":"69d8f90100000000220288f9"},{"title":"怎么上西郊利物浦大学？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031upc23n82s705phapjmhok702k75c5g?imageView2/2/w/540/format/jpg/q/75","brand":"李根老师名校规划咨询-学历教育","spend":"¥2,000-4,000","ctr":"7-8%","noteId":"69d8c32500000000230075c8"},{"title":"27保研，真的是最好上岸的一届！！","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tib8q6cl60g5p6gbtvapcp08tf9h5g?imageView2/2/w/540/format/jpg/q/75","brand":"高顿-保研-职业教育","spend":"¥4,000-6,000","ctr":"6-7%","noteId":"69b0cd6b000000002202f265"},{"title":"🔥上海各区补习机构看这里！🔥","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31sgtat6r5c105q34qj87atgs9fj95eg?imageView2/2/w/540/format/jpg/q/75","brand":"昌顺学-素质教育","spend":"¥2,000-4,000","ctr":"7-8%","noteId":"698e9041000000001d027c50"}],"top_titles":["大部分家长不知道的特殊升学路径！","只要考一个证，一只脚就踏进了名校！","初中考个证，基本就踏进了名校！","大部分家长不知道的特殊升学路径！","初中考个证，基本就踏进了名校！","抢跑2026🔥1v1志愿填报火热预约中","高考志愿填报1对1✨精准规划负责到上岸👏","大部分家长不知道的特殊升学路径！"]},"在职研究生":{"spend":"¥250-300万","n":"90-100","lp":{"私信":100.0,"其他":0.0},"links":["私信"],"benchmarks":{"私信":{"n":"80-90","ctr":["7-8%","5-6%","3-4%"],"cpm":["¥80-90","¥120-140","¥160-180"],"开口成本":["¥70-80","¥120-140","¥240-260"],"留资成本":["¥120-140","¥200-220","¥420-440"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"4-5%"},{"label":"点击→开口","rate":"1-2%"},{"label":"开口→留资","rate":"60-62%"}]},"mats":[{"title":"🔥带薪985，非全考研选新东方在职研","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031eu4jebg6q005pcc3ro8i630u4sqft0?imageView2/2/w/540/format/jpg/q/75","brand":"新东方-在线大学-学历教育","spend":"¥1-2万","ctr":"12-14%","noteId":"67d15b29000000002803cd71"},{"title":"一年申请制硕士来啦❗️这个❌出国就能上","cover":"http://sns-img-qn.xhscdn.com/1040g00831pb4cmn52s6g5ogf7268d761cggvum8?imageView2/2/w/540/format/jpg/q/75","brand":"高顿-在职研究生-职业教育","spend":"¥1-2万","ctr":"8-9%","noteId":"67087bf5000000001b0225f5"},{"title":"这个一年申请制硕士来啦‼️不出国就能拿下","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031mousbjg6g005om5bsn3hgkj72gr1u0?imageView2/2/w/540/format/jpg/q/75","brand":"高顿-在职研究生-职业教育","spend":"¥1-2万","ctr":"9-10%","noteId":"68d232670000000013017609"},{"title":"广东省非全日制研究生院校大揭秘！🎓","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031dsqsoh0g8005pcc3ro8i6307cd58ng?imageView2/2/w/540/format/jpg/q/75","brand":"新东方-在线大学-学历教育","spend":"¥4,000-6,000","ctr":"18-20%","noteId":"67af40f5000000002803761f"},{"title":"非全研究生求推荐，纯水学历，已有工作","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031jbpbqfkial05pcc3ro8i6304ahq1sg?imageView2/2/w/540/format/jpg/q/75","brand":"新东方-在线大学-学历教育","spend":"¥1-2万","ctr":"8-9%","noteId":"6862679b00000000120335d9"},{"title":"没想到 MBA/MPA/MEM里最好考的竟然是...","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31i2pgclsmq2g5pcc3ro8i630m40e54g?imageView2/2/w/540/format/jpg/q/75","brand":"新东方-在线大学-学历教育","spend":"¥4,000-6,000","ctr":"16-18%","noteId":"68386cf3000000001101f8ec"}],"top_titles":["在职女生有空一定要读个线上人工智能硕士","35岁后，为什么管理者还在读人工智能硕士？","为什么我劝30+的女生趁早读个AI硕士？","真心劝30+女生，AI硕士闭眼冲，4.98w","一年申请制硕士来啦❗️这个❌出国就能上","官宣 | 巴黎商学院正式入驻小红书！","1年制报恩硕士？“疗愈系”心理学爱好者冲","🔥带薪985，非全考研选新东方在职研"]},"学历教育":{"spend":"¥2,000-4,000","n":"1-3","lp":{"私信":100.0},"links":["私信"],"benchmarks":{},"funnels":{"私信":[{"label":"曝光→点击","rate":"8-9%"},{"label":"点击→开口","rate":"2-3%"},{"label":"开口→留资","rate":"62-64%"}]},"mats":[],"top_titles":[]},"成人自考/专升本/高招":{"spend":"¥150-200万","n":"150-175","lp":{"私信":88.0,"表单":9.1,"其他":2.9},"links":["私信"],"benchmarks":{"私信":{"n":"125-150","ctr":["8-9%","5-6%","3-4%"],"cpm":["¥100-120","¥140-160","¥220-240"],"开口成本":["¥100-120","¥160-180","¥220-240"],"留资成本":["¥180-200","¥240-260","¥380-400"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"5-6%"},{"label":"点击→开口","rate":"1-2%"},{"label":"开口→留资","rate":"54-56%"}]},"mats":[{"title":"如果给你个双证硕士，3W+你会接受吗？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31mfsoihbkq105olv02jmsuncest2qe0?imageView2/2/w/540/format/jpg/q/75","brand":"学历1-学历教育1","spend":"¥8,000-10,000","ctr":"12-14%","noteId":"68c8ea0a000000001300b493"},{"title":"广东小自考一览表✅1.5年毕业拿证❗","cover":"http://sns-img-qn.xhscdn.com/1040g008319rnctummo3g5n5tjl0lpk8e5lis5q8?imageView2/2/w/540/format/jpg/q/75","brand":"大牛教育-学历教育","spend":"¥8,000-10,000","ctr":"12-14%","noteId":"672b0b8f000000001b0116f3"},{"title":"福建师范大学自考本科，毕业快，学信网可查","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031v0nhe97ju005o6d9u908hep1ks3760?imageView2/2/w/540/format/jpg/q/75","brand":"哈德-学历教育","spend":"¥6,000-8,000","ctr":"14-16%","noteId":"67e21ceb000000001d0204d9"},{"title":"nan","cover":"nan","brand":"哈德-学历教育","spend":"¥2-3万","ctr":"8-9%","noteId":"nan"},{"title":"🔥浙江成考官方报名点❗❗成考就在这报名","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31hdpiebm4o2g5pb429ai5ia8khk1p7o?imageView2/2/w/540/format/jpg/q/75","brand":"天骄教育-学历教育","spend":"¥4,000-6,000","ctr":"10-12%","noteId":"668e59570000000025007c6d"},{"title":"快看！广东小自考院校都有哪些？","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k0317m1b2fj4a005p9v9qbs604dtojfo9o?imageView2/2/w/540/format/jpg/q/75","brand":"勃朗-兴趣培训","spend":"¥4,000-6,000","ctr":"10-12%","noteId":"66e3aee9000000000c01a1d3"}],"top_titles":["广西艺术学院小自考本科，统考1门","如果给你个双证硕士，3W+你会接受吗？","专升本请锁死这个APP🔥一站式升本神器","广东小自考一览表✅1.5年毕业拿证❗","别再死读MBA了❗这套课程才是真正有用的","【🔥最新简章】中国政法大学同等学力申硕","上海开放大学面向低学历上班族招生啦！"]},"暂无三级赛道":{"spend":"¥20-30万","n":"80-90","lp":{"私信":92.0,"其他":6.9,"商销":0.9,"表单":0.3},"links":["私信"],"benchmarks":{"私信":{"n":"50-60","ctr":["9-10%","5-6%","4-5%"],"cpm":["¥80-90","¥120-140","¥240-260"],"开口成本":["¥40-50","¥100-120","¥180-200"],"留资成本":["¥90-100","¥220-240","¥400-420"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"9-10%"},{"label":"点击→开口","rate":"1-2%"},{"label":"开口→留资","rate":"52-54%"}]},"mats":[{"title":"哈罗教育 晋在眼前| 国际教育的顶流来了🦁️","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k831ut4rl3k2g8g5o5ohl4g99l9vl4dtuo?imageView2/2/w/540/format/jpg/q/75","brand":"海口哈罗礼德学校-学历教育","spend":"¥0-2,000","ctr":"8-9%","noteId":"69dca1950000000023006d94"},{"title":"900/月吃住学全包？这家寄宿自习室我哭了","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31u62mko72b0g5ogbc0340vbsvagb5g8?imageView2/2/w/540/format/jpg/q/75","brand":"研助理-学历教育","spend":"¥0-2,000","ctr":"12-14%","noteId":"69c5225b000000001f0001b0"},{"title":"在广州天河Alevel脱产的一天是怎样的？","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031ut938eujq705n3edna42prt2qbpjng?imageView2/2/w/540/format/jpg/q/75","brand":"广州超级学长信息咨询-语言及留学","spend":"¥0-2,000","ctr":"6-7%","noteId":"69dcc50800000000220255b4"},{"title":"📚零基础学电商避坑！3 个选机构黄金标准","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031ki8bcakig005p16habkc2duf1ah7g8?imageView2/2/w/540/format/jpg/q/75","brand":"美迪培训-职业教育","spend":"¥0-2,000","ctr":"4-5%","noteId":"6889ec990000000025024d8e"},{"title":"英语启蒙必看！孩子这样学英语，又快又清晰","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31umpd4brhu105normui08jvrgn62rho?imageView2/2/w/540/format/jpg/q/75","brand":"讯飞星火语伴-学历教育","spend":"¥0-2,000","ctr":"6-7%","noteId":"69d61eac000000001a026d46"},{"title":"🚀零基础小白必看的电商培训课程🎉","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31btclup70c0g5p16habkc2dum0cv9jo?imageView2/2/w/540/format/jpg/q/75","brand":"美迪培训-职业教育","spend":"¥0-2,000","ctr":"3-4%","noteId":"676e68e70000000014025712"}],"top_titles":["哈罗教育 晋在眼前| 国际教育的顶流来了🦁️","在广州天河Alevel脱产的一天是怎样的？","900/月吃住学全包？这家寄宿自习室我哭了","27考研 | 强推这家济南集训营！性价比高❗","📚零基础学电商避坑！3 个选机构黄金标准","🚀零基础小白必看的电商培训课程🎉","南京寄宿考研学校挑战爆改不自律考研er‼️","英语启蒙必看！孩子这样学英语，又快又清晰"]},"考研辅导":{"spend":"¥650-700万","n":"175-200","lp":{"私信":98.1,"其他":0.9,"商销":0.9,"直播":0.0},"links":["私信"],"benchmarks":{"私信":{"n":"150-175","ctr":["4-5%","3-4%","2-3%"],"cpm":["¥140-160","¥200-220","¥300-320"],"开口成本":["¥160-180","¥220-240","¥300-320"],"留资成本":["¥260-280","¥380-400","¥520-540"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"4-5%"},{"label":"点击→开口","rate":"2-3%"},{"label":"开口→留资","rate":"60-62%"}]},"mats":[{"title":"27考研，自学还是报班❓别傻乎乎就去考研","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031nqif5edl2005oclo2p41usm89jmn50?imageView2/2/w/540/format/jpg/q/75","brand":"新东方-在线大学-学历教育","spend":"¥2-3万","ctr":"8-9%","noteId":"669f6fd8000000002701b5dc"},{"title":"突然发现我的备考思路好清晰","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k031tg18f0156104a5bomstdiaujidm03o?imageView2/2/w/540/format/jpg/q/75","brand":"研途教育-学历教育","spend":"¥8,000-10,000","ctr":"10-12%","noteId":"69ae6846000000002202e9a1"},{"title":"考研班型怎么选不踩雷？新东方考研网课真香","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031tidtrjgl6005oclo2p41usm380isv0?imageView2/2/w/540/format/jpg/q/75","brand":"新东方-在线大学-学历教育","spend":"¥2-3万","ctr":"8-9%","noteId":"699c2991000000000a0294b9"},{"title":"3月开始准备27考研｜报班备考版","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31t82gg3dl65g5oclo2p41usmij04u1g?imageView2/2/w/540/format/jpg/q/75","brand":"新东方-在线大学-学历教育","spend":"¥1-2万","ctr":"9-10%","noteId":"69a6484a0000000026033db2"},{"title":"3月开始27考研｜报班备考版","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031td77v7658004buramlmcgktif0ssto?imageView2/2/w/540/format/jpg/q/75","brand":"中公教育-职业教育","spend":"¥8,000-10,000","ctr":"10-12%","noteId":"690b014f000000000301f9a9"},{"title":"启航考研机构🔥考研班型价格汇总✅ ","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31s4da6cn5a105p11d584547npjqpksg?imageView2/2/w/540/format/jpg/q/75","brand":"爱启航-考研-学历教育","spend":"¥1-2万","ctr":"7-8%","noteId":"6981c3da0000000028023536"}],"top_titles":["27考研党速看！研途团队1v1择校规划","27考研，自学还是报班❓别傻乎乎就去考研","考研班型怎么选不踩雷？新东方考研网课真香","考研不要自己瞎琢磨了，快报个全包全程班吧","启航考研机构🔥考研班型价格汇总✅ ","研途团队的考研集训营，卷王都在偷偷冲❗","速看！27考研择校择专业保姆级攻略📚","启航考研集训营🔥适合各个阶段备考的同学"]},"高考/高考复读":{"spend":"¥40-50万","n":"45-50","lp":{"私信":82.9,"其他":13.8,"直播":2.2,"商销":1.0},"links":["私信"],"benchmarks":{"私信":{"n":"35-40","ctr":["6-7%","5-6%","3-4%"],"cpm":["¥120-140","¥160-180","¥200-220"],"开口成本":["¥160-180","¥200-220","¥280-300"],"留资成本":["¥300-320","¥440-460","¥600-620"]}},"funnels":{"私信":[{"label":"曝光→点击","rate":"6-7%"},{"label":"点击→开口","rate":"1-2%"},{"label":"开口→留资","rate":"46-48%"}]},"mats":[{"title":"找卷APP实测🆘三款对比后我选对了！","cover":"http://sns-img-qn.xhscdn.com/1040g2sg31tg227ndm8jg5qa54g1tp4n3mkd8b38?imageView2/2/w/540/format/jpg/q/75","brand":"蜜蜂试卷-学历教育","spend":"¥2,000-4,000","ctr":"10-12%","noteId":"69ae7709000000000d00a74f"},{"title":"老教师开小号说点教英语的真话","cover":"http://sns-img-qn.xhscdn.com/1040g00831t1m9k7olk504227pn0djc3pg0l3lag?imageView2/2/w/540/format/jpg/q/75","brand":"蜜蜂试卷-学历教育","spend":"¥2,000-4,000","ctr":"12-14%","noteId":"699fd17f000000001d0276d2"},{"title":"年轻教师如何做有效的教育❓不做无用功❗️","cover":"http://sns-img-qn.xhscdn.com/1040g00831u4sv89i2s0g4bhrlo33ljb5p4hdsdo?imageView2/2/w/540/format/jpg/q/75","brand":"蜜蜂试卷-学历教育","spend":"¥0-2,000","ctr":"16-18%","noteId":"69c3cee8000000002200f344"},{"title":"刚刚！这个免费教师AI的功能宣布更上一层楼","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g34o31t1roqktle605o72otn0bm9bnvs52do?imageView2/2/w/540/format/jpg/q/75","brand":"蜜蜂试卷-学历教育","spend":"¥0-2,000","ctr":"16-18%","noteId":"699fefab0000000023038e2e"},{"title":"做老师后才懂：放过自己，比什么都重要","cover":"http://sns-img-qn.xhscdn.com/notes_pre_post/1040g3k831u7d02sgiad05o72otn0bm9blf33aa8?imageView2/2/w/540/format/jpg/q/75","brand":"蜜蜂试卷-学历教育","spend":"¥0-2,000","ctr":"16-18%","noteId":"69c65d7b000000002202790e"},{"title":"江苏100家集训画室，你想了解哪一家?","cover":"http://sns-img-qn.xhscdn.com/spectrum/1040g0k031termsd9me705nub0rb094depjfmto8?imageView2/2/w/540/format/jpg/q/75","brand":"兴趣培训1-兴趣培训","spend":"¥0-2,000","ctr":"14-16%","noteId":"69ad3d06000000001d0245d5"}],"top_titles":["只收数学差生📣20天搞定拉垮数学💥","在家语文阅读理解一对一✨带娃悄悄逆袭👏","你适合学什么艺考专业❓花1分钟自测❗️","找卷APP实测🆘三款对比后我选对了！","我的语文是怎么开窍的？","2026年教师真正想要的AI减负神器！！！","你就不好奇她的实力吗？","成绩不理想每天还开心来松江这所高中"]}}}}
+};
+
+async function inlineFetch(path) {
+  const key = path.replace('./mock-data/', '').replace('.json','');
+  if (INLINE_DATA[key]) return { json: () => Promise.resolve(INLINE_DATA[key]) };
+  return fetch(path);
+}
+
+// ===== 加载模块3（方案C：赛道折叠卡） =====
+let m3Charts = [];       // track echarts instances for resize
+
+function scrollToTrack(key) {
+  // 更新导航按钮高亮
+  const navKeys = ['junior','vocational','interest','degree','language'];
+  document.querySelectorAll('.m3-track-nav .tab-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', navKeys[i] === key);
+  });
+  // 找到目标卡片，展开并滚动到可视区
+  const card = document.querySelector(`.track-card[data-key="${key}"]`);
+  if (!card) return;
+  if (!card.classList.contains('expanded')) {
+    card.classList.add('expanded');
+    setTimeout(() => initTrackCharts(key), 50);
+  }
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+const DATA_SERVER = 'http://localhost:3000';
+
+async function loadModule3() {
+  let source = 'inline';
+  try {
+    try {
+      const serverRes = await fetch(`${DATA_SERVER}/api/track-trends`, { signal: AbortSignal.timeout(15000) });
+      if (serverRes.ok) {
+        const serverData = await serverRes.json();
+        if (serverData && serverData.market && serverData.market.length > 0) {
+          m3Data = serverData;
+          source = serverData._stale ? 'server(stale)' : 'server(live)';
+        }
+      }
+    } catch (serverErr) {
+      console.warn('[M3] server 不可用，降级到内联数据:', serverErr.message);
+    }
+
+    if (!m3Data) {
+      const res = await inlineFetch('./mock-data/track-trends.json');
+      m3Data = await res.json();
+    }
+
+    const periodEl = document.getElementById('m3-data-source');
+    if (periodEl) {
+      const isLive = source.startsWith('server');
+      const icon = isLive ? '🟢' : '🟡';
+      const freshSets = (m3Data._freshDatasets || []).join('/');
+      const staleSets = (m3Data._staleDatasets || []).join('/');
+      let detail = `${icon} ${m3Data.period || ''}`;
+      if (isLive && freshSets) detail += ` · ${freshSets}`;
+      if (!isLive) detail += ' · 离线(内嵌数据)';
+      periodEl.textContent = detail;
+    }
+
+    if (chartsInited) renderM3();
+  } catch(e) {
+    document.getElementById('m3-track-cards').innerHTML = `<div style="color:#EF4444;text-align:center;padding:40px">数据加载失败：${e.message}</div>`;
+  }
+}
+
+function getM3Tracks() {
+  if (!m3Data) return [];
+  return m3Data.market || [];
+}
+
+// ─── 工具函数 ───
+function fmtVol(v) { return v >= 10000 ? (v / 10000).toFixed(1) + '万' : v.toLocaleString(); }
+function fmtSpend(v) { return v >= 10000000 ? (v / 10000000).toFixed(1) + '千万' : '¥' + (v / 10000).toFixed(0) + '万'; }
+function fmtSpendShort(v) { return v >= 10000000 ? (v / 10000000).toFixed(1) + '千万' : (v / 10000).toFixed(0) + '万'; }
+function wowCls(w) { return String(w).startsWith('+') ? 'up' : String(w).startsWith('-') ? 'down' : 'neutral'; }
+function wowColor(w) { return String(w).startsWith('+') ? '#16A34A' : String(w).startsWith('-') ? '#EF4444' : '#9CA3AF'; }
+
+// ─── 生成迷你柱状图 HTML（折叠头部用，纯CSS） ───
+function miniBarHtml(values, color) {
+  if (!values || !values.length) return '';
+  const max = Math.max(...values);
+  if (max <= 0) return '';
+  // 只取最后7天
+  const recent = values.slice(-7);
+  const bars = recent.map(v => {
+    const h = Math.max(2, Math.round((v / max) * 30));
+    return `<div class="mb" style="height:${h}px;background:${color || 'var(--red)'}"></div>`;
+  }).join('');
+  return `<div class="track-card-mini-chart">${bars}</div>`;
+}
+
+// ─── 主渲染：赛道折叠卡 ───
+function renderM3() {
+  // 销毁旧图表
+  m3Charts.forEach(c => { try { c.dispose(); } catch(e) {} });
+  m3Charts = [];
+
+  const tracks = getM3Tracks();
+  if (!tracks.length) {
+    document.getElementById('m3-track-cards').innerHTML = '<div style="color:#9CA3AF;text-align:center;padding:40px">暂无赛道数据</div>';
+    return;
+  }
+
+  const benchmarkData = m3Data.benchmark || {};
+  // 默认展开第一个赛道（少儿教育）
+  const defaultExpand = 'junior';
+
+  const container = document.getElementById('m3-track-cards');
+  container.innerHTML = tracks.map(t => {
+    const s = t.search || {};
+    const c = t.content || {};
+    const a = t.advertiser || {};
+    const spenders = a.topSpenders || [];
+    const topName = spenders[0]?.name || '--';
+    const vols = s.volumes || [];
+    const lastVol = vols[vols.length - 1] || 0;
+    const totalNotes = (c.noteCount || []).reduce((a, b) => a + b, 0);
+    const expanded = t.key === defaultExpand ? ' expanded' : '';
+
+    // 折叠头部的 badge
+    let badge = '';
+    if (String(s.wow).startsWith('+') && parseFloat(s.wow) > 3) badge = `<span class="track-badge" style="background:#DCFCE7;color:#16A34A">搜索热</span>`;
+    else if (String(s.wow).startsWith('+')) badge = `<span class="track-badge" style="background:#FEF3C7;color:#D97706">增长中</span>`;
+
+    // 搜索热度迷你图
+    const miniChart = miniBarHtml(vols, '#F4A4B4');
+
+    // ─── 展开详情内容 ───
+    const searchDates = m3Data.searchDates || m3Data.dates || [];
+    const contentDates = m3Data.dates || [];
+
+    // 搜索热度 section
+    const searchSection = `<div class="track-detail-section">
+      <h4><span style="font-size:14px">🔍</span> 搜索热度（14天趋势）</h4>
+      <div id="m3-chart-search-${t.key}" class="track-chart-container"></div>
+      <div style="margin-top:8px">
+        <div class="track-metric-row"><span class="lbl">日均搜索量</span><span class="val">${fmtVol(lastVol)}</span></div>
+        <div class="track-metric-row"><span class="lbl">WoW</span><span class="val" style="color:${wowColor(s.wow)}">${s.wow || '--'}</span></div>
+        ${s.cpm1 != null ? `<div class="track-metric-row"><span class="lbl">CPM1</span><span class="val">¥${s.cpm1.toFixed(1)}</span></div>` : ''}
+        ${s.acp != null ? `<div class="track-metric-row"><span class="lbl">ACP</span><span class="val">¥${s.acp.toFixed(1)}</span></div>` : ''}
+        ${s.pvr != null ? `<div class="track-metric-row"><span class="lbl">PVR</span><span class="val">${s.pvr.toFixed(1)}%</span></div>` : ''}
+      </div>
+    </div>`;
+
+    // 内容供给 section (数据源: dataset 10632 广告主PGC笔记供给)
+    let contentSection;
+    if (totalNotes > 0) {
+      contentSection = `<div class="track-detail-section">
+        <h4><span style="font-size:14px">📝</span> 内容供给（PGC笔记）</h4>
+        <div id="m3-chart-content-${t.key}" class="track-chart-container"></div>
+        <div style="margin-top:8px">
+          <div class="track-metric-row"><span class="lbl">14天新发笔记</span><span class="val">${fmtVol(totalNotes)}篇</span></div>
+          <div class="track-metric-row"><span class="lbl">WoW</span><span class="val" style="color:${wowColor(c.wow)}">${c.wow || '--'}</span></div>
+          ${c.avgActiveNotes ? `<div class="track-metric-row"><span class="lbl">日均在投笔记</span><span class="val">${fmtVol(c.avgActiveNotes)}篇</span></div>` : ''}
+        </div>
+      </div>`;
+    } else {
+      contentSection = `<div class="track-detail-section">
+        <h4><span style="font-size:14px">📝</span> 内容供给（PGC笔记）</h4>
+        <div class="track-no-data">暂无内容供给数据<br><span style="font-size:11px;color:#9CA3AF">数据源: dataset 10632（广告主PGC笔记供给）</span></div>
+      </div>`;
+    }
+
+    // 客户声量 TOP5 section
+    let clientSection;
+    if (spenders.length > 0) {
+      const rows = spenders.slice(0, 5).map((sp, i) => {
+        const leadFmt = sp.leadCost > 0 ? `¥${Math.round(sp.leadCost).toLocaleString()}` : '--';
+        return `<tr>
+          <td class="rank">${i + 1}</td>
+          <td class="cname">${sp.name}</td>
+          <td>${sp.noteCount.toLocaleString()}</td>
+          <td>${sp.ctr}</td>
+          <td>${leadFmt}</td>
+        </tr>`;
+      }).join('');
+      clientSection = `<div class="track-detail-section">
+        <h4><span style="font-size:14px">🏢</span> 客户声量 TOP5</h4>
+        <table class="track-client-table">
+          <thead><tr><th>#</th><th>客户</th><th>在投笔记</th><th>CTR</th><th>留资成本</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <div style="font-size:11px;color:#9CA3AF;margin-top:6px">排名依据: 线索广告流水（AI口径，非竞价消耗）</div>
+      </div>`;
+    } else {
+      clientSection = `<div class="track-detail-section">
+        <h4><span style="font-size:14px">🏢</span> 客户声量</h4>
+        <div class="track-no-data">暂无客户数据</div>
+      </div>`;
+    }
+
+    // Benchmark section — 全宽表格
+    const bmRows = benchmarkData[t.key] || [];
+    let bmSection;
+    if (bmRows.length > 0) {
+      const tierCls = ['bm-head', 'bm-mid', 'bm-tail'];
+      const bmTableRows = bmRows.map((r, i) => `<tr>
+        <td><span class="bm-label ${tierCls[i] || 'bm-tail'}">${r.tier}</span></td>
+        <td>${r.avgDailySpend != null ? '¥' + Math.round(r.avgDailySpend).toLocaleString() : '--'}</td>
+        <td>${r.avgDailyNotes != null ? Math.round(r.avgDailyNotes).toLocaleString() : '--'}</td>
+        <td>${r.avgCtr || '--'}</td>
+        <td>${r.avgLeadCost > 0 ? '¥' + Math.round(r.avgLeadCost).toLocaleString() : '--'}</td>
+        <td>${(r.noteARPA || 0) > 0 ? '¥' + Math.round(r.noteARPA).toLocaleString() : '--'}</td>
+      </tr>`).join('');
+      // 生成投放建议文案
+      const headRow = bmRows[0];
+      const midRow = bmRows[1];
+      let tipText = '';
+      if (headRow && midRow) {
+        const parts = [];
+        if (headRow.noteARPA > 0) parts.push(`头部客户笔记ARPA可达 ¥${Math.round(headRow.noteARPA).toLocaleString()}，建议提升单笔记质量`);
+        if (midRow.avgCtr) parts.push(`腰部客户 CTR ${midRow.avgCtr} 表现良好，可复制素材策略`);
+        tipText = parts.join('；');
+      }
+      bmSection = `<div class="track-detail-section track-bm-full">
+        <h4><span style="font-size:14px">📊</span> 投放 Benchmark（分档位参考）</h4>
+        <table class="bm-table">
+          <thead><tr><th>档位</th><th>日均消耗</th><th>日均笔记</th><th>CTR</th><th>留资成本</th><th>笔记ARPA</th></tr></thead>
+          <tbody>${bmTableRows}</tbody>
+        </table>
+        ${tipText ? `<div class="bm-tip"><span class="bm-tip-icon">💡</span><span><b>投放建议</b>　${tipText}</span></div>` : ''}
+      </div>`;
+    } else {
+      bmSection = `<div class="track-detail-section track-bm-full">
+        <h4><span style="font-size:14px">📊</span> 投放 Benchmark</h4>
+        <div class="track-no-data">暂无 Benchmark 数据</div>
+      </div>`;
+    }
+
+    // 操作按钮
+    const actions = `<div class="track-action-bar">
+           <button class="track-action-btn" onclick="event.stopPropagation();openMarketAnalysis('${t.key}','${t.name}')">📊 市场机会解读</button>
+         </div>`;
+
+    return `<div class="track-card${expanded}" data-key="${t.key}">
+      <div class="track-card-header" onclick="toggleTrackCard(this)">
+        <div class="track-card-left">
+          <div class="track-card-name">${t.name} ${badge}</div>
+          ${miniChart}
+          <div class="track-card-metrics">
+            <span class="tm">搜索 <b>${fmtVol(lastVol)}</b> <span class="${wowCls(s.wow)}">${s.wow || '--'}</span></span>
+            <span class="tm">笔记 <b>${totalNotes > 0 ? fmtVol(totalNotes) : '--'}</b> ${totalNotes > 0 ? `<span class="${wowCls(c.wow)}">${c.wow || ''}</span>` : '<span class="neutral">无数据</span>'}</span>
+            <span class="tm">TOP客户 <b>${topName}</b></span>
+            ${s.cpm1 != null ? `<span class="tm">CPM <b>¥${s.cpm1.toFixed(1)}</b></span>` : ''}
+          </div>
+        </div>
+        <div class="track-card-toggle">详情 <span class="arrow">▼</span></div>
+      </div>
+      <div class="track-card-detail">
+        <div class="track-detail-grid">
+          ${searchSection}
+          ${contentSection}
+          ${clientSection}
+          ${bmSection}
+        </div>
+        ${actions}
+      </div>
+    </div>`;
+  }).join('');
+
+  // 延迟初始化 ECharts 图表（只给展开的卡片）
+  setTimeout(() => initTrackCharts(), 80);
+}
+
+function toggleTrackCard(headerEl) {
+  const card = headerEl.closest('.track-card');
+  const wasExpanded = card.classList.contains('expanded');
+  card.classList.toggle('expanded');
+  // 刚展开 → 初始化图表
+  if (!wasExpanded) {
+    setTimeout(() => initTrackCharts(card.dataset.key), 50);
+  }
+}
+
+function initTrackCharts(onlyKey) {
+  const tracks = getM3Tracks();
+  const searchDates = m3Data.searchDates || m3Data.dates || [];
+  const contentDates = m3Data.dates || [];
+
+  tracks.forEach(t => {
+    if (onlyKey && t.key !== onlyKey) return;
+    // 只初始化已展开的卡片
+    const card = document.querySelector(`.track-card[data-key="${t.key}"]`);
+    if (!card || !card.classList.contains('expanded')) return;
+
+    // ─── 搜索热度图 ───
+    const searchEl = document.getElementById('m3-chart-search-' + t.key);
+    if (searchEl && !searchEl._echartsInit) {
+      const vols = t.search?.volumes || [];
+      if (vols.some(v => v > 0)) {
+        const chart = echarts.init(searchEl);
+        m3Charts.push(chart);
+        searchEl._echartsInit = true;
+        chart.setOption({
+          grid: { top: 10, right: 12, bottom: 24, left: 50 },
+          xAxis: { type: 'category', data: searchDates, axisLabel: { fontSize: 10, color: '#9CA3AF' }, axisLine: { lineStyle: { color: '#E5E7EB' } } },
+          yAxis: { type: 'value', axisLabel: { formatter: v => (v/10000).toFixed(0) + '万', fontSize: 10, color: '#9CA3AF' }, splitLine: { lineStyle: { color: '#F3F4F6' } } },
+          series: [{ type: 'line', data: vols, smooth: true, lineStyle: { color: '#F4A4B4', width: 2 }, areaStyle: { color: 'rgba(244,164,180,0.08)' }, symbol: 'circle', symbolSize: 3, itemStyle: { color: '#F4A4B4' } }],
+          tooltip: { trigger: 'axis', formatter: p => `${p[0].axisValue}<br/>搜索量 <b>${(p[0].value/10000).toFixed(1)}万</b>` }
+        });
+      } else {
+        searchEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#9CA3AF;font-size:13px">暂无搜索数据</div>';
+        searchEl._echartsInit = true;
+      }
+    }
+
+    // ─── 内容供给图 ───
+    const contentEl = document.getElementById('m3-chart-content-' + t.key);
+    if (contentEl && !contentEl._echartsInit) {
+      const counts = t.content?.noteCount || [];
+      if (counts.some(v => v > 0)) {
+        const chart = echarts.init(contentEl);
+        m3Charts.push(chart);
+        contentEl._echartsInit = true;
+        chart.setOption({
+          grid: { top: 10, right: 12, bottom: 24, left: 50 },
+          xAxis: { type: 'category', data: contentDates, axisLabel: { fontSize: 10, color: '#9CA3AF' }, axisLine: { lineStyle: { color: '#E5E7EB' } } },
+          yAxis: { type: 'value', axisLabel: { formatter: v => v >= 10000 ? (v/10000).toFixed(0) + '万' : v, fontSize: 10, color: '#9CA3AF' }, splitLine: { lineStyle: { color: '#F3F4F6' } } },
+          series: [{ type: 'bar', data: counts, itemStyle: { color: '#2563EB', borderRadius: [3,3,0,0] }, barMaxWidth: 24 }],
+          tooltip: { trigger: 'axis', formatter: p => { const v = p[0].value; return `${p[0].axisValue}<br/>发布 ${v >= 10000 ? (v/10000).toFixed(1)+'万' : v} 篇`; } }
+        });
+      }
+    }
+  });
+}
+
+function initCharts() {
+  if (m3Data) renderM3();
+}
+
+// ═══════════════════════════════════════════════════════
+// 模块3B: 赛道投放对标 — Tab切换 & 渲染
+// ═══════════════════════════════════════════════════════
+
+// ── M3 Tab切换 ─────────────────────────────────────────
+function switchM3Tab(tab) {
+  document.querySelectorAll('.m3-tab-panel').forEach(p => p.style.display = 'none');
+  const el = document.getElementById('m3-tab-' + tab);
+  if (el) el.style.display = 'block';
+  // 高亮Tab按钮
+  const parent = document.getElementById('module-3');
+  const btns = parent.querySelectorAll(':scope > .tab-bar:first-child .tab-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  const idx = tab === 'insight' ? 0 : 1;
+  if (btns[idx]) btns[idx].classList.add('active');
+  // 首次切换到对标Tab时渲染
+  if (tab === 'benchmark' && !m3bRendered) {
+    m3bRenderAll();
+    m3bRendered = true;
+  }
+}
+
+let m3bRendered = false;
+let m3bCurCat = 'interest';
+
+// ── 静态数据（标题公式、热点话题、品类风向、共性总结）──
+const M3B_STATIC = {"titleFormulas":{"interest":{"私信":[{"tags":["数字结果","场景代入"],"examples":"「3天学会XX，朋友都惊了」「半个月开口说英语」"},{"tags":["反常识钩子","利益点"],"examples":"「不用XXX也能YYY」「零基础也能弹出好听曲子」"},{"tags":["人群标签","痛点"],"examples":"「50岁+必学的手机摄影技巧」「宝妈必看的副业指南」"},{"tags":["emoji强调","行动号召"],"examples":"「🔥别再错过！XX限时免费」「速看！名额仅剩XX」"},{"tags":["学员证言","效果展示"],"examples":"「学员就是给力！从零到XX」「看看学完的变化」"},{"tags":["对比冲击","好奇心"],"examples":"「学前vs学后，差距太大了」「练瑜伽前后对比」"}],"表单":[{"tags":["情绪共鸣","解决方案"],"examples":"「总莫名不舒服？可能是XX在求救」"},{"tags":["测试钩子","权威背书"],"examples":"「MBTI人格测试2026新版」「10万人都在测的XX」"},{"tags":["免费/限时","利益驱动"],"examples":"「限时免费领取XX测评报告」"},{"tags":["反问句","好奇心"],"examples":"「你真的了解自己吗？」"},{"tags":["场景痛点","方案"],"examples":"「孩子不听话？试试这个方法」「孩子爱哭脾气大？」"}],"商销":[{"tags":["教育理念","好奇心"],"examples":"「慢驴效应，看完你就懂教育了」"},{"tags":["实用工具","行动号召"],"examples":"「习惯养成计划表，拯救废掉的孩子」"},{"tags":["家长焦虑","解决方案"],"examples":"「内驱力不足？这套方法亲测有效」"},{"tags":["反常识","数据"],"examples":"「90%的家长都忽略了这一点」"},{"tags":["故事/案例","效果"],"examples":"「从倒数到前三，这位妈妈做对了什么」"}],"直播":[{"tags":["副业变现","行动力"],"examples":"「下班时间别荒废🔥用声音给自己多一份底气」"},{"tags":["零基础","低门槛"],"examples":"「不露脸不出镜，在家就能做」"},{"tags":["紧迫感","限时"],"examples":"「今晚直播教学，错过等下期」"},{"tags":["效果展示","对比"],"examples":"「学了3天 vs 学了30天」"},{"tags":["人群共鸣","场景"],"examples":"「宝妈也能有自己的事业」"}]},"edu":{"私信":[{"tags":["学历焦虑","解决方案"],"examples":"「大专学历看过来，在职也能拿本科」"},{"tags":["政策利好","紧迫感"],"examples":"「2026考研新政策，这些变化必须知道」"},{"tags":["性价比","数字钩子"],"examples":"「学费低至XXX/月，国家认可学历」"},{"tags":["过来人证言","效果"],"examples":"「30岁考研上岸，我的经验全在这」"},{"tags":["反问句","痛点"],"examples":"「学历不够总被卡？别等了」"},{"tags":["对比冲击","利益点"],"examples":"「同样的岗位，本科比专科多拿XX」"}],"表单":[{"tags":["院校榜单","权威"],"examples":"「2026在职研究生院校推荐TOP10」"},{"tags":["免费资料","行动号召"],"examples":"「考研资料包免费领，限时100份」"},{"tags":["测评类","好奇心"],"examples":"「测一测你适合读哪个专业的研究生」"},{"tags":["政策解读","利益点"],"examples":"「专升本最新政策，这些人可以免试」"},{"tags":["倒计时","紧迫感"],"examples":"「距报名截止还有XX天」"}],"商销":[{"tags":["教辅推荐","口碑"],"examples":"「考研人手一本的XX，真的有用」"},{"tags":["工具种草","效率"],"examples":"「这个错题本让复习效率翻倍」"},{"tags":["备考好物","清单"],"examples":"「考研必备好物清单，建议收藏」"},{"tags":["低价引流","数字"],"examples":"「9.9元试听课，名师带你入门」"},{"tags":["限时折扣","紧迫感"],"examples":"「年中大促，课程直降XXX」"}]}},"hotTopics":{"interest":{"高频标题词":["#中老年兴趣","#零基础学XX","#副业变现","#运动康复","#心理测试"],"上升场景词":["#兼职创业","#产后康复","#瑜伽","#声音变现","#音乐乐器"],"本周节点":["#世界地球日","#谷雨","#职场充电季"]},"edu":{"高频标题词":["#考研","#专升本","#在职研究生","#MBA","#升学规划"],"上升场景词":["#高考冲刺","#MBA/EMBA","#升学规划","#成人自考"],"本周节点":["#考研调剂","#高考倒计时","#专升本报名"]}},"sceneInsights":{"interest":{"私信":{"feed":"封面以真人出镜为主（中年女性/学员），强调「学会了」「学员就是给力」等结果展示；标题锁定50岁+人群标签+技能关键词；情绪基调偏温暖励志，用效果对比驱动私信咨询意愿。","search":"封面偏攻略/信息密集型（地图、清单、多宫格排版）；标题直给搜索意图关键词（学车地图、夜校、配音副业）；emoji当功能标记用而非装饰；素材来源更分散，匹配用户主动搜索的长尾需求。"},"表单":{"feed":"心理测试类素材霸榜，封面以情绪触发为主；标题用「你是不是也…？」反问句+症状描述制造共鸣；CTR普遍16-19%，靠情绪钩子拉高点击，表单转化靠「免费测一测」低门槛承接。","search":"MBTI/心理量表类素材消耗集中，标题直接包含搜索词；用「2026新版」「官网入口」等信任词提升点击；用户带着明确需求来，素材匹配度>情绪钩子。"},"商销":{"feed":"家庭教育品牌素材高度集中，封面偏口播/金句卡片风格；标题用教育理念引发家长焦虑+好奇；消耗集中但CTR波动大，依赖内容本身的传播力。","search":"标题更工具化——「计划表」「方法论」直接回应家长搜索意图；素材来源从单一品牌扩展到多品牌；CTR整体比信息流低2-3pp，但用户意图更精准，后端转化效率更高。"},"直播":{"feed":"两大主题分化：家庭教育（亲子话题引流直播间）+ 副业变现（配音课直播）；家庭教育类CTR更高（8-10%），靠争议性话题拉流量；配音类消耗更大但CTR偏低，走量模式。","search":"配音副业类素材在搜索场景下几乎独占，「下班时间」「宅家2h」「录书」是核心关键词；搜索场景下直播间承接搜索流量的效率有优化空间。"}},"edu":{"私信":{"feed":"封面偏信息图/文字卡片风，标题打学历焦虑+信息差；品牌来源分散，各家用不同痛点切入——升学规划/考研择校/医护读研。","search":"标题直给搜索高频词——「非全日制研究生」「小自考」「在职MBA」；地域标签使用率高精准匹配本地化搜索；CTR普遍11-19%，远高于信息流，搜索场景下标题匹配度是关键胜负手。"},"表单":{"feed":"MBA/名校项目类素材为主，封面偏品牌调性；标题用「就读体验」「招生启动会」等种草逻辑；CTR偏低（2-4%），目标人群窄但客单价高，走精准转化路线。","search":"自考/专升本类素材消耗集中，标题用「一览表」「N个理由」等清单体直接回应比价/比校的搜索需求；CTR整体比信息流高2-4pp。"},"商销":{"feed":"考研教辅类素材为主，封面偏学习笔记/干货截图风格；标题用效率承诺；消耗量级小，但CTR高（8-18%），商销链路在学历赛道处于早期探索阶段。","search":"素材高度集中于单一品牌，搜索场景下仅3条素材达标，学历教育商销链路的搜索流量池极浅，品牌覆盖面窄。"},"直播":{"feed":"仅2条素材入围，学历教育直播链路整体处于起步阶段，广告主数量和消耗规模都很小。","search":"搜索场景下无素材达标，学历教育用户几乎不会通过搜索进入直播间——用户倾向私信1v1咨询而非直播间场景。"}}},"categoryWind":{"interest":[{"name":"中老年兴趣","emoji":"🎵","color":"#ff6b35","spend":"¥150-200万","wow":"-0.2%","n":"60-80","link":"表单 51.8%","points":[["up","手机摄影/旅行英语类标题CTR高，中老年情感共鸣驱动点击"],["up","50岁+人群标签精准开口，表单提交成本可控"],["flat","表单链路为主(51.8%)，私信为辅(32.4%)"]],"focus":"重点关注：场景化标题 + 年龄标签"},{"name":"家庭教育","emoji":"👨‍👩‍👧","color":"#f59e0b","spend":"¥100-150万","wow":"-1.5%","n":"20-30","link":"商销 89.9%","points":[["up","亲子沟通/习惯养成话题消耗稳定，家长焦虑持续驱动转化"],["up","「慢驴效应」等教育理念类标题带动商销转化 12%+"],["flat","商销链路绝对主导(89.9%)，适合教辅/课程类产品"]],"focus":"重点关注：焦虑痛点 + 解决方案"},{"name":"口才情商","emoji":"🎤","color":"#3b82f6","spend":"¥100-150万","wow":"-2.6%","n":"10-20","link":"商销 63.7%","points":[["up","职场沟通/演讲类内容CTR表现稳定，人群精准"],["flat","商销(63.7%)+私信(32.3%)双链路并行，转化路径多元"],["flat","广告主集中度高，头部客户消耗占比大"]],"focus":"重点关注：职场场景 + 效果承诺"},{"name":"心理测试","emoji":"🧠","color":"#8b5cf6","spend":"¥50-100万","wow":"-26.8%","n":"20-30","link":"表单 99.7%","points":[["down","消耗环比-26.8%，降幅最大赛道，需关注"],["up","表单链路近100%，MBTI/性格测试类标题CTR依然高"],["flat","测试类钩子+免费报告是核心转化抓手"]],"focus":"重点关注：测试钩子衰减 + 新话题挖掘"}],"edu":[{"name":"考研辅导","emoji":"📚","color":"#ff6b35","spend":"¥650-700万","wow":"-21.5%","n":"180-200","link":"私信 98.1%","points":[["down","消耗环比-21.5%，受考研调剂周期结束影响明显"],["flat","私信链路绝对主导(98.1%)，广告主竞争激烈"],["up","过来人证言+上岸经验类标题持续有效"]],"focus":"重点关注：调剂期后策略 + 留资成本控制"},{"name":"在职研究生","emoji":"🎓","color":"#f59e0b","spend":"¥250-300万","wow":"-9.8%","n":"90-100","link":"私信 100%","points":[["flat","第二大赛道，广告主众多"],["up","「在职也能拿硕士」「国家认可」类标题持续有效"],["flat","私信链路100%，留资成本为核心优化指标"]],"focus":"重点关注：在职人群标签 + 政策利好"},{"name":"成人自考/专升本","emoji":"📝","color":"#06b6d4","spend":"¥150-200万","wow":"+3.1%","n":"150-160","link":"私信 88.0%","points":[["up","消耗环比+3.1%，逆势增长，广告主活跃"],["up","学历焦虑+政策解读类标题表现好，CTR稳定"],["flat","私信为主(88%)，表单为辅(11.3%)"]],"focus":"重点关注：政策窗口 + 低门槛承诺"},{"name":"MBA/EMBA","emoji":"🏛️","color":"#8b5cf6","spend":"¥10-20万","wow":"+16.1%","n":"10-20","link":"私信 71.3%","points":[["up","消耗环比+16.1%，增速最快赛道"],["up","北大/上海等名校标签CTR突出，高端人群精准"],["flat","体量小但增长快，私信(71.3%)+表单(28.7%)"]],"focus":"重点关注：名校背书 + 就读体验种草"}]}};
+
+const M3B_CAT_MAP = {interest: '兴趣培训', edu: '学历教育'};
+const M3B_LINK_NAMES = ['私信', '表单', '商销', '直播'];
+const M3B_LINK_KEYS = {msg: '私信', form: '表单', ec: '商销', live: '直播'};
+const M3B_LINK_COLORS = {'私信': '#F4A4B4', '表单': '#B4D7F0', '商销': '#FFEAA7', '直播': '#D4C5F9'};
+
+function m3bEsc(s) {
+  const d = document.createElement('div'); d.textContent = String(s); return d.innerHTML;
+}
+function m3bFmtMoney(v) {
+  if (typeof v === 'string') return v;
+  if (v >= 10000) return '\u00a5' + (v/10000).toFixed(1) + '\u4e07';
+  return '\u00a5' + v.toLocaleString('zh-CN', {maximumFractionDigits: 0});
+}
+
+// ── 品类切换 ─────────────────────────────────────────
+function m3bSwitchCat(ck) {
+  m3bCurCat = ck;
+  const container = document.getElementById('m3-tab-benchmark');
+  const btns = container.querySelectorAll(':scope > .tab-bar:first-child .tab-btn');
+  btns.forEach((b, i) => {
+    if ((ck === 'interest' && i === 0) || (ck === 'edu' && i === 1)) b.classList.add('active');
+    else b.classList.remove('active');
+  });
+  // Re-render
+  m3bRenderAll();
+}
+
+// ── 完整渲染 ─────────────────────────────────────────
+function m3bRenderAll() {
+  const data = INLINE_DATA['m3b-benchmark'];
+  if (!data) { document.getElementById('m3b-container').innerHTML = '<div class="m3b-no-data">暂无对标数据</div>'; return; }
+  const ck = m3bCurCat;
+  const catName = M3B_CAT_MAP[ck];
+  const cd = data.categoryData[ck] || {};
+  const bm = data.benchmarks[ck] || {};
+  const lm = data.linkMats[ck] || {};
+  const td = data.trackData[ck] || {};
+  const cw = (M3B_STATIC.categoryWind || {})[ck] || [];
+  const ht = (M3B_STATIC.hotTopics || {})[ck] || {};
+  const si = (M3B_STATIC.sceneInsights || {})[ck] || {};
+  const tf = (M3B_STATIC.titleFormulas || {})[ck] || {};
+
+  let h = '';
+
+  // Top tabs: 趋势看板 / 行业查询
+  h += '<div class="m3b-top-tabs">';
+  h += '<div class="m3b-top-tab active" onclick="m3bSwitchTopTab(\'' + ck + '\',\'trends\')">趋势看板</div>';
+  h += '<div class="m3b-top-tab" onclick="m3bSwitchTopTab(\'' + ck + '\',\'track\')">行业查询</div>';
+  h += '</div>';
+
+  // ═══ TAB: 趋势看板 ═══
+  h += '<div id="m3b-' + ck + '-trends" class="m3b-top-panel active">';
+
+  // 1. 链路消耗占比
+  h += '<div class="m3b-section-label"><span>💰</span> 链路消耗占比 <span class="m3b-tag">周环比</span></div>';
+  (cd.link_breakdown || []).forEach(function(lb) {
+    const color = M3B_LINK_COLORS[lb.name] || '#94a3b8';
+    const cls = lb.wow > 0 ? 'up' : 'down';
+    const sign = lb.wow > 0 ? '+' : '';
+    h += '<div class="m3b-spend-row">';
+    h += '<div class="m3b-spend-label">' + lb.name + '</div>';
+    h += '<div class="m3b-spend-bar-wrap"><div class="m3b-spend-bar" style="width:' + lb.pct + '%;background:' + color + '"></div></div>';
+    h += '<div class="m3b-spend-val">' + m3bFmtMoney(lb.spend) + ' (' + lb.pct + '%)</div>';
+    h += '<div class="m3b-spend-wow"><span class="m3b-wow ' + cls + '">' + sign + lb.wow + '%</span></div>';
+    h += '</div>';
+  });
+
+  // 2. 链路转化漏斗
+  h += '<div class="m3b-section-label"><span>🔽</span> 链路转化漏斗 <span class="m3b-tag">14天汇总</span></div>';
+  h += '<div class="m3b-funnel-wrap">';
+  ['私信', '表单', '商销'].forEach(function(fl) {
+    const rates = (cd.funnels || {})[fl];
+    if (!rates || !rates.length) return;
+    const color = M3B_LINK_COLORS[fl] || '#94a3b8';
+    h += '<div class="m3b-funnel-box"><div class="m3b-funnel-title">' + fl + '链路</div>';
+    rates.forEach(function(r, ri) {
+      const opacity = (1.0 - ri * 0.2).toFixed(2);
+      const barW = rates.length > 1 ? (100 - ri * (70 / (rates.length - 1))).toFixed(1) : 100;
+      h += '<div class="m3b-funnel-step">';
+      h += '<div class="m3b-funnel-step-label">' + r.label + '</div>';
+      h += '<div class="m3b-funnel-bar-wrap"><div class="m3b-funnel-bar" style="width:' + barW + '%;background:' + color + ';opacity:' + opacity + '"></div></div>';
+      h += '<div class="m3b-funnel-val">' + r.rate + '</div>';
+      h += '</div>';
+    });
+    h += '</div>';
+  });
+  h += '</div>';
+
+  // 3. 赛道风向 TOP6 排行榜
+  const tw = (cd.track_wind || []).slice(0, 6);
+  if (tw.length) {
+    h += '<div class="m3b-section-label"><span>🧭</span> 赛道风向（三级赛道）<span class="m3b-tag">TOP6 · 占比×增速</span></div>';
+    const maxPct = Math.max(...tw.map(t => t.pct || 0)) || 1;
+    h += '<div class="m3b-track-rank">';
+    tw.forEach(function(t) {
+      const barW = ((t.pct || 0) / maxPct * 100).toFixed(1);
+      const pctLbl = t.pct_label || ((t.pct || 0).toFixed(1) + '%');
+      const cls = t.wow >= 0 ? 'up' : 'down';
+      const sign = t.wow > 0 ? '+' : '';
+      h += '<div class="m3b-track-rank-row">';
+      h += '<div class="m3b-track-rank-name">' + m3bEsc(t.name) + '</div>';
+      h += '<div class="m3b-track-rank-bar-wrap"><div class="m3b-track-rank-bar" style="width:' + barW + '%"></div>';
+      h += '<div class="m3b-track-rank-pct">' + pctLbl + '</div></div>';
+      h += '<div class="m3b-track-rank-wow"><span class="m3b-wow ' + cls + '">' + sign + t.wow + '%</span></div>';
+      h += '</div>';
+    });
+    h += '</div>';
+  }
+
+  // 4. 品类风向
+  if (cw.length) {
+    h += '<div class="m3b-section-label"><span>🧭</span> 品类风向 <span class="m3b-tag">各赛道重点动向</span></div>';
+    h += '<div class="m3b-wind-grid">';
+    cw.forEach(function(wc) {
+      h += '<div class="m3b-wind-card">';
+      h += '<div class="m3b-wind-card-header" style="background:' + (wc.color || '#7c3aed') + '">' + (wc.emoji || '') + ' ' + m3bEsc(wc.name) + '</div>';
+      h += '<div class="m3b-wind-metrics">';
+      h += '<div class="m3b-wind-metric"><div class="m3b-wind-metric-label">消耗</div><div class="m3b-wind-metric-val">' + m3bEsc(wc.spend || '') + '</div></div>';
+      const wowCls = (wc.wow || '').startsWith('+') ? 'up' : (wc.wow || '').startsWith('-') ? 'down' : '';
+      h += '<div class="m3b-wind-metric"><div class="m3b-wind-metric-label">环比</div><div class="m3b-wind-metric-val"><span class="m3b-wow ' + wowCls + '">' + m3bEsc(wc.wow || '') + '</span></div></div>';
+      h += '<div class="m3b-wind-metric"><div class="m3b-wind-metric-label">广告主</div><div class="m3b-wind-metric-val">' + (wc.n || '') + '</div></div>';
+      h += '<div class="m3b-wind-metric"><div class="m3b-wind-metric-label">主力链路</div><div class="m3b-wind-metric-val" style="font-size:11px">' + m3bEsc(wc.link || '') + '</div></div>';
+      h += '</div>';
+      h += '<div class="m3b-wind-card-body">';
+      (wc.points || []).forEach(function(pt) {
+        const dir = Array.isArray(pt) ? pt[0] : 'flat';
+        const txt = Array.isArray(pt) ? pt[1] : String(pt);
+        const arrowMap = {up: ['▲', 'up'], down: ['▼', 'down'], flat: ['—', 'flat']};
+        const [arrow, arrowCls] = arrowMap[dir] || ['—', 'flat'];
+        h += '<div class="m3b-wind-point"><span class="m3b-wind-arrow ' + arrowCls + '">' + arrow + '</span> ' + m3bEsc(txt) + '</div>';
+      });
+      if (wc.focus) h += '<div class="m3b-wind-focus">' + m3bEsc(wc.focus) + '</div>';
+      h += '</div></div>';
+    });
+    h += '</div>';
+  }
+
+  // 5. 热点话题
+  const htKeys = Object.keys(ht);
+  if (htKeys.length) {
+    h += '<div class="m3b-section-label"><span>🔥</span> 本周热点话题 / 节点 <span class="m3b-tag">04.07—04.20</span></div>';
+    h += '<div class="m3b-hot-topics-wrap">';
+    const tagClsMap = {'高频标题词': 'hot', '上升场景词': 'rising', '本周节点': 'seasonal'};
+    htKeys.forEach(function(boxTitle) {
+      h += '<div class="m3b-hot-topic-box"><div class="m3b-hot-topic-title">' + m3bEsc(boxTitle) + '</div><div class="m3b-hot-tag-list">';
+      (ht[boxTitle] || []).forEach(function(tag) {
+        h += '<span class="m3b-hot-tag ' + (tagClsMap[boxTitle] || 'hot') + '">' + m3bEsc(tag) + '</span>';
+      });
+      h += '</div></div>';
+    });
+    h += '</div>';
+  }
+
+  // 6. 链路Tab + Benchmark + 素材 + 标题公式
+  const activeLinks = [];
+  M3B_LINK_NAMES.forEach(function(lk) { if (bm[lk] || lm[lk]) activeLinks.push(lk); });
+  if (!activeLinks.length) activeLinks.push('私信');
+  const lkKeyMap = {'私信': 'msg', '表单': 'form', '商销': 'ec', '直播': 'live'};
+
+  h += '<div class="m3b-link-tabs">';
+  activeLinks.forEach(function(lk, i) {
+    const cls = i === 0 ? ' active' : '';
+    h += '<div class="m3b-link-tab' + cls + '" onclick="m3bSelectLink(\'' + ck + '\',\'' + lkKeyMap[lk] + '\')">' + lk + '</div>';
+  });
+  h += '</div>';
+
+  activeLinks.forEach(function(lkName, i) {
+    const lk = lkKeyMap[lkName];
+    const cls = i === 0 ? ' active' : '';
+    h += '<div id="m3b-' + ck + '-link-' + lk + '" class="m3b-link-panel' + cls + '">';
+
+    // Benchmark cards
+    const bmData = bm[lkName];
+    if (bmData) {
+      let cols;
+      if (lkName === '私信') cols = [['CTR','%','ctr'],['CPM','¥','cpm'],['开口成本','¥','开口成本'],['留资成本','¥','留资成本']];
+      else if (lkName === '表单') cols = [['CTR','%','ctr'],['CPM','¥','cpm'],['表单成本','¥','表单成本']];
+      else if (lkName === '商销') cols = [['CTR','%','ctr'],['CPM','¥','cpm'],['电商CVR','%','cvr'],['7日订单','','orders']];
+      else cols = [['CTR','%','ctr'],['CPM','¥','cpm']];
+
+      h += '<div class="m3b-section-label"><span>📊</span> ' + lkName + '链路 Benchmark <span class="m3b-tag">N=' + (bmData.n || '?') + '</span></div>';
+      const tiers = [['🟢 优秀 (P75)', '#16A34A'], ['🟡 中位 (P50)', '#ca8a04'], ['🔴 待优化 (P25)', '#EF4444']];
+      h += '<div class="m3b-bench-grid">';
+      tiers.forEach(function(tier, ti) {
+        h += '<div class="m3b-bench-card"><div class="m3b-bench-card-stripe" style="background:' + tier[1] + '"></div>';
+        h += '<div class="m3b-bench-card-body"><div class="m3b-bench-card-tier" style="color:' + tier[1] + '">' + tier[0] + '</div>';
+        h += '<div class="m3b-bench-card-vals">';
+        cols.forEach(function(col) {
+          const vals = bmData[col[2]]; if (!vals) return;
+          const v = ti < vals.length ? vals[ti] : '-';
+          h += '<div class="m3b-bench-val-row"><span class="m3b-bench-val-label">' + col[0] + '</span><span class="m3b-bench-val-num">' + (v != null ? v : '-') + '</span></div>';
+        });
+        h += '</div></div></div>';
+      });
+      h += '</div>';
+    } else {
+      h += '<div class="m3b-no-data">' + lkName + '链路数据不足，暂无Benchmark</div>';
+    }
+
+    // Materials (split by feed / search)
+    const lmScenes = lm[lkName] || {};
+    const catInsights = (si[lkName] || {});
+    [['feed', '信息流TOP6'], ['search', '搜索TOP6']].forEach(function(pair) {
+      const mats = (lmScenes[pair[0]] || []).slice(0, 6);
+      if (!mats.length) return;
+      h += '<div class="m3b-scene-label">' + pair[1] + '</div>';
+      h += '<div class="m3b-mat-grid">';
+      mats.forEach(function(m) {
+        const nlink = m.noteId && m.noteId !== 'nan' ? 'https://www.xiaohongshu.com/explore/' + m.noteId : '#';
+        h += '<div class="m3b-mat-card">';
+        h += '<a href="' + nlink + '" target="_blank" rel="noopener"><img class="m3b-mat-cover" src="' + m3bEsc(m.cover || '') + '" alt="" onerror="this.style.display=\'none\'"></a>';
+        h += '<div class="m3b-mat-info"><div class="m3b-mat-title">' + m3bEsc(m.title || '') + '</div>';
+        h += '<div class="m3b-mat-meta"><div>消耗 ' + (m.spend || '¥0') + '</div><div>CTR ' + (m.ctr || '0%') + '</div></div>';
+        h += '<div class="m3b-mat-brand">' + m3bEsc(m.brand || '') + '</div>';
+        h += '</div></div>';
+      });
+      h += '</div>';
+      const insightText = catInsights[pair[0]] || '';
+      if (insightText) h += '<div class="m3b-scene-insight">' + m3bEsc(insightText) + '</div>';
+    });
+
+    // Title formulas
+    const formulas = (tf[lkName] || []);
+    if (formulas.length) {
+      h += '<div class="m3b-section-label"><span>✍️</span> ' + lkName + '链路 · 标题公式 <span class="m3b-tag">高CTR笔记结构提炼</span></div>';
+      h += '<div class="m3b-formula-card-list">';
+      formulas.forEach(function(fm, fi) {
+        h += '<div class="m3b-formula-card"><div class="m3b-formula-num">' + String(fi+1).padStart(2,'0') + '</div>';
+        h += '<div class="m3b-formula-tags">';
+        (fm.tags || []).forEach(function(tg, ti) {
+          h += '<span class="m3b-formula-tag' + (ti === 0 ? ' accent' : '') + '">' + m3bEsc(tg) + '</span>';
+          if (ti < fm.tags.length - 1) h += '<span class="m3b-formula-plus">+</span>';
+        });
+        h += '</div><div class="m3b-formula-examples">' + m3bEsc(fm.examples || '') + '</div>';
+        h += '</div>';
+      });
+      h += '</div>';
+    }
+
+    h += '</div>'; // link-panel
+  });
+
+  h += '</div>'; // trends panel
+
+  // ═══ TAB: 行业查询 ═══
+  h += '<div id="m3b-' + ck + '-track" class="m3b-top-panel">';
+  h += '<div class="m3b-section-label"><span>🔍</span> 三级赛道查询</div>';
+  h += '<div class="m3b-suggest-wrap">';
+  h += '<input class="m3b-search-input" id="m3b-' + ck + '-input" placeholder="输入三级赛道名称..." oninput="m3bOnTrackInput(\'' + ck + '\')" autocomplete="off">';
+  h += '<div class="m3b-suggest-list" id="m3b-' + ck + '-suggest"></div>';
+  h += '</div>';
+  const trackNames = Object.keys(td).sort();
+  h += '<div class="m3b-search-hint">共' + trackNames.length + '个三级赛道可查询，点击直接查看</div>';
+  h += '<div class="m3b-track-btn-grid">';
+  trackNames.forEach(function(tn) {
+    h += '<button class="m3b-track-btn" onclick="m3bPickTrack(\'' + ck + '\',\'' + m3bEsc(tn) + '\')">' + m3bEsc(tn) + '</button>';
+  });
+  h += '</div>';
+  h += '<div id="m3b-' + ck + '-result"></div>';
+  h += '</div>';
+
+  document.getElementById('m3b-container').innerHTML = h;
+}
+
+// ── 趋势/查询Tab切换 ────────────────────────────────
+function m3bSwitchTopTab(ck, name) {
+  const tabs = ['trends', 'track'];
+  const container = document.getElementById('m3b-container');
+  if (!container) return;
+  container.querySelectorAll('.m3b-top-tab').forEach(function(t, i) {
+    if (tabs[i] === name) t.classList.add('active'); else t.classList.remove('active');
+  });
+  tabs.forEach(function(tb) {
+    const p = document.getElementById('m3b-' + ck + '-' + tb);
+    if (p) { if (tb === name) p.classList.add('active'); else p.classList.remove('active'); }
+  });
+}
+
+// ── 链路Tab切换 ─────────────────────────────────────
+function m3bSelectLink(ck, key) {
+  const container = document.getElementById('m3b-container');
+  if (!container) return;
+  container.querySelectorAll('.m3b-link-tab').forEach(function(t) {
+    if (t.textContent === M3B_LINK_KEYS[key]) t.classList.add('active'); else t.classList.remove('active');
+  });
+  container.querySelectorAll('.m3b-link-panel').forEach(function(p) { p.classList.remove('active'); });
+  const el = document.getElementById('m3b-' + ck + '-link-' + key);
+  if (el) el.classList.add('active');
+}
+
+// ── 赛道查询 ─────────────────────────────────────────
+function m3bOnTrackInput(ck) {
+  const input = document.getElementById('m3b-' + ck + '-input');
+  const sg = document.getElementById('m3b-' + ck + '-suggest');
+  const val = input.value.trim();
+  const data = INLINE_DATA['m3b-benchmark'];
+  const td = (data && data.trackData && data.trackData[ck]) || {};
+  const names = Object.keys(td);
+  if (!val) { sg.classList.remove('show'); sg.innerHTML = ''; m3bRenderTrack(ck, ''); return; }
+  const matches = names.filter(function(n) { return n.indexOf(val) >= 0; });
+  if (matches.length === 1 && matches[0] === val) { sg.classList.remove('show'); m3bRenderTrack(ck, val); return; }
+  if (matches.length > 0) {
+    sg.innerHTML = matches.map(function(n) {
+      return '<div class="m3b-suggest-item" onclick="m3bPickTrack(\'' + ck + '\',\'' + m3bEsc(n) + '\')">' + m3bEsc(n) + '</div>';
+    }).join('');
+    sg.classList.add('show');
+  } else {
+    sg.innerHTML = '<div class="m3b-suggest-item">无匹配赛道</div>';
+    sg.classList.add('show');
+  }
+}
+
+function m3bPickTrack(ck, name) {
+  document.getElementById('m3b-' + ck + '-input').value = name;
+  document.getElementById('m3b-' + ck + '-suggest').classList.remove('show');
+  m3bRenderTrack(ck, name);
+}
+
+function m3bRenderTrack(ck, name) {
+  const area = document.getElementById('m3b-' + ck + '-result');
+  const data = INLINE_DATA['m3b-benchmark'];
+  const td = (data && data.trackData && data.trackData[ck]) || {};
+  if (!name || !td[name]) { if (area) area.innerHTML = ''; return; }
+  const d = td[name];
+  let h = '';
+
+  // 概览
+  h += '<div class="m3b-section-label"><span>📋</span> ' + m3bEsc(name) + ' · 赛道概览</div>';
+  let lps = [];
+  for (const lk in (d.lp || {})) { lps.push(lk + ' ' + d.lp[lk] + '%'); }
+  h += '<div class="m3b-overview-grid">';
+  h += '<div class="m3b-overview-card"><div class="ov-label">消耗</div><div class="ov-value">' + m3bFmtMoney(d.spend) + '</div></div>';
+  h += '<div class="m3b-overview-card"><div class="ov-label">广告主数</div><div class="ov-value">' + (d.n || '-') + '</div></div>';
+  h += '<div class="m3b-overview-card"><div class="ov-label">主力链路</div><div class="ov-value" style="font-size:13px;font-weight:600">' + lps.join('<br>') + '</div></div>';
+  h += '</div>';
+
+  // 按链路：漏斗 + Benchmark
+  const tierColors = ['#16A34A', '#ca8a04', '#EF4444'];
+  const tierLabels = ['🟢 优秀 (P75)', '🟡 中位 (P50)', '🔴 待优化 (P25)'];
+  const linkMetaCfg = {
+    '私信': [['CTR','%','ctr'],['CPM','元','cpm'],['开口成本','元','开口成本'],['留资成本','元','留资成本']],
+    '表单': [['CTR','%','ctr'],['CPM','元','cpm'],['表单成本','元','表单成本']],
+    '商销': [['CTR','%','ctr'],['CPM','元','cpm'],['电商CVR','%','cvr']],
+    '直播': [['CTR','%','ctr'],['CPM','元','cpm']]
+  };
+
+  if (d.links && d.links.length) {
+    d.links.forEach(function(link) {
+      const lColor = M3B_LINK_COLORS[link] || '#888';
+      h += '<div class="m3b-section-label"><span>📊</span> ' + m3bEsc(link) + '链路</div>';
+      // Funnel
+      const fn = (d.funnels || {})[link];
+      if (fn && fn.length) {
+        h += '<div class="m3b-funnel-box"><div class="m3b-funnel-title">' + m3bEsc(link) + '链路转化率</div>';
+        fn.forEach(function(r, ri) {
+          const opacity = (1.0 - ri * 0.2).toFixed(2);
+          const barW = fn.length > 1 ? (100 - ri * (70 / (fn.length - 1))).toFixed(1) : 100;
+          h += '<div class="m3b-funnel-step"><div class="m3b-funnel-step-label">' + r.label + '</div>';
+          h += '<div class="m3b-funnel-bar-wrap"><div class="m3b-funnel-bar" style="width:' + barW + '%;background:' + lColor + ';opacity:' + opacity + '"></div></div>';
+          h += '<div class="m3b-funnel-val">' + r.rate + '</div></div>';
+        });
+        h += '</div>';
+      }
+      // Benchmark
+      const bmk = (d.benchmarks || {})[link];
+      if (bmk) {
+        const cols = linkMetaCfg[link] || [['CTR','%','ctr'],['CPM','元','cpm']];
+        h += '<div class="m3b-bench-grid">';
+        for (let ti = 0; ti < 3; ti++) {
+          h += '<div class="m3b-bench-card"><div class="m3b-bench-card-stripe" style="background:' + tierColors[ti] + '"></div>';
+          h += '<div class="m3b-bench-card-body"><div class="m3b-bench-card-tier" style="color:' + tierColors[ti] + '">' + tierLabels[ti] + '</div>';
+          h += '<div class="m3b-bench-card-vals">';
+          cols.forEach(function(col) {
+            const vals = bmk[col[2]]; if (!vals) return;
+            const v = ti < vals.length ? vals[ti] : '-';
+            h += '<div class="m3b-bench-val-row"><span class="m3b-bench-val-label">' + col[0] + '</span><span class="m3b-bench-val-num">' + (v != null ? v : '-') + '</span></div>';
+          });
+          h += '</div></div></div>';
+        }
+        h += '</div>';
+        h += '<div class="m3b-bench-card-hint">基于该赛道 ' + (bmk.n || '-') + ' 个广告主数据</div>';
+      }
+    });
+  }
+
+  // TOP素材
+  if (d.mats && d.mats.length) {
+    h += '<div class="m3b-section-label"><span>🖼️</span> TOP素材</div>';
+    h += '<div class="m3b-mat-grid">';
+    d.mats.forEach(function(m) {
+      const nl = m.noteId && m.noteId !== 'nan' ? 'https://www.xiaohongshu.com/explore/' + m.noteId : '#';
+      h += '<div class="m3b-mat-card"><a href="' + nl + '" target="_blank"><img class="m3b-mat-cover" src="' + m3bEsc(m.cover || '') + '" alt="" onerror="this.style.display=\'none\'"></a>';
+      h += '<div class="m3b-mat-info"><div class="m3b-mat-title">' + m3bEsc(m.title || '') + '</div>';
+      h += '<div class="m3b-mat-meta"><div>消耗 ' + (m.spend || '¥0') + '</div><div>CTR ' + (m.ctr || '0%') + '</div></div>';
+      h += '<div class="m3b-mat-brand">' + m3bEsc(m.brand || '') + '</div></div></div>';
+    });
+    h += '</div>';
+  }
+
+  // 高消耗标题
+  if (d.top_titles && d.top_titles.length) {
+    h += '<div class="m3b-section-label"><span>✍️</span> 高消耗标题参考 <span class="m3b-tag">TOP消耗笔记标题</span></div>';
+    h += '<div class="m3b-formula-card-list">';
+    d.top_titles.forEach(function(t, i) {
+      h += '<div class="m3b-formula-card"><div class="m3b-formula-num">' + String(i+1).padStart(2,'0') + '</div>';
+      h += '<div class="m3b-formula-examples" style="text-align:left">' + m3bEsc(t) + '</div></div>';
+    });
+    h += '</div>';
+  }
+
+  area.innerHTML = h;
+}
+
+// 点击空白关闭suggest
+document.addEventListener('click', function(e) {
+  document.querySelectorAll('.m3b-suggest-list').forEach(function(sg) {
+    if (!sg.parentElement.contains(e.target)) sg.classList.remove('show');
+  });
+});
+
+function openMarketAnalysis(trackKey, trackName) {
+  alert('市场机会解读需在完整工作台中使用');
+}
+
+// ── Auto-init ──
+window.addEventListener('DOMContentLoaded', function() {
+  loadModule3();
+});
+window.addEventListener('resize', function() {
+  m3Charts.forEach(function(c) { try { c.resize(); } catch(e) {} });
+});
+</script>
+</body>
+</html>
